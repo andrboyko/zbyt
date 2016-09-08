@@ -9,8 +9,8 @@
 #include <QMessageBox>
 #include <QSettings>
 #include <QShortcut>
-#include <mainwindow.h>
-#include <ui_mainwindow.h>
+#include <reestr_ttn.h>
+
 namespace Ui {
 class login;
 }
@@ -22,8 +22,6 @@ class login : public QWidget
 public:
     explicit login(QWidget *parent = 0);
     ~login();
-    MainWindow * mainwindow;
-
 
 private slots:
 
@@ -44,6 +42,7 @@ private:
     QMessageBox *errorloginMessage;
     QSettings *settings;
     QShortcut *keyCancel;
+    reestr_ttn * ttn;
 
     };
 

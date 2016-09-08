@@ -45,7 +45,7 @@ void login::on_buttonBox_accepted()
     db.setDatabaseName("zbyt");
 
     db.setUserName(ui->lineEdit_2->text());
-    db.setPassword(ui->lineEdit->text());
+    db.setPassword("3482sql");
     if (!db.open()){
         ui->lineEdit->clear();
         db.close();
@@ -63,8 +63,8 @@ void login::on_buttonBox_accepted()
         settings->setValue("user", ui->lineEdit_2->text());
         close();
         // Создать и показать окно mainwindow
-        mainwindow = new MainWindow();
-        mainwindow->show();
+        ttn = new reestr_ttn;
+        ttn->show();
     }
 
 }

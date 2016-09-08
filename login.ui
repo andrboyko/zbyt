@@ -24,18 +24,19 @@
    <property name="geometry">
     <rect>
      <x>35</x>
-     <y>31</y>
+     <y>32</y>
      <width>35</width>
      <height>19</height>
     </rect>
    </property>
    <property name="font">
     <font>
+     <family>Times New Roman</family>
      <pointsize>12</pointsize>
     </font>
    </property>
    <property name="text">
-    <string>Имя:</string>
+    <string>Імя:</string>
    </property>
   </widget>
   <widget class="QDialogButtonBox" name="buttonBox">
@@ -58,13 +59,14 @@
    <property name="geometry">
     <rect>
      <x>35</x>
-     <y>59</y>
+     <y>60</y>
      <width>65</width>
      <height>19</height>
     </rect>
    </property>
    <property name="font">
     <font>
+     <family>Times New Roman</family>
      <pointsize>12</pointsize>
     </font>
    </property>
@@ -79,7 +81,7 @@
    <property name="geometry">
     <rect>
      <x>100</x>
-     <y>60</y>
+     <y>61</y>
      <width>131</width>
      <height>20</height>
     </rect>
@@ -99,26 +101,27 @@
   <widget class="QLabel" name="label_3">
    <property name="geometry">
     <rect>
-     <x>50</x>
-     <y>0</y>
-     <width>162</width>
-     <height>19</height>
+     <x>38</x>
+     <y>1</y>
+     <width>200</width>
+     <height>30</height>
     </rect>
    </property>
    <property name="font">
     <font>
+     <family>Times New Roman</family>
      <pointsize>12</pointsize>
     </font>
    </property>
    <property name="text">
-    <string>Введите имя и пароль</string>
+    <string>ВВЕДІТЬ ІМЯ ТА ПАРОЛЬ</string>
    </property>
   </widget>
   <widget class="QLineEdit" name="lineEdit_2">
    <property name="geometry">
     <rect>
      <x>100</x>
-     <y>30</y>
+     <y>31</y>
      <width>131</width>
      <height>20</height>
     </rect>
