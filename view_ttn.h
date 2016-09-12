@@ -4,6 +4,9 @@
 #include <QWidget>
 #include <QSqlQueryModel>
 #include <QDebug>
+#include <QSqlQuery>
+
+
 
 namespace Ui {
 class View_ttn;
@@ -17,12 +20,15 @@ public:
     explicit View_ttn(QWidget *parent = 0);
     ~View_ttn();
 
-private slots:
-    void viewByTNTid();
+
+public slots:
+    void recieveData(int temp_nom);
+
 
 private:
     Ui::View_ttn *ui;
-    QSqlQueryModel * model;
+    QSqlQueryModel *model;
+    QSqlQuery *query;
 
 
 

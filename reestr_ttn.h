@@ -21,6 +21,11 @@ public:
     explicit reestr_ttn(QWidget *parent = 0);
     ~reestr_ttn();
 
+
+signals:
+    void sendData(int temp_nom);
+
+
 private slots:
     void on_spinBox_valueChanged(int arg1);
 
@@ -34,10 +39,13 @@ private slots:
 
     void on_pushButton_clicked();
 
+
+    void on_tableView_doubleClicked(const QModelIndex &index);
+
 private:
     Ui::reestr_ttn *ui;
-    QSqlQueryModel * model;
-    View_ttn * viewttn;
+    QSqlQueryModel *model;
+    View_ttn *viewttn;
 
 
 };

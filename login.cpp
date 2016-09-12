@@ -17,6 +17,8 @@ login::login(QWidget *parent) :
     keyCancel = new QShortcut(this);
     keyCancel->setKey(Qt::Key_Escape);
     connect(keyCancel, SIGNAL(activated()), this, SLOT(slotShortcutCancel()));
+
+
 }
 
 login::~login()

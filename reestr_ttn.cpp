@@ -7,10 +7,20 @@ reestr_ttn::reestr_ttn(QWidget *parent) :
 {
     ui->setupUi(this);
 
+
+
 //показать ТТН за текущий месяц
-ui->comboBox->setCurrentIndex(QDate::currentDate().month());
-ui->spinBox->setValue(QDate::currentDate().year());
+//ui->comboBox->setCurrentIndex(QDate::currentDate().month());
+//ui->spinBox->setValue(QDate::currentDate().year());
+    ui->comboBox->setCurrentIndex(0);
+    ui->spinBox->setValue(2012);
 findByDate();
+
+
+viewttn = new View_ttn(this);
+viewttn->setWindowFlags(Qt::Dialog);
+connect(this, SIGNAL(sendData(int)), viewttn, SLOT(recieveData(int)));
+
 
 
 }
@@ -19,6 +29,8 @@ reestr_ttn::~reestr_ttn()
 {
     delete ui;
 }
+
+
 
 
 //функция выбоки ТТН по Дате
@@ -43,6 +55,8 @@ void reestr_ttn::findByDate(){
     ui->tableView->setColumnWidth(2,70);
     ui->tableView->setColumnWidth(3,300);
     ui->tableView->setColumnWidth(4,70);
+
+
 
 }
 
@@ -79,16 +93,20 @@ void reestr_ttn::on_lineEdit_editingFinished()
 void reestr_ttn::on_tableView_clicked(const QModelIndex &index)
 {
     int temp_nom;
-    temp_nom= ui->tableView->model()->data(ui->tableView->model()->index(ui->comboBox->currentIndex(),0)).toInt();
+    temp_nom = ui->tableView->model()->data(ui->tableView->model()->index(index.row(),0)).toInt();
     qDebug() << temp_nom;
+    emit sendData(temp_nom);
+
 
 }
 
 void reestr_ttn::on_pushButton_clicked()
 {
-
-    viewttn=new View_ttn(this);
-    viewttn->setWindowFlags(Qt::Window);
     viewttn->show();
+}
 
+
+void reestr_ttn::on_tableView_doubleClicked(const QModelIndex &index)
+{
+    viewttn->show();
 }
