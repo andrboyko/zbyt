@@ -6,19 +6,19 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>550</width>
+    <width>645</width>
     <height>545</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>550</width>
+    <width>645</width>
     <height>545</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>550</width>
+    <width>645</width>
     <height>545</height>
    </size>
   </property>
@@ -36,7 +36,7 @@
     <rect>
      <x>12</x>
      <y>190</y>
-     <width>525</width>
+     <width>620</width>
      <height>341</height>
     </rect>
    </property>
@@ -47,7 +47,7 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>120</x>
+     <x>150</x>
      <y>20</y>
      <width>341</width>
      <height>16</height>
@@ -67,7 +67,7 @@
   <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
-     <x>31</x>
+     <x>40</x>
      <y>90</y>
      <width>164</width>
      <height>19</height>
@@ -83,7 +83,7 @@
    </property>
    <property name="geometry">
     <rect>
-     <x>210</x>
+     <x>219</x>
      <y>89</y>
      <width>311</width>
      <height>25</height>
@@ -96,7 +96,7 @@
   <widget class="QLabel" name="label_3">
    <property name="geometry">
     <rect>
-     <x>31</x>
+     <x>41</x>
      <y>118</y>
      <width>70</width>
      <height>19</height>
@@ -112,7 +112,7 @@
    </property>
    <property name="geometry">
     <rect>
-     <x>210</x>
+     <x>220</x>
      <y>118</y>
      <width>311</width>
      <height>25</height>
@@ -122,7 +122,7 @@
   <widget class="QLabel" name="label_4">
    <property name="geometry">
     <rect>
-     <x>30</x>
+     <x>40</x>
      <y>147</y>
      <width>171</width>
      <height>16</height>
@@ -138,7 +138,7 @@
    </property>
    <property name="geometry">
     <rect>
-     <x>210</x>
+     <x>220</x>
      <y>148</y>
      <width>311</width>
      <height>24</height>
@@ -148,7 +148,7 @@
   <widget class="QLabel" name="label_6">
    <property name="geometry">
     <rect>
-     <x>210</x>
+     <x>240</x>
      <y>50</y>
      <width>151</width>
      <height>21</height>
