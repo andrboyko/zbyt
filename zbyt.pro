@@ -15,15 +15,18 @@ TEMPLATE = app
 SOURCES += main.cpp\
         login.cpp \
     reestr_ttn.cpp \
-    view_ttn.cpp
+    view_ttn.cpp \
+    create_ttn.cpp
 
 HEADERS  += login.h \
     reestr_ttn.h \
-    view_ttn.h
+    view_ttn.h \
+    create_ttn.h
 
 FORMS    += login.ui \
     reestr_ttn.ui \
-    view_ttn.ui
+    view_ttn.ui \
+    create_ttn.ui
 
 RESOURCES += \
     ico.qrc

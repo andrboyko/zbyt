@@ -7,8 +7,20 @@
     <x>0</x>
     <y>0</y>
     <width>720</width>
-    <height>528</height>
+    <height>525</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>0</width>
+    <height>525</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>16777215</width>
+    <height>525</height>
+   </size>
   </property>
   <property name="font">
    <font>
@@ -219,52 +231,70 @@
      </item>
     </widget>
    </widget>
-   <widget class="QWidget" name="layoutWidget">
+   <widget class="QPushButton" name="pushButton">
     <property name="geometry">
      <rect>
-      <x>5</x>
-      <y>474</y>
-      <width>711</width>
-      <height>29</height>
+      <x>10</x>
+      <y>480</y>
+      <width>125</width>
+      <height>30</height>
      </rect>
     </property>
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="QPushButton" name="pushButton">
-       <property name="text">
-        <string>F2 Перегляд</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_2">
-       <property name="text">
-        <string>F4 Ввід</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_3">
-       <property name="text">
-        <string>F5 Редаг.</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_4">
-       <property name="text">
-        <string>F9 Друк</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_5">
-       <property name="text">
-        <string>F10 Видалити</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
+    <property name="text">
+     <string>F2 Перегляд</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_4">
+    <property name="geometry">
+     <rect>
+      <x>440</x>
+      <y>480</y>
+      <width>125</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>F9 Друк</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_5">
+    <property name="geometry">
+     <rect>
+      <x>580</x>
+      <y>480</y>
+      <width>125</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>F10 Видалити</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_3">
+    <property name="geometry">
+     <rect>
+      <x>300</x>
+      <y>480</y>
+      <width>125</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>F5 Редаг.</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_2">
+    <property name="geometry">
+     <rect>
+      <x>155</x>
+      <y>480</y>
+      <width>125</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>F4 Ввід</string>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">

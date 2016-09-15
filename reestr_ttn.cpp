@@ -21,6 +21,9 @@ viewttn = new View_ttn(this);
 viewttn->setWindowFlags(Qt::Dialog);
 connect(this, SIGNAL(sendData(int)), viewttn, SLOT(recieveData(int)));
 
+createttn = new create_ttn(this);
+createttn->setWindowFlags(Qt::Dialog);
+
 
 
 }
@@ -109,4 +112,9 @@ void reestr_ttn::on_pushButton_clicked()
 void reestr_ttn::on_tableView_doubleClicked(const QModelIndex &index)
 {
     viewttn->show();
+}
+
+void reestr_ttn::on_pushButton_2_clicked()
+{
+    createttn->show();
 }
