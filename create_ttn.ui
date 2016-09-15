@@ -319,10 +319,10 @@
     </rect>
    </property>
    <property name="inputMask">
-    <string>99</string>
+    <string/>
    </property>
    <property name="maxLength">
-    <number>2</number>
+    <number>32767</number>
    </property>
    <property name="cursorMoveStyle">
     <enum>Qt::LogicalMoveStyle</enum>

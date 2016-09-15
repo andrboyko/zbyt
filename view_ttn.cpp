@@ -47,17 +47,41 @@ void View_ttn::recieveData(int temp_nom)
     query->exec();
     while (query->next())
     {
-       ui->label_6->setText(query->value(0).toString() + " року");
+        ui->label_6->setText(query->value(0).toString() + " року");
     }
-
+    // Замовник
     query->prepare("SELECT cust_name from custumers, ttn where custumers.cust_id = ttn.cust_id AND ttn.ttn_id = (:ttn_id) ;");
     query->bindValue(":ttn_id", temp_nom);
     query->exec();
     while (query->next())
     {
-       ui->lineEdit->setText(query->value(0).toString());
+        ui->lineEdit->setText(query->value(0).toString());
+    }
+    // через кого
+    query->prepare("SELECT by_whom FROM ttn where ttn_id = (:ttn_id) ;");
+    query->bindValue(":ttn_id", temp_nom);
+    query->exec();
+    while (query->next())
+    {
+        ui->lineEdit_2->setText(query->value(0).toString());
+    }
+    // Умова продажу
+    query->prepare("SELECT umova FROM ttn where ttn_id = (:ttn_id) ;");
+    query->bindValue(":ttn_id", temp_nom);
+    query->exec();
+    while (query->next())
+    {
+        ui->lineEdit_3->setText(query->value(0).toString());
     }
 
+    // Умова продажу
+    query->prepare("SELECT sum FROM ttn where ttn_id = (:ttn_id) ;");
+    query->bindValue(":ttn_id", temp_nom);
+    query->exec();
+    while (query->next())
+    {
+        ui->label_5->setText("Сума " + query->value(0).toString() + " грн. ");
+    }
 
 
 
