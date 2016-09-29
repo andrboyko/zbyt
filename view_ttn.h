@@ -25,6 +25,7 @@ public slots:
     void recieveData(int temp_nom);
 
 
+
 private:
     Ui::View_ttn *ui;
     QSqlQueryModel *model;

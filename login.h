@@ -9,7 +9,7 @@
 #include <QMessageBox>
 #include <QSettings>
 #include <QShortcut>
-#include <reestr_ttn.h>
+#include <mainwindow.h>
 
 namespace Ui {
 class login;
@@ -42,7 +42,7 @@ private:
     QMessageBox *errorloginMessage;
     QSettings *settings;
     QShortcut *keyCancel;
-    reestr_ttn * ttn;
+    MainWindow *mainwindow;
 
     };
 

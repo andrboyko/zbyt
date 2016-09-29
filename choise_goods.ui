@@ -2,12 +2,15 @@
 <ui version="4.0">
  <class>choise_goods</class>
  <widget class="QWidget" name="choise_goods">
+  <property name="windowModality">
+   <enum>Qt::ApplicationModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>625</width>
-    <height>595</height>
+    <width>554</width>
+    <height>454</height>
    </rect>
   </property>
   <property name="font">
@@ -17,102 +20,117 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Вибір товару</string>
   </property>
-  <widget class="QTreeView" name="treeView">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>10</y>
-     <width>261</width>
-     <height>121</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QTableView" name="tableView">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>140</y>
-     <width>261</width>
-     <height>411</height>
-    </rect>
-   </property>
-  </widget>
   <widget class="QLineEdit" name="lineEdit">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="geometry">
     <rect>
-     <x>440</x>
-     <y>100</y>
+     <x>400</x>
+     <y>176</y>
      <width>113</width>
      <height>20</height>
     </rect>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
    </property>
   </widget>
   <widget class="QSpinBox" name="spinBox">
    <property name="geometry">
     <rect>
-     <x>441</x>
-     <y>130</y>
+     <x>401</x>
+     <y>206</y>
      <width>111</width>
      <height>22</height>
     </rect>
+   </property>
+   <property name="maximum">
+    <number>9999999</number>
+   </property>
+   <property name="value">
+    <number>1</number>
    </property>
   </widget>
   <widget class="QDoubleSpinBox" name="doubleSpinBox">
    <property name="geometry">
     <rect>
-     <x>440</x>
-     <y>160</y>
+     <x>400</x>
+     <y>236</y>
      <width>111</width>
      <height>22</height>
     </rect>
+   </property>
+   <property name="maximum">
+    <double>999999.989999999990687</double>
    </property>
   </widget>
   <widget class="QLineEdit" name="lineEdit_2">
    <property name="geometry">
     <rect>
-     <x>440</x>
-     <y>240</y>
+     <x>400</x>
+     <y>290</y>
      <width>113</width>
      <height>20</height>
     </rect>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
    </property>
   </widget>
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">
     <rect>
-     <x>324</x>
-     <y>350</y>
+     <x>290</x>
+     <y>340</y>
      <width>231</width>
      <height>41</height>
     </rect>
    </property>
    <property name="text">
-    <string>Добавить в накладную</string>
+    <string>Додати в накладну</string>
+   </property>
+   <property name="icon">
+    <iconset resource="ico.qrc">
+     <normaloff>:/ico/calculator.ico</normaloff>:/ico/calculator.ico</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>18</width>
+     <height>18</height>
+    </size>
    </property>
   </widget>
   <widget class="QPushButton" name="pushButton_2">
    <property name="geometry">
     <rect>
-     <x>320</x>
-     <y>520</y>
+     <x>290</x>
+     <y>400</y>
      <width>231</width>
-     <height>23</height>
+     <height>31</height>
     </rect>
    </property>
    <property name="text">
-    <string>Закрить</string>
+    <string>Закрити</string>
+   </property>
+   <property name="icon">
+    <iconset resource="ico.qrc">
+     <normaloff>:/ico/close.ico</normaloff>:/ico/close.ico</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>18</width>
+     <height>18</height>
+    </size>
    </property>
   </widget>
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>360</x>
-     <y>100</y>
+     <x>310</x>
+     <y>176</y>
      <width>71</width>
      <height>16</height>
     </rect>
@@ -124,8 +142,8 @@
   <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
-     <x>360</x>
-     <y>130</y>
+     <x>310</x>
+     <y>208</y>
      <width>71</width>
      <height>16</height>
     </rect>
@@ -137,8 +155,8 @@
   <widget class="QLabel" name="label_3">
    <property name="geometry">
     <rect>
-     <x>360</x>
-     <y>160</y>
+     <x>310</x>
+     <y>240</y>
      <width>47</width>
      <height>13</height>
     </rect>
@@ -150,17 +168,59 @@
   <widget class="QLabel" name="label_4">
    <property name="geometry">
     <rect>
-     <x>360</x>
-     <y>240</y>
+     <x>310</x>
+     <y>290</y>
      <width>47</width>
-     <height>13</height>
+     <height>20</height>
     </rect>
    </property>
    <property name="text">
-    <string>Итого</string>
+    <string>Сума</string>
+   </property>
+  </widget>
+  <widget class="QListView" name="listView">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>261</width>
+     <height>81</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QListView" name="listView_2">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>100</y>
+     <width>261</width>
+     <height>331</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_5">
+   <property name="geometry">
+    <rect>
+     <x>293</x>
+     <y>110</y>
+     <width>241</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string/>
    </property>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="ico.qrc"/>
+ </resources>
  <connections/>
 </ui>

@@ -1,43 +1,35 @@
-#include "reestr_ttn.h"
-#include "ui_reestr_ttn.h"
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
 
-reestr_ttn::reestr_ttn(QWidget *parent) :
+MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::reestr_ttn)
+    ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
 
+    viewttn = new View_ttn();
+    viewttn->setWindowFlags(Qt::Tool);
+    connect(this, SIGNAL(sendData(int)), viewttn, SLOT(recieveData(int)));
 
+    createttn = new create_ttn();
+    createttn->setWindowFlags(Qt::Dialog);
+    findByDate();
+    ui->tableView->selectRow(0);
 
-//показать ТТН за текущий месяц
-//ui->comboBox->setCurrentIndex(QDate::currentDate().month());
-//ui->spinBox->setValue(QDate::currentDate().year());
-    ui->comboBox->setCurrentIndex(0);
-    ui->spinBox->setValue(2012);
-findByDate();
-
-
-viewttn = new View_ttn(this);
-viewttn->setWindowFlags(Qt::Dialog);
-connect(this, SIGNAL(sendData(int)), viewttn, SLOT(recieveData(int)));
-
-createttn = new create_ttn(this);
-createttn->setWindowFlags(Qt::Dialog);
+   // показать ТТН за текущий месяц
+    ui->comboBox->setCurrentIndex((QDate::currentDate().month())-1);
+    ui->spinBox->setValue(QDate::currentDate().year());
 
 
 
 }
 
-reestr_ttn::~reestr_ttn()
+MainWindow::~MainWindow()
 {
     delete ui;
 }
 
-
-
-
-//функция выбоки ТТН по Дате
-void reestr_ttn::findByDate(){
+void MainWindow::findByDate(){
 
     QString sql;
     int month;
@@ -61,19 +53,19 @@ void reestr_ttn::findByDate(){
 
 
 
-}
 
-void reestr_ttn::on_spinBox_valueChanged(int arg1)
+}
+void MainWindow::on_spinBox_valueChanged(int arg1)
 {
     findByDate();
 }
-void reestr_ttn::on_comboBox_currentIndexChanged(int index)
+void MainWindow::on_comboBox_currentIndexChanged(int index)
 {
     findByDate();
 }
 
 // функция выборки по номеру ТТН
-void reestr_ttn::on_lineEdit_editingFinished()
+void MainWindow::on_lineEdit_editingFinished()
 {
     QString sql;
     sql = "select ttn_id, operation_name,(SELECT sum(ttn_item_quantity*ttn_item_price)FROM ttn_items where ttn.ttn_id = ttn_items.ttn_id), cust_name, ttn_date FROM ttn, operations, custumers where ttn.operation_id = operations.operation_id and ttn.cust_id = custumers.cust_id and ttn_id ="+ ui->lineEdit->text() +";";
@@ -93,28 +85,50 @@ void reestr_ttn::on_lineEdit_editingFinished()
 
 }
 
-void reestr_ttn::on_tableView_clicked(const QModelIndex &index)
+void MainWindow::on_tableView_clicked(const QModelIndex &index)
 {
-    int temp_nom;
-    temp_nom = ui->tableView->model()->data(ui->tableView->model()->index(index.row(),0)).toInt();
-    qDebug() << temp_nom;
-    emit sendData(temp_nom);
 
+    index_del = ui->tableView->model()->data(ui->tableView->model()->index(index.row(),0)).toInt();
+    emit sendData(index_del);
 
 }
 
-void reestr_ttn::on_pushButton_clicked()
+
+void MainWindow::on_pushButton_6_clicked()
 {
-    viewttn->show();
+
 }
 
-
-void reestr_ttn::on_tableView_doubleClicked(const QModelIndex &index)
+void MainWindow::on_pushButton_10_clicked()
 {
-    viewttn->show();
+
 }
 
-void reestr_ttn::on_pushButton_2_clicked()
+void MainWindow::on_pushButton_clicked()
 {
     createttn->show();
+}
+
+void MainWindow::on_pushButton_11_clicked()
+{
+
+        viewttn->show();
+
+}
+
+void MainWindow::on_tableView_doubleClicked(const QModelIndex &index)
+{
+        viewttn->show();
+}
+
+
+
+
+void MainWindow::on_pushButton_2_clicked()
+{
+    query = new QSqlQuery();
+    query->prepare("DELETE FROM ttn WHERE ttn_id = :ttn_id");
+    query->bindValue(":ttn_id", index_del);
+    query->exec();
+    findByDate();
 }

@@ -14,22 +14,22 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         login.cpp \
-    reestr_ttn.cpp \
     view_ttn.cpp \
     create_ttn.cpp \
-    choise_goods.cpp
+    choise_goods.cpp \
+    mainwindow.cpp
 
 HEADERS  += login.h \
-    reestr_ttn.h \
     view_ttn.h \
     create_ttn.h \
-    choise_goods.h
+    choise_goods.h \
+    mainwindow.h
 
 FORMS    += login.ui \
-    reestr_ttn.ui \
     view_ttn.ui \
     create_ttn.ui \
-    choise_goods.ui
+    choise_goods.ui \
+    mainwindow.ui
 
 RESOURCES += \
     ico.qrc

@@ -65,8 +65,8 @@ void login::on_buttonBox_accepted()
         settings->setValue("user", ui->lineEdit_2->text());
         close();
         // Создать и показать окно mainwindow
-        ttn = new reestr_ttn;
-        ttn->show();
+        mainwindow = new MainWindow;
+        mainwindow->show();
     }
 
 }

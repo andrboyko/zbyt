@@ -2,14 +2,12 @@
 #include "ui_view_ttn.h"
 
 
+
 View_ttn::View_ttn(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::View_ttn)
 {
     ui->setupUi(this);
-
-
-
 
 }
 
@@ -17,6 +15,7 @@ View_ttn::~View_ttn()
 {
     delete ui;
 }
+
 
 void View_ttn::recieveData(int temp_nom)
 {
@@ -85,9 +84,9 @@ void View_ttn::recieveData(int temp_nom)
 
 
 
-
-
 }
+
+
 
 
 

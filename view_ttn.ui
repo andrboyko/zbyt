@@ -2,6 +2,9 @@
 <ui version="4.0">
  <class>View_ttn</class>
  <widget class="QWidget" name="View_ttn">
+  <property name="windowModality">
+   <enum>Qt::ApplicationModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -27,6 +30,9 @@
     <family>Times New Roman</family>
     <pointsize>12</pointsize>
    </font>
+  </property>
+  <property name="mouseTracking">
+   <bool>false</bool>
   </property>
   <property name="windowTitle">
    <string>Перегляд накладної</string>
@@ -175,6 +181,19 @@
    </property>
    <property name="text">
     <string>Сума</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_7">
+   <property name="geometry">
+    <rect>
+     <x>500</x>
+     <y>40</y>
+     <width>47</width>
+     <height>13</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>TextLabel</string>
    </property>
   </widget>
  </widget>

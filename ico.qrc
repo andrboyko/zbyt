@@ -1,5 +1,21 @@
 <RCC>
     <qresource prefix="/">
         <file>ico/Login.ico</file>
+        <file>ico/Button Add.ico</file>
+        <file>ico/Button Delete.ico</file>
+        <file>ico/Button Refresh.ico</file>
+        <file>ico/search.png</file>
+        <file>ico/edit.ico</file>
+        <file>ico/calculator.ico</file>
+        <file>ico/contacts.ico</file>
+        <file>ico/dolly.ico</file>
+        <file>ico/key.ico</file>
+        <file>ico/rulertriangle.ico</file>
+        <file>ico/arrowdown.ico</file>
+        <file>ico/arrowup.ico</file>
+        <file>ico/print.ico</file>
+        <file>ico/kghostview_3262.ico</file>
+        <file>ico/16.ico</file>
+        <file>ico/close.ico</file>
     </qresource>
 </RCC>
