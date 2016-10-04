@@ -25,7 +25,7 @@ public slots:
     void on_lineEdit_editingFinished();
     void on_comboBox_currentIndexChanged(int index);
     void on_spinBox_valueChanged(int arg1);
-    void findByDate();
+    void RefreshTabl_ttn();
 
 signals:
     void sendData(int temp_nom);
@@ -33,9 +33,6 @@ signals:
 
 
 private slots:
-    void on_pushButton_6_clicked();
-
-    void on_pushButton_10_clicked();
 
     void on_pushButton_clicked();
 
@@ -46,7 +43,7 @@ private:
     QSqlQueryModel *model;
     create_ttn *createttn;
     QSqlQuery *query;
-    int index_del;
+    int index_ttn;
 };
 
 #endif // MAINWINDOW_H

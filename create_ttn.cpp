@@ -7,34 +7,29 @@ create_ttn::create_ttn(QWidget *parent) :
     ui(new Ui::create_ttn)
 {
     ui->setupUi(this);
-    goods = new choise_goods;
-    goods->setWindowFlags(Qt::Tool);
 
-    connect(this, SIGNAL(sendData(int)), goods, SLOT(recieveData(int)));
-    connect(goods, SIGNAL(buttonclicked()), this, SLOT(refreshTable()));
-
-    refreshTable();
-
-
+    refreshTable_goods();
 }
 
 create_ttn::~create_ttn()
 {
-    delete ui;
+     delete ui;
 }
 
 void create_ttn::on_pushButton_clicked()
 {
-
-goods->show();
-emit sendData(ui->lineEdit->text().toInt());
-
+    goods = new choise_goods;
+    goods->setWindowFlags(Qt::Tool);
+    connect(this, SIGNAL(sendData(int)), goods, SLOT(recieveData(int)));
+    connect(goods, SIGNAL(buttonclicked()), this, SLOT(refreshTable_goods()));
+    goods->show();
+    emit sendData(ui->lineEdit->text().toInt());
 }
 
 
-void create_ttn::refreshTable()
+// обновление таблицы товаров
+void create_ttn::refreshTable_goods()
 {
-
     QString sql;
     sql = "SELECT products.prod_id, prod_name, ttn_item_quantity, ttn_item_price, ttn_item_quantity*ttn_item_price FROM products, ttn_items WHERE ttn_items.prod_id = products.prod_id AND ttn_id="+ui->lineEdit->text()+";";
     model = new QSqlQueryModel;
@@ -52,7 +47,7 @@ void create_ttn::refreshTable()
     ui->tableView->setColumnWidth(3,65);
     ui->tableView->setColumnWidth(4,75);
 
-    //вивід суми
+//вивід суми
     query = new QSqlQuery();
     query->prepare("SELECT sum(ttn_item_quantity*ttn_item_price) FROM ttn_items WHERE ttn_id="+ui->lineEdit->text()+";");
     query->exec();
@@ -62,14 +57,9 @@ void create_ttn::refreshTable()
         sum=query->value(0).toDouble();
         ui->label_7->setText("Сума "+QString::number(sum)+" грн.");
     }
-
-
-
-
-
-
 }
 
+// открытие полей ввода если номера накладной нет в базе
 
 void create_ttn::on_lineEdit_returnPressed()
 {
@@ -98,28 +88,29 @@ void create_ttn::on_pushButton_2_clicked()
     ui->comboBox_2->setModel(model);
     ui->comboBox_2->setModelColumn(0);
     ui->comboBox_2->setMaxVisibleItems(ui->comboBox_2->count());
-    refreshTable();
-
+    refreshTable_goods();
 
 }
+
 //видалити товар
 void create_ttn::on_pushButton_3_clicked()
 {
-
     query = new QSqlQuery();
     query->prepare("DELETE FROM ttn_items WHERE ttn_id = :ttn_id AND prod_id = :prod_id;");
     query->bindValue(":ttn_id", ui->lineEdit->text());
-    query->bindValue(":prod_id", index_del);
+    query->bindValue(":prod_id", index_prod);
     query->exec();
-    refreshTable();
-
+    refreshTable_goods();
 }
+
 
 void create_ttn::on_tableView_clicked(const QModelIndex &index)
 {
-    index_del = ui->tableView->model()->data(ui->tableView->model()->index(index.row(),0)).toString();
+    index_prod = ui->tableView->model()->data(ui->tableView->model()->index(index.row(),0)).toString();
 }
 
+
+//Запись накладной
 void create_ttn::on_pushButton_4_clicked()
 {
     query = new QSqlQuery();
@@ -135,5 +126,13 @@ void create_ttn::on_pushButton_4_clicked()
     PushB4();
     qDebug() <<query->lastError();
     close();
+}
 
+// кнопка отмена
+void create_ttn::on_pushButton_5_clicked()
+{
+    query->prepare("DELETE FROM ttn_items WHERE ttn_id = :ttn_id");
+    query->bindValue(":ttn_id", ui->lineEdit->text().toInt());
+    query->exec();
+    close();
 }

@@ -7,15 +7,10 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-
-    ui->tableView->selectRow(0);
-
-   // показать ТТН за текущий месяц
+    // показать ТТН за текущий месяц
     ui->comboBox->setCurrentIndex((QDate::currentDate().month())-1);
     ui->spinBox->setValue(QDate::currentDate().year());
-    findByDate();
-
-
+    RefreshTabl_ttn();
 }
 
 MainWindow::~MainWindow()
@@ -23,7 +18,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::findByDate(){
+void MainWindow::RefreshTabl_ttn(){
 
     QString sql;
     int month;
@@ -45,17 +40,14 @@ void MainWindow::findByDate(){
     ui->tableView->setColumnWidth(3,300);
     ui->tableView->setColumnWidth(4,70);
 
-
-
-
 }
 void MainWindow::on_spinBox_valueChanged(int arg1)
 {
-    findByDate();
+    RefreshTabl_ttn();
 }
 void MainWindow::on_comboBox_currentIndexChanged(int index)
 {
-    findByDate();
+    RefreshTabl_ttn();
 }
 
 // функция выборки по номеру ТТН
@@ -81,40 +73,30 @@ void MainWindow::on_lineEdit_editingFinished()
 
 void MainWindow::on_tableView_clicked(const QModelIndex &index)
 {
-
-    index_del = ui->tableView->model()->data(ui->tableView->model()->index(index.row(),0)).toInt();
-    emit sendData(index_del);
-
-
+    index_ttn = ui->tableView->model()->data(ui->tableView->model()->index(index.row(),0)).toInt();
 }
 
-
-void MainWindow::on_pushButton_6_clicked()
-{
-
-}
-
-void MainWindow::on_pushButton_10_clicked()
-{
-
-}
-
+// Создать форму для создания накладной
 void MainWindow::on_pushButton_clicked()
 {
     createttn = new create_ttn();
     createttn->setWindowFlags(Qt::Dialog);
-    connect(createttn, SIGNAL(PushB4()), this, SLOT(findByDate()));
+    connect(createttn, SIGNAL(PushB4()), this, SLOT(RefreshTabl_ttn()));
     createttn->show();
-
 }
 
 
-//Удалить запись ТТН
+//Удалить запись накладной
 void MainWindow::on_pushButton_2_clicked()
 {
     query = new QSqlQuery();
     query->prepare("DELETE FROM ttn WHERE ttn_id = :ttn_id");
-    query->bindValue(":ttn_id", index_del);
+    query->bindValue(":ttn_id", index_ttn);
     query->exec();
-    findByDate();
+
+    query->prepare("DELETE FROM ttn_items WHERE ttn_id = :ttn_id");
+    query->bindValue(":ttn_id", index_ttn);
+    query->exec();
+
+    RefreshTabl_ttn();
 }

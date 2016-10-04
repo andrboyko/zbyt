@@ -26,7 +26,7 @@ signals:
 private slots:
     void on_pushButton_clicked();
 
-    void refreshTable();
+    void refreshTable_goods();
 
     void on_lineEdit_returnPressed();
 
@@ -38,12 +38,14 @@ private slots:
 
     void on_pushButton_4_clicked();
 
+    void on_pushButton_5_clicked();
+
 private:
     Ui::create_ttn *ui;
     QSqlQueryModel *model;
     choise_goods *goods;
     QSqlQuery *query;
-    QString index_del;
+    QString index_prod;
     double sum;
 
 

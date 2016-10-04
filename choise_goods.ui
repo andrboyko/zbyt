@@ -219,6 +219,16 @@
    </property>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>listView</tabstop>
+  <tabstop>listView_2</tabstop>
+  <tabstop>spinBox</tabstop>
+  <tabstop>doubleSpinBox</tabstop>
+  <tabstop>pushButton</tabstop>
+  <tabstop>pushButton_2</tabstop>
+  <tabstop>lineEdit</tabstop>
+  <tabstop>lineEdit_2</tabstop>
+ </tabstops>
  <resources>
   <include location="ico.qrc"/>
  </resources>
