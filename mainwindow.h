@@ -6,7 +6,6 @@
 #include <QSqlQuery>
 #include <QDebug>
 #include <QDate>
-#include <view_ttn.h>
 #include <create_ttn.h>
 
 
@@ -40,16 +39,11 @@ private slots:
 
     void on_pushButton_clicked();
 
-    void on_pushButton_11_clicked();
-
-    void on_tableView_doubleClicked(const QModelIndex &index);
-
     void on_pushButton_2_clicked();
 
 private:
     Ui::MainWindow *ui;
     QSqlQueryModel *model;
-    View_ttn *viewttn;
     create_ttn *createttn;
     QSqlQuery *query;
     int index_del;

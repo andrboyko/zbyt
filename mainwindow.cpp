@@ -7,19 +7,13 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    viewttn = new View_ttn();
-    viewttn->setWindowFlags(Qt::Tool);
-    connect(this, SIGNAL(sendData(int)), viewttn, SLOT(recieveData(int)));
 
-    createttn = new create_ttn();
-    createttn->setWindowFlags(Qt::Dialog);
-    findByDate();
     ui->tableView->selectRow(0);
 
    // показать ТТН за текущий месяц
     ui->comboBox->setCurrentIndex((QDate::currentDate().month())-1);
     ui->spinBox->setValue(QDate::currentDate().year());
-
+    findByDate();
 
 
 }
@@ -91,6 +85,7 @@ void MainWindow::on_tableView_clicked(const QModelIndex &index)
     index_del = ui->tableView->model()->data(ui->tableView->model()->index(index.row(),0)).toInt();
     emit sendData(index_del);
 
+
 }
 
 
@@ -106,24 +101,15 @@ void MainWindow::on_pushButton_10_clicked()
 
 void MainWindow::on_pushButton_clicked()
 {
+    createttn = new create_ttn();
+    createttn->setWindowFlags(Qt::Dialog);
+    connect(createttn, SIGNAL(PushB4()), this, SLOT(findByDate()));
     createttn->show();
-}
-
-void MainWindow::on_pushButton_11_clicked()
-{
-
-        viewttn->show();
 
 }
 
-void MainWindow::on_tableView_doubleClicked(const QModelIndex &index)
-{
-        viewttn->show();
-}
 
-
-
-
+//Удалить запись ТТН
 void MainWindow::on_pushButton_2_clicked()
 {
     query = new QSqlQuery();

@@ -19,6 +19,7 @@ public:
 
 signals:
     void sendData(int r_ttn_id);
+    void PushB4();
 
 
 

@@ -132,7 +132,8 @@ void create_ttn::on_pushButton_4_clicked()
     query->bindValue(":sum", sum);
     query->bindValue(":umova", ui->lineEdit_3->text());
     query->exec();
-
+    PushB4();
     qDebug() <<query->lastError();
     close();
+
 }
