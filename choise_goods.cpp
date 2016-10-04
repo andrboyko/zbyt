@@ -15,8 +15,6 @@ choise_goods::choise_goods(QWidget *parent) :
     model->setQuery("SELECT * FROM prod_group;");
     ui->listView->setModel(model);
     ui->listView->setModelColumn(1);
-
-
 }
 
 choise_goods::~choise_goods()
@@ -26,17 +24,13 @@ choise_goods::~choise_goods()
 
 void choise_goods::on_listView_clicked(const QModelIndex &index)
 {
-
     temp_nomlVc = ui->listView->model()->data(ui->listView->model()->index(index.row(),0)).toInt();
-
-
 
     model = new QSqlQueryModel();
     model->setQuery("SELECT * FROM products WHERE prod_group_id = " + QString::number(temp_nomlVc) + ";");
 
     ui->listView_2->setModel(model);
     ui->listView_2->setModelColumn(2);
-
 }
 
 void choise_goods::on_pushButton_2_clicked()
@@ -78,16 +72,11 @@ void choise_goods::on_listView_2_clicked(const QModelIndex &index)
     {
         ui->doubleSpinBox->setValue(query->value(0).toDouble());
     }
-
     // максимальна кількість = залишку поточному
     ui->spinBox->setMaximum(ui->lineEdit->text().toInt());
 }
 
-
-
-
-
-//вивід суми
+    //вивід суми
 void choise_goods::on_spinBox_valueChanged(int arg1)
 {
     ui->lineEdit_2->setText(QString::number(arg1*  ui->doubleSpinBox->value()));
@@ -98,10 +87,8 @@ void choise_goods::on_doubleSpinBox_valueChanged(double arg1)
     ui->lineEdit_2->setText(QString::number(arg1*  ui->spinBox->value()));
 }
 
-
 void choise_goods::on_pushButton_clicked()
 {
-
     query = new QSqlQuery();
     query->prepare("INSERT INTO ttn_items(ttn_id, prod_id, ttn_item_quantity, ttn_item_price)VALUES(:ttn_id, :prod_id, :ttn_item_quantity, :ttn_item_price);");
     query->bindValue(":ttn_id", ttn_id);

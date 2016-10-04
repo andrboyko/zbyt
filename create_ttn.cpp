@@ -89,7 +89,6 @@ void create_ttn::on_pushButton_2_clicked()
     ui->comboBox_2->setModelColumn(0);
     ui->comboBox_2->setMaxVisibleItems(ui->comboBox_2->count());
     refreshTable_goods();
-
 }
 
 //видалити товар
