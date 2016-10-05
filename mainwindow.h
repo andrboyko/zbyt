@@ -7,6 +7,7 @@
 #include <QDebug>
 #include <QDate>
 #include <create_ttn.h>
+#include <prod_price.h>
 
 
 namespace Ui {
@@ -38,11 +39,14 @@ private slots:
 
     void on_pushButton_2_clicked();
 
+    void on_pushButton_8_clicked();
+
 private:
     Ui::MainWindow *ui;
     QSqlQueryModel *model;
     create_ttn *createttn;
     QSqlQuery *query;
+    prod_price *prodprice;
     int index_ttn;
 };
 

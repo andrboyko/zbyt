@@ -18,7 +18,8 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::RefreshTabl_ttn(){
+void MainWindow::RefreshTabl_ttn()
+{
 
     QString sql;
     int month;
@@ -99,4 +100,11 @@ void MainWindow::on_pushButton_2_clicked()
     query->exec();
 
     RefreshTabl_ttn();
+}
+
+void MainWindow::on_pushButton_8_clicked()
+{
+    prodprice = new prod_price();
+    prodprice->setWindowFlags(Qt::Dialog);
+    prodprice->show();
 }

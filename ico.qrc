@@ -18,5 +18,6 @@
         <file>ico/16.ico</file>
         <file>ico/close.ico</file>
         <file>ico/fork3256x256.ico</file>
+        <file>ico/motor.gif</file>
     </qresource>
 </RCC>

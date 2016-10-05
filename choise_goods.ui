@@ -13,6 +13,18 @@
     <height>454</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>554</width>
+    <height>454</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>554</width>
+    <height>454</height>
+   </size>
+  </property>
   <property name="font">
    <font>
     <family>Times New Roman</family>
@@ -29,7 +41,7 @@
    <property name="geometry">
     <rect>
      <x>400</x>
-     <y>176</y>
+     <y>186</y>
      <width>113</width>
      <height>20</height>
     </rect>
@@ -42,7 +54,7 @@
    <property name="geometry">
     <rect>
      <x>401</x>
-     <y>206</y>
+     <y>216</y>
      <width>111</width>
      <height>22</height>
     </rect>
@@ -58,7 +70,7 @@
    <property name="geometry">
     <rect>
      <x>400</x>
-     <y>236</y>
+     <y>246</y>
      <width>111</width>
      <height>22</height>
     </rect>
@@ -71,7 +83,7 @@
    <property name="geometry">
     <rect>
      <x>400</x>
-     <y>290</y>
+     <y>300</y>
      <width>113</width>
      <height>20</height>
     </rect>
@@ -130,7 +142,7 @@
    <property name="geometry">
     <rect>
      <x>310</x>
-     <y>176</y>
+     <y>186</y>
      <width>71</width>
      <height>16</height>
     </rect>
@@ -143,7 +155,7 @@
    <property name="geometry">
     <rect>
      <x>310</x>
-     <y>208</y>
+     <y>218</y>
      <width>71</width>
      <height>16</height>
     </rect>
@@ -156,7 +168,7 @@
    <property name="geometry">
     <rect>
      <x>310</x>
-     <y>240</y>
+     <y>250</y>
      <width>47</width>
      <height>13</height>
     </rect>
@@ -169,7 +181,7 @@
    <property name="geometry">
     <rect>
      <x>310</x>
-     <y>290</y>
+     <y>300</y>
      <width>47</width>
      <height>20</height>
     </rect>
@@ -201,8 +213,8 @@
   <widget class="QLabel" name="label_5">
    <property name="geometry">
     <rect>
-     <x>293</x>
-     <y>110</y>
+     <x>290</x>
+     <y>150</y>
      <width>241</width>
      <height>31</height>
     </rect>
@@ -216,6 +228,22 @@
    </property>
    <property name="text">
     <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_6">
+   <property name="geometry">
+    <rect>
+     <x>310</x>
+     <y>8</y>
+     <width>201</width>
+     <height>141</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="ico.qrc">:/ico/motor.gif</pixmap>
    </property>
   </widget>
  </widget>

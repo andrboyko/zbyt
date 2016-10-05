@@ -365,13 +365,10 @@
     </rect>
    </property>
    <property name="inputMask">
-    <string/>
+    <string>999999</string>
    </property>
    <property name="maxLength">
-    <number>32767</number>
-   </property>
-   <property name="cursorMoveStyle">
-    <enum>Qt::LogicalMoveStyle</enum>
+    <number>6</number>
    </property>
    <property name="clearButtonEnabled">
     <bool>false</bool>
