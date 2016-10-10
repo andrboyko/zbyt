@@ -23,6 +23,7 @@ void create_ttn::on_pushButton_clicked()
     connect(this, SIGNAL(sendData(int)), goods, SLOT(recieveData(int)));
     connect(goods, SIGNAL(buttonclicked()), this, SLOT(refreshTable_goods()));
     goods->show();
+    goods->activateWindow();
     emit sendData(ui->lineEdit->text().toInt());
 }
 
@@ -127,7 +128,7 @@ void create_ttn::on_pushButton_4_clicked()
     close();
 }
 
-// кнопка отмена
+//кнопка отмена
 void create_ttn::on_pushButton_5_clicked()
 {
     query->prepare("DELETE FROM ttn_items WHERE ttn_id = :ttn_id");

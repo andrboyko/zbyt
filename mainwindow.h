@@ -8,6 +8,7 @@
 #include <QDate>
 #include <create_ttn.h>
 #include <prod_price.h>
+#include <customers.h>
 
 
 namespace Ui {
@@ -41,12 +42,15 @@ private slots:
 
     void on_pushButton_8_clicked();
 
+    void on_pushButton_7_clicked();
+
 private:
     Ui::MainWindow *ui;
     QSqlQueryModel *model;
     create_ttn *createttn;
     QSqlQuery *query;
     prod_price *prodprice;
+    customers *cust;
     int index_ttn;
 };
 

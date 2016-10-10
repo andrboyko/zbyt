@@ -5,11 +5,9 @@
 #include <QSqlQueryModel>
 #include <QSqlQuery>
 #include <QDebug>
-#include <QHBoxLayout>
-#include <QHBoxLayout>
-#include <QLabel>
-#include <QLineEdit>
-#include <QDoubleSpinBox>
+#include <prod_add.h>
+
+
 namespace Ui {
 class prod_price;
 }
@@ -21,16 +19,22 @@ class prod_price : public QWidget
 public:
     explicit prod_price(QWidget *parent = 0);
     ~prod_price();
-    void RefreshTabl_prod();
+
+
 
 private slots:
     void on_pushButton_clicked();
-    void prod_add();
+    void RefreshTabl_prod();
 
 private:
     Ui::prod_price *ui;
     QSqlQueryModel *model;
-    QSqlQuery *query;
+    prod_add * prodadd;
+
+
+
+
 };
+
 
 #endif // PROD_PRICE_H

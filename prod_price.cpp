@@ -36,55 +36,12 @@ void prod_price::RefreshTabl_prod()
 
 void prod_price::on_pushButton_clicked()
 {
-    QWidget *prod_add = new QWidget;
-    query = new QSqlQuery;
-    prod_add->setWindowFlags(Qt::Tool);
-    prod_add->setWindowTitle("Добавить товар");
-    prod_add->setFont(QFont("Times New Roman", 12));
-    prod_add->setFixedWidth(335);
-    prod_add->setWindowModality(Qt::WindowModality::ApplicationModal);
-
-    QLabel* label_1 = new QLabel ("Шифр");
-    QLineEdit* lineEdit_1 = new QLineEdit;
-
-    QLabel* label_2 = new QLabel ("Назва товару");
-    QLineEdit* lineEdit_2 = new QLineEdit;
-
-    QLabel* label_3 = new QLabel ("Ціна роздріб");
-    QDoubleSpinBox* doubleSpinBox_1 = new QDoubleSpinBox;
-    doubleSpinBox_1->setMaximum(999999.99);
-
-    QLabel* label_4 = new QLabel ("Ціна бартер");
-    QDoubleSpinBox* doubleSpinBox_2 = new QDoubleSpinBox;
-    doubleSpinBox_2->setMaximum(999999.99);
-
-    QLabel* label_5 = new QLabel ("Ціна опт");
-    QDoubleSpinBox* doubleSpinBox_3 = new QDoubleSpinBox;
-    doubleSpinBox_3->setMaximum(999999.99);
-
-    QPushButton *pushButton_1 = new QPushButton ("Добавить");
-
-    QGridLayout *GridProd_1 = new QGridLayout;
-    GridProd_1->addWidget(label_1, 0, 0);
-    GridProd_1->addWidget(lineEdit_1, 0, 1);
-    GridProd_1->addWidget(label_2, 1, 0);
-    GridProd_1->addWidget(lineEdit_2, 1, 1);
-    GridProd_1->addWidget(label_3, 2, 0);
-    GridProd_1->addWidget(doubleSpinBox_1, 2, 1);
-    GridProd_1->addWidget(label_4, 3, 0);
-    GridProd_1->addWidget(doubleSpinBox_2, 3, 1);
-    GridProd_1->addWidget(label_5, 4, 0);
-    GridProd_1->addWidget(doubleSpinBox_3, 4, 1);
-    GridProd_1->addWidget(pushButton_1, 5, 1);
-    prod_add->setLayout(GridProd_1);
-
-    connect(pushButton_1, SIGNAL (clicked()), this, SLOT(prod_add( )));
+    prodadd = new prod_add;
+    prodadd->setWindowFlags(Qt::Tool);
+    connect(prodadd, SIGNAL(buttonclicked()), this, SLOT(RefreshTabl_prod()));
+    prodadd->show();
+    prodadd->activateWindow();
 
 
-    prod_add->show();
 }
 
-void prod_price::prod_add()
-{
-
-}

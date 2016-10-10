@@ -108,3 +108,10 @@ void MainWindow::on_pushButton_8_clicked()
     prodprice->setWindowFlags(Qt::Dialog);
     prodprice->show();
 }
+
+void MainWindow::on_pushButton_7_clicked()
+{
+    cust = new customers();
+    cust->setWindowFlags(Qt::Dialog);
+    cust->show();
+}
