@@ -25,19 +25,22 @@ void customers::RefreshTabl_customers()
     model->setHeaderData(2,Qt::Horizontal, "Адрес");
     model->setHeaderData(3,Qt::Horizontal, "Телефон");
     model->setHeaderData(4,Qt::Horizontal, "Код П/П");
-    model->setHeaderData(5,Qt::Horizontal, "Свідоцтво про реєстрацію");
+    model->setHeaderData(5,Qt::Horizontal, "№ Реєстртації");
     ui->tableView->setColumnWidth(0,20);
     ui->tableView->setColumnWidth(1,260);
-    ui->tableView->setColumnWidth(2,80);
+    ui->tableView->setColumnWidth(2,320);
     ui->tableView->setColumnWidth(3,80);
     ui->tableView->setColumnWidth(4,80);
-    ui->tableView->setColumnWidth(5,80);
+    ui->tableView->setColumnWidth(5,100);
 }
 
+// кнопка добавить
 void customers::on_pushButton_clicked()
 {
     cust_add = new custumers_add();
     cust_add->setWindowFlags(Qt::Tool);
+    connect(cust_add, SIGNAL(buttonclicked()), this, SLOT(RefreshTabl_customers()));
     cust_add->show();
     cust_add->activateWindow();
+
 }

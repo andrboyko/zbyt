@@ -18,15 +18,17 @@ class customers : public QWidget
 public:
     explicit customers(QWidget *parent = 0);
     ~customers();
-    void RefreshTabl_customers();
+
 
 private slots:
     void on_pushButton_clicked();
+     void RefreshTabl_customers();
 
 private:
     Ui::customers *ui;
     QSqlQueryModel *model;
     custumers_add *cust_add;
+
 };
 
 #endif // CUSTOMERS_H

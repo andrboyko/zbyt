@@ -13,6 +13,18 @@
     <height>151</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>641</width>
+    <height>151</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>641</width>
+    <height>151</height>
+   </size>
+  </property>
   <property name="font">
    <font>
     <family>Times New Roman</family>
