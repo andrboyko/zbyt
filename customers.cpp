@@ -29,7 +29,7 @@ void customers::RefreshTabl_customers()
     ui->tableView->setColumnWidth(0,20);
     ui->tableView->setColumnWidth(1,260);
     ui->tableView->setColumnWidth(2,320);
-    ui->tableView->setColumnWidth(3,80);
+    ui->tableView->setColumnWidth(3,95);
     ui->tableView->setColumnWidth(4,80);
     ui->tableView->setColumnWidth(5,100);
 }
@@ -43,4 +43,29 @@ void customers::on_pushButton_clicked()
     cust_add->show();
     cust_add->activateWindow();
 
+}
+
+void customers::on_pushButton_2_clicked()
+{
+    cust_edit = new custumers_edit();
+    cust_edit->setWindowFlags(Qt::Tool);
+    connect(this, SIGNAL(sendData(int)), cust_edit, SLOT(reciveData(int)));
+    connect(cust_edit, SIGNAL(buttonclicked()), this, SLOT(RefreshTabl_customers()));
+
+    emit sendData(index_cust);
+    cust_edit->show();
+    cust_edit->activateWindow();
+
+
+
+
+
+
+
+
+}
+
+void customers::on_tableView_clicked(const QModelIndex &index)
+{
+       index_cust = ui->tableView->model()->data(ui->tableView->model()->index(index.row(),0)).toInt();
 }

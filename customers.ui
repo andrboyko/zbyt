@@ -9,19 +9,19 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>885</width>
+    <width>900</width>
     <height>455</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>885</width>
+    <width>900</width>
     <height>455</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>885</width>
+    <width>900</width>
     <height>455</height>
    </size>
   </property>
@@ -33,6 +33,10 @@
   </property>
   <property name="windowTitle">
    <string>Замовники</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="ico.qrc">
+    <normaloff>:/ico/contacts.ico</normaloff>:/ico/contacts.ico</iconset>
   </property>
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">
@@ -85,19 +89,19 @@
     <rect>
      <x>3</x>
      <y>0</y>
-     <width>880</width>
+     <width>895</width>
      <height>390</height>
     </rect>
    </property>
    <property name="minimumSize">
     <size>
-     <width>880</width>
+     <width>895</width>
      <height>390</height>
     </size>
    </property>
    <property name="maximumSize">
     <size>
-     <width>880</width>
+     <width>895</width>
      <height>390</height>
     </size>
    </property>

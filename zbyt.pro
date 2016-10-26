@@ -20,7 +20,8 @@ SOURCES += main.cpp\
     prod_price.cpp \
     prod_add.cpp \
     customers.cpp \
-    custumers_add.cpp
+    custumers_add.cpp \
+    custumers_edit.cpp
 
 HEADERS  += login.h \
     create_ttn.h \
@@ -29,7 +30,8 @@ HEADERS  += login.h \
     prod_price.h \
     prod_add.h \
     customers.h \
-    custumers_add.h
+    custumers_add.h \
+    custumers_edit.h
 
 FORMS    += login.ui \
     create_ttn.ui \
@@ -38,7 +40,8 @@ FORMS    += login.ui \
     prod_price.ui \
     prod_add.ui \
     customers.ui \
-    custumers_add.ui
+    custumers_add.ui \
+    custumers_edit.ui
 
 RESOURCES += \
     ico.qrc

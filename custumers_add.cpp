@@ -16,6 +16,7 @@ custumers_add::~custumers_add()
 
 void custumers_add::on_pushButton_clicked()
 {
+
     query = new QSqlQuery();
     query->prepare("INSERT INTO custumers (cust_name, address, tel, kod_pp, n_reg_svid) VALUES (:cust_name, :address, :tel, :kod_pp, :n_reg_svid);");
     query->bindValue(":cust_name", ui->lineEdit->text());
@@ -26,7 +27,7 @@ void custumers_add::on_pushButton_clicked()
     query->exec();
     emit buttonclicked();
 
-    qDebug() << query->lastError();
 
     close();
 }
+
