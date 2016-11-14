@@ -7,6 +7,7 @@
 #include <QDebug>
 #include <custumers_add.h>
 #include <custumers_edit.h>
+#include <QShortcut>
 
 namespace Ui {
 class customers;
@@ -38,7 +39,9 @@ private:
     QSqlQueryModel *model;
     custumers_add *cust_add;
     custumers_edit *cust_edit;
+    QShortcut *keyCancel;
     int index_cust;
+
 
 
 };

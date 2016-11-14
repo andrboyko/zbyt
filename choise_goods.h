@@ -6,6 +6,7 @@
 #include <QSqlQuery>
 #include <QDebug>
 #include <QSqlError>
+#include <QShortcut>
 
 namespace Ui {
 class choise_goods;
@@ -44,6 +45,9 @@ private:
     QSqlQueryModel *model;
     QSqlQuery *query;
     int ttn_id;
+    int temp_nomlVc;
+    int prod_id;
+    QShortcut *keyCancel;
 };
 
 #endif // CHOISE_GOODS_H

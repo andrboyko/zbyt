@@ -7,7 +7,10 @@ custumers_edit::custumers_edit(QWidget *parent) :
 {
     ui->setupUi(this);
 
-
+    //Горячая клавиша Отмена=Esc
+    keyCancel = new QShortcut(this);
+    keyCancel->setKey(Qt::Key_Escape);
+    connect(keyCancel, SIGNAL(activated()), this, SLOT(close()));
 
 
 }
@@ -20,24 +23,26 @@ custumers_edit::~custumers_edit()
 
 void custumers_edit::on_pushButton_clicked()
 {
+    if(ui->lineEdit->text().count() > 2)
+    {
+        query = new QSqlQuery();
+        query->prepare("UPDATE custumers "
+                       "SET cust_name = :cust_name, address = :address, tel = :tel, "
+                       "kod_pp = :kod_pp, n_reg_svid = :n_reg_svid WHERE cust_id=:cust_id;");
+        query->bindValue(":cust_name", ui->lineEdit->text());
+        query->bindValue(":address", ui->lineEdit_2->text());
+        query->bindValue(":tel", ui->lineEdit_3->text());
+        query->bindValue(":kod_pp", ui->lineEdit_4->text());
+        query->bindValue(":n_reg_svid", ui->lineEdit_5->text());
+        query->bindValue(":cust_id", index_cust);
+        query->exec();
+        emit buttonclicked();
+        close();
+    }else{
 
-      query = new QSqlQuery();
-      QString sql;
-      sql ="UPDATE custumers "
-           "SET cust_name = :cust_name, address = :address, tel = :tel, "
-           "kod_pp = :kod_pp, n_reg_svid = :n_reg_svid WHERE cust_id=:cust_id;";
-    query->prepare(sql);
-    query->bindValue(":cust_name", ui->lineEdit->text());
-    query->bindValue(":address", ui->lineEdit_2->text());
-    query->bindValue(":tel", ui->lineEdit_3->text());
-    query->bindValue(":kod_pp", ui->lineEdit_4->text());
-    query->bindValue(":n_reg_svid", ui->lineEdit_5->text());
-    query->bindValue(":cust_id", index_cust);
-    query->exec();
+        QMessageBox::information(this, "Увага", "Відсутнє імя замовника");
 
-    emit buttonclicked();
-
-    close();
+    }
 }
 
 void custumers_edit::reciveData(int i)

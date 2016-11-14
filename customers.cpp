@@ -6,7 +6,13 @@ customers::customers(QWidget *parent) :
     ui(new Ui::customers)
 {
     ui->setupUi(this);
+
+    //Горячая клавиша Отмена=Esc
+    keyCancel = new QShortcut(this);
+    keyCancel->setKey(Qt::Key_Escape);
+    connect(keyCancel, SIGNAL(activated()), this, SLOT(close()));
     RefreshTabl_customers();
+
 }
 
 customers::~customers()
@@ -28,7 +34,7 @@ void customers::RefreshTabl_customers()
     model->setHeaderData(5,Qt::Horizontal, "№ Реєстртації");
     ui->tableView->setColumnWidth(0,20);
     ui->tableView->setColumnWidth(1,260);
-    ui->tableView->setColumnWidth(2,320);
+    ui->tableView->setColumnWidth(2,300);
     ui->tableView->setColumnWidth(3,95);
     ui->tableView->setColumnWidth(4,80);
     ui->tableView->setColumnWidth(5,100);
@@ -55,13 +61,6 @@ void customers::on_pushButton_2_clicked()
     emit sendData(index_cust);
     cust_edit->show();
     cust_edit->activateWindow();
-
-
-
-
-
-
-
 
 }
 

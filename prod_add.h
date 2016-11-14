@@ -6,6 +6,8 @@
 #include <QSqlQueryModel>
 #include <QSqlError>
 #include <QDebug>
+#include <QMessageBox>
+#include <QShortcut>
 namespace Ui {
 class prod_add;
 }
@@ -29,6 +31,7 @@ private:
     Ui::prod_add *ui;
     QSqlQuery * query;
     QSqlQueryModel *model;
+    QShortcut *keyCancel;
 };
 
 #endif // PROD_ADD_H

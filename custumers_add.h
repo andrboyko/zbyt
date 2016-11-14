@@ -5,6 +5,8 @@
 #include <QSqlQuery>
 #include <QDebug>
 #include <QSqlError>
+#include <QMessageBox>
+#include <QShortcut>
 
 namespace Ui {
 class custumers_add;
@@ -27,6 +29,7 @@ private slots:
 private:
     Ui::custumers_add *ui;
     QSqlQuery *query;
+    QShortcut *keyCancel;
 
 };
 

@@ -7,10 +7,17 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    //регулярное выражение для LineEdit поиска по номеру накладной
+    QRegExp exp("[0-9]{0,6}");
+    ui->lineEdit->setValidator(new QRegExpValidator(exp, this));
+
+
     // показать ТТН за текущий месяц
+
     ui->comboBox->setCurrentIndex((QDate::currentDate().month())-1);
     ui->spinBox->setValue(QDate::currentDate().year());
     RefreshTabl_ttn();
+
 
 }
 
@@ -121,12 +128,14 @@ void MainWindow::on_lineEdit_textChanged(const QString &arg1)
     ui->tableView->setColumnWidth(2,70);
     ui->tableView->setColumnWidth(3,300);
     ui->tableView->setColumnWidth(4,70);
+
     }
 }
 
 // кнопка просмотр
 void MainWindow::on_pushButton_11_clicked()
 {
+
 
 }
 
@@ -139,3 +148,7 @@ void MainWindow::on_action_2_triggered()
 {
     ui->pushButton_7->clicked();
 }
+
+
+
+

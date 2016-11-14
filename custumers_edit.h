@@ -5,6 +5,8 @@
 #include <QSqlQuery>
 #include <QDebug>
 #include <QSqlError>
+#include <QMessageBox>
+#include <QShortcut>
 
 namespace Ui {
 class custumers_edit;
@@ -33,6 +35,7 @@ private:
     Ui::custumers_edit *ui;
     QSqlQuery *query;
     int index_cust;
+    QShortcut *keyCancel;
 
 };
 

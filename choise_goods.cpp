@@ -1,8 +1,6 @@
 #include "choise_goods.h"
 #include "ui_choise_goods.h"
 
-int temp_nomlVc;
-QString temp_nomlv2c;
 
 choise_goods::choise_goods(QWidget *parent) :
     QWidget(parent),
@@ -10,6 +8,11 @@ choise_goods::choise_goods(QWidget *parent) :
 {
 
      ui->setupUi(this);
+
+     //Горячая клавиша Отмена=Esc
+     keyCancel = new QShortcut(this);
+     keyCancel->setKey(Qt::Key_Escape);
+     connect(keyCancel, SIGNAL(activated()), this, SLOT(close()));
 
     model = new QSqlQueryModel();
     model->setQuery("SELECT * FROM prod_group;");
@@ -40,12 +43,12 @@ void choise_goods::on_pushButton_2_clicked()
 
 void choise_goods::on_listView_2_clicked(const QModelIndex &index)
 {
-    temp_nomlv2c = ui->listView_2->model()->data(ui->listView_2->model()->index(index.row(),0)).toString();
+    prod_id = ui->listView_2->model()->data(ui->listView_2->model()->index(index.row(),0)).toInt();
 
     //вивід назва товару
     query = new QSqlQuery();
-    query->prepare("SELECT prod_name FROM products WHERE prod_id =  :prod_id;");
-    query->bindValue(":prod_id", temp_nomlv2c);
+    query->prepare("SELECT prod_name FROM products WHERE prod_id = :prod_id;");
+    query->bindValue(":prod_id", prod_id);
     query->exec();
     while (query->next())
     {
@@ -55,8 +58,8 @@ void choise_goods::on_listView_2_clicked(const QModelIndex &index)
 
     // Вивід в поле залишок
     query = new QSqlQuery();
-    query->prepare("SELECT prod_quantity_flow FROM products WHERE prod_id =  :prod_id;");
-    query->bindValue(":prod_id", temp_nomlv2c);
+    query->prepare("SELECT prod_quantity FROM products WHERE prod_id =  :prod_id;");
+    query->bindValue(":prod_id", prod_id);
     query->exec();
     while (query->next())
     {
@@ -66,7 +69,7 @@ void choise_goods::on_listView_2_clicked(const QModelIndex &index)
     // Вивід в поле ціна
     query = new QSqlQuery();
     query->prepare("SELECT prod_price_retail FROM products WHERE prod_id =  :prod_id;");
-    query->bindValue(":prod_id", temp_nomlv2c);
+    query->bindValue(":prod_id", prod_id);
     query->exec();
     while (query->next())
     {
@@ -92,7 +95,7 @@ void choise_goods::on_pushButton_clicked()
     query = new QSqlQuery();
     query->prepare("INSERT INTO ttn_items(ttn_id, prod_id, ttn_item_quantity, ttn_item_price)VALUES(:ttn_id, :prod_id, :ttn_item_quantity, :ttn_item_price);");
     query->bindValue(":ttn_id", ttn_id);
-    query->bindValue(":prod_id", temp_nomlv2c);
+    query->bindValue(":prod_id", prod_id);
     query->bindValue(":ttn_item_quantity", ui->spinBox->value());
     query->bindValue(":ttn_item_price", ui->doubleSpinBox->value());
     query->exec();

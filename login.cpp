@@ -67,6 +67,7 @@ void login::on_buttonBox_accepted()
         // Создать и показать окно mainwindow
         mainwindow = new MainWindow;
         mainwindow->show();
+      //  mainwindow->showMaximized();
     }
 
 }
