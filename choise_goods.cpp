@@ -10,6 +10,7 @@ choise_goods::choise_goods(QWidget *parent) :
      ui->setupUi(this);
 
      //Горячая клавиша Отмена=Esc
+
      keyCancel = new QShortcut(this);
      keyCancel->setKey(Qt::Key_Escape);
      connect(keyCancel, SIGNAL(activated()), this, SLOT(close()));
@@ -75,8 +76,6 @@ void choise_goods::on_listView_2_clicked(const QModelIndex &index)
     {
         ui->doubleSpinBox->setValue(query->value(0).toDouble());
     }
-    // максимальна кількість = залишку поточному
-    ui->spinBox->setMaximum(ui->lineEdit->text().toInt());
 }
 
     //вивід суми

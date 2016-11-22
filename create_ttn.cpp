@@ -13,35 +13,36 @@ create_ttn::create_ttn(QWidget *parent) :
     keyCancel->setKey(Qt::Key_Escape);
     connect(keyCancel, SIGNAL(activated()), this, SLOT(close()));
 
-
-
-    //регулярное выражение для LineEdit ввода № накладной
-    QRegExp exp("[0-9]{0,6}");
-    ui->lineEdit->setValidator(new QRegExpValidator(exp, this));
-
         ui->dateEdit->setDate(QDate::currentDate());
         model = new QSqlQueryModel(this);
-        model->setQuery("select operation_name from operations;");
+        model->setQuery("select operation_id, operation_name from operations WHERE NOT(operation_id=1);");
         ui->comboBox->setModel(model);
-        ui->comboBox->setModelColumn(0);
-        ui->comboBox->setMaxVisibleItems(ui->comboBox->count());
+        ui->comboBox->setModelColumn(1);
+        ui->comboBox->setMaxVisibleItems(ui->comboBox->maxCount());
 
         model = new QSqlQueryModel(this);
-        model->setQuery("select cust_name, cust_id from custumers;");
+        model->setQuery("select cust_name, cust_id from custumers WHERE NOT(cust_id=0);");
         ui->comboBox_2->setModel(model);
         ui->comboBox_2->setModelColumn(0);
-        ui->comboBox_2->setMaxVisibleItems(ui->comboBox_2->count());
 
-        ui->comboBox->setCurrentIndex(-1);
         ui->comboBox_2->setCurrentIndex(-1);
-        setFixedHeight(135);
-        ui->groupBox->setHidden(true);
-        ui->groupBox_2->setHidden(true);
+
+        //ttn_id
+        query = new QSqlQuery();
+        query->exec("SELECT ttn_id From ttn;");
+        query->last();
+        if (query->value(0).toString()==NULL){
+            query2 = new QSqlQuery();
+            query2->exec("ALTER TABLE ttn AUTO_INCREMENT=100200");
+            ui->lineEdit->setText("100200");
+        }else{
+        ui->lineEdit->setText(QString::number(query->value(0).toInt()+1));
+        }
 }
 
 create_ttn::~create_ttn()
 {
-     delete ui;
+   delete ui;
 }
 
 void create_ttn::on_pushButton_clicked()
@@ -67,7 +68,6 @@ void create_ttn::refreshTable_goods()
     model->setHeaderData(3,Qt::Horizontal, "Кількість");
     model->setHeaderData(4,Qt::Horizontal, "Ціна, грн.");
     model->setHeaderData(5,Qt::Horizontal, "Сума, грн.");
-
     ui->tableView->setColumnHidden(0,1);
     ui->tableView->setColumnWidth(1,95);
     ui->tableView->setColumnWidth(2,300);
@@ -102,8 +102,7 @@ void create_ttn::on_pushButton_3_clicked()
 
 void create_ttn::on_tableView_clicked(const QModelIndex &index)
 {
-    index_prod = ui->tableView->model()->data(ui->tableView->model()->index(index.row(),0)).toString();
-    qDebug() << index_prod;
+    index_prod = ui->tableView->model()->data(ui->tableView->model()->index(index.row(),0)).toInt();
 }
 
 
@@ -112,18 +111,12 @@ void create_ttn::on_pushButton_4_clicked()
 {
     query = new QSqlQuery();
     query2 = new QSqlQuery();
+    queryUpdate = new QSqlQuery;
 
-    query->prepare("INSERT INTO ttn(ttn_id, ttn_date, cust_id, operation_id, by_whom, sum, umova)VALUES(:ttn_id, :ttn_date,(select cust_id from custumers where cust_name=:cust_id), (SELECT operation_id FROM operations WHERE operation_name =:operation_id), :by_whom, :sum, :umova);");
-    query->bindValue(":ttn_id", ui->lineEdit->text().toInt());
+    query->prepare("INSERT INTO ttn(ttn_date, cust_id, operation_id, by_whom, sum, umova)VALUES(:ttn_date, :cust_id, :operation_id, :by_whom, :sum, :umova);");
     query->bindValue(":ttn_date", ui->dateEdit->text());
-    if (ui->comboBox_2->currentIndex() ==-1){
-        query->bindValue(":cust_id", "Склад");
-    }else{
-        query->bindValue(":cust_id", ui->comboBox_2->currentText());
-
-    }
-
-    query->bindValue(":operation_id", ui->comboBox->currentText());
+    query->bindValue(":cust_id", ui->comboBox_2->model()->data(ui->comboBox_2->model()->index(cust_id,1)).toString());
+    query->bindValue(":operation_id", ui->comboBox->model()->data(ui->comboBox->model()->index(operation_id,0)).toString());
     query->bindValue(":by_whom", ui->lineEdit_2->text());
     query->bindValue(":sum", sum);
     query->bindValue(":umova", ui->lineEdit_3->text());
@@ -131,37 +124,29 @@ void create_ttn::on_pushButton_4_clicked()
     PushB4();
 
 
-//    query->prepare("SELECT prod_quantity FROM products WHERE prod_id=:prod_id");
-//    query->bindValue(":prod_id", ui->lineEdit->text().toInt());
-//    query->exec();
 
+    //количество продукции
+        query->prepare("SELECT ttn_item_quantity, prod_id from ttn_items WHERE ttn_id=:ttn_id");
+        query->bindValue(":ttn_id", ui->lineEdit->text().toInt());
+        query->exec();
+        while (query->next())
+        {
+            query2->exec("SELECT prod_quantity FROM products WHERE prod_id=" +query->value(1).toString()+ ";");
+            query2->next();
 
-    query->prepare("SELECT ttn_item_quantity, prod_id from ttn_items WHERE ttn_id=:ttn_id");
-    query->bindValue(":ttn_id", ui->lineEdit->text().toInt());
-    query->exec();
-    while (query->next())
-    {
-        query2->exec("SELECT prod_quantity FROM products WHERE prod_id=" +query->value(1).toString()+ ";");
-        query2->next();
+            //        qDebug() << "prod_quantity = "+query2->value(0).toString();
+            //        qDebug() << "ttn_item_quantity = "+query->value(0).toString();
+            //        qDebug() << "prod_id = "+query->value(1).toString();
 
-        qDebug() << "prod_quantity = "+query2->value(0).toString();
+            int minus;
+            minus=(query2->value(0).toInt())-(query->value(0).toInt());
+            queryUpdate->prepare("UPDATE products SET prod_quantity=:prod_quantity  WHERE prod_id = :prod_id;");
+            queryUpdate->bindValue(":prod_quantity", QString::number(minus) );
+            queryUpdate->bindValue(":prod_id", query->value(1).toString() );
+            queryUpdate->exec();
+            //            qDebug() << "prod_quntity + ttn_item_quantity = " + QString::number(plus);
 
-        qDebug() << "ttn_item_quantity = "+query->value(0).toString();
-        qDebug() << "prod_id = "+query->value(1).toString();
-    }
-
-
-
-    if (ui->comboBox->currentIndex()==1){
-
-
-
-
-
-    }else{
-
-    }
-
+        }
     close();
 }
 
@@ -175,33 +160,6 @@ void create_ttn::on_pushButton_5_clicked()
     close();
 }
 
-
-
-
-void create_ttn::on_comboBox_currentIndexChanged(int index)
-{
-    if (ui->comboBox->currentIndex()==0){
-        ui->groupBox->setHidden(true);
-        ui->groupBox_2->setHidden(false);
-        ui->groupBox_2->move(0,130);
-        setFixedHeight(630);
-        ui->pushButton_4->move(340,580);
-        ui->pushButton_5->move(480,580);
-        moveToCenter();
-
-    }else{
-        if (ui->comboBox->currentIndex()!=0){
-           ui->groupBox_2->move(0,240);
-            ui->groupBox->setHidden(false);
-            ui->groupBox_2->setHidden(false);
-            setFixedHeight(735);
-
-          ui->pushButton_4->move(340,685);
-           ui->pushButton_5->move(480,685);
-        }
-    }
-}
-
 void create_ttn::moveToCenter()
 {
         QDesktopWidget desktop;
@@ -211,3 +169,13 @@ void create_ttn::moveToCenter()
         center.setY(center.y() - (this->height()/2));  // .. половину высоты
         move(center);
 }
+
+
+
+
+
+void create_ttn::on_comboBox_2_currentIndexChanged(int index)
+{
+    cust_id=index;
+}
+

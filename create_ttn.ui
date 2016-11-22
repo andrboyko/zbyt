@@ -2,6 +2,9 @@
 <ui version="4.0">
  <class>create_ttn</class>
  <widget class="QWidget" name="create_ttn">
+  <property name="windowModality">
+   <enum>Qt::ApplicationModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -29,7 +32,7 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>Реэстрація Накладної</string>
+   <string>Реєстрація Накладної</string>
   </property>
   <property name="windowIcon">
    <iconset resource="ico.qrc">
@@ -106,7 +109,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Відмінити</string>
+    <string>Скасувати</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_2">
@@ -196,6 +199,9 @@
    </property>
    <property name="cursorPosition">
     <number>0</number>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
    </property>
    <property name="clearButtonEnabled">
     <bool>false</bool>

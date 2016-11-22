@@ -38,9 +38,9 @@ private slots:
 
     void on_pushButton_5_clicked();
 
-    void on_comboBox_currentIndexChanged(int index);
-
     void moveToCenter();
+
+    void on_comboBox_2_currentIndexChanged(int index);
 
 private:
     Ui::create_ttn *ui;
@@ -48,9 +48,12 @@ private:
     choise_goods *goods;
     QSqlQuery *query;
     QSqlQuery *query2;
-    QString index_prod;
+    QSqlQuery *queryUpdate;
+    int index_prod;
     double sum;
     QShortcut *keyCancel;
+    int operation_id;
+    int cust_id;
 
 
 };

@@ -7,8 +7,13 @@
 #include <QDebug>
 #include <QDate>
 #include <create_ttn.h>
-#include <prod_price.h>
-#include <customers.h>
+#include <custumers_add.h>
+#include <prod_add.h>
+#include <prod_edit.h>
+#include <custumers_edit.h>
+#include <QSortFilterProxyModel>
+#include <QMessageBox>
+#include <prod_coming.h>
 
 
 
@@ -27,10 +32,10 @@ public slots:
     void on_tableView_clicked(const QModelIndex &index);
     void on_comboBox_currentIndexChanged(int index);
     void on_spinBox_valueChanged(int arg1);
-    void RefreshTabl_ttn();
+
 
 signals:
-    void sendData(int temp_nom);
+    void sendData(int i);
 
 
 
@@ -46,20 +51,36 @@ private slots:
 
     void on_lineEdit_textChanged(const QString &arg1);
 
-    void on_pushButton_11_clicked();
-
     void on_action_triggered();
 
     void on_action_2_triggered();
+
+    void RefreshTabl_prod();
+
+    void RefreshTabl_cust();
+
+    void on_pushButton_5_clicked();
+
+    void on_pushButton_6_clicked();
+
+    void RefreshTabl_ttn();
+
+    void RefreshTabl_coming();
+
+    void on_pushButton_10_clicked();
 
 private:
     Ui::MainWindow *ui;
     QSqlQueryModel *model;
     create_ttn *createttn;
+    prod_coming *prodcoming;
     QSqlQuery *query;
-    prod_price *prodprice;
-    customers *cust;
-    int index_ttn;
+    prod_add *prodadd;
+    prod_edit *prodedit;
+    custumers_add *cust_add;
+    custumers_edit *cust_edit;
+    int index_table;
+    QSortFilterProxyModel * proxyModel;
 };
 
 #endif // MAINWINDOW_H

@@ -116,35 +116,9 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_11">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>58</width>
-          <height>48</height>
-         </size>
-        </property>
-        <property name="icon">
-         <iconset resource="ico.qrc">
-          <normaloff>:/ico/kghostview_3262.ico</normaloff>:/ico/kghostview_3262.ico</iconset>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>40</width>
-          <height>40</height>
-         </size>
-        </property>
-        <property name="flat">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
        <widget class="QPushButton" name="pushButton_5">
         <property name="enabled">
-         <bool>false</bool>
+         <bool>true</bool>
         </property>
         <property name="maximumSize">
          <size>
@@ -158,6 +132,32 @@
         <property name="icon">
          <iconset resource="ico.qrc">
           <normaloff>:/ico/edit.ico</normaloff>:/ico/edit.ico</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>40</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="flat">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton_11">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>58</width>
+          <height>48</height>
+         </size>
+        </property>
+        <property name="icon">
+         <iconset resource="ico.qrc">
+          <normaloff>:/ico/kghostview_3262.ico</normaloff>:/ico/kghostview_3262.ico</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -420,12 +420,12 @@
         </property>
         <widget class="QPushButton" name="pushButton_6">
          <property name="enabled">
-          <bool>false</bool>
+          <bool>true</bool>
          </property>
          <property name="geometry">
           <rect>
            <x>5</x>
-           <y>30</y>
+           <y>85</y>
            <width>181</width>
            <height>41</height>
           </rect>
@@ -461,12 +461,12 @@
         </widget>
         <widget class="QPushButton" name="pushButton_10">
          <property name="enabled">
-          <bool>false</bool>
+          <bool>true</bool>
          </property>
          <property name="geometry">
           <rect>
-           <x>6</x>
-           <y>80</y>
+           <x>5</x>
+           <y>30</y>
            <width>180</width>
            <height>41</height>
           </rect>
@@ -550,6 +550,9 @@
            <height>28</height>
           </size>
          </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
          <property name="autoDefault">
           <bool>false</bool>
          </property>
@@ -590,6 +593,9 @@
            <width>28</width>
            <height>28</height>
           </size>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
          </property>
          <property name="autoDefault">
           <bool>false</bool>
@@ -667,11 +673,19 @@
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="action">
+   <property name="icon">
+    <iconset resource="ico.qrc">
+     <normaloff>:/ico/dolly.ico</normaloff>:/ico/dolly.ico</iconset>
+   </property>
    <property name="text">
     <string>Продукція</string>
    </property>
   </action>
   <action name="action_2">
+   <property name="icon">
+    <iconset resource="ico.qrc">
+     <normaloff>:/ico/contacts.ico</normaloff>:/ico/contacts.ico</iconset>
+   </property>
    <property name="text">
     <string>Замовники</string>
    </property>
@@ -680,7 +694,6 @@
  <tabstops>
   <tabstop>pushButton</tabstop>
   <tabstop>pushButton_2</tabstop>
-  <tabstop>pushButton_11</tabstop>
   <tabstop>pushButton_5</tabstop>
   <tabstop>pushButton_3</tabstop>
   <tabstop>comboBox</tabstop>
