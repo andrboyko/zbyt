@@ -7,13 +7,12 @@
 #include <QDebug>
 #include <QDate>
 #include <create_ttn.h>
-#include <custumers_add.h>
-#include <prod_add.h>
-#include <prod_edit.h>
-#include <custumers_edit.h>
+#include <custumers.h>
+#include <products.h>
 #include <QSortFilterProxyModel>
 #include <QMessageBox>
 #include <prod_coming.h>
+#include <edit_ttn.h>
 
 
 
@@ -35,7 +34,7 @@ public slots:
 
 
 signals:
-    void sendData(int i);
+    void sendData(int i, bool e);
 
 
 
@@ -75,10 +74,9 @@ private:
     create_ttn *createttn;
     prod_coming *prodcoming;
     QSqlQuery *query;
-    prod_add *prodadd;
-    prod_edit *prodedit;
-    custumers_add *cust_add;
-    custumers_edit *cust_edit;
+    products *prod;
+    edit_ttn *editttn;
+    custumers *cust;
     int index_table;
     QSortFilterProxyModel * proxyModel;
 };

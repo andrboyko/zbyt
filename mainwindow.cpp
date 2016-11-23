@@ -11,17 +11,11 @@ MainWindow::MainWindow(QWidget *parent) :
     QRegExp exp("[0-9]{0,6}");
     ui->lineEdit->setValidator(new QRegExpValidator(exp, this));
 
-    ui->tableView->verticalHeader()->setVisible(false);
-    ui->tableView->setSortingEnabled(true);
-
-
     // показать ТТН за текущий месяц
     ui->comboBox->setCurrentIndex((QDate::currentDate().month())-1);
     ui->spinBox->setValue(QDate::currentDate().year());
     RefreshTabl_ttn();
     ui->pushButton_10->setChecked(true);
-
-
 }
 
 MainWindow::~MainWindow()
@@ -63,18 +57,22 @@ void MainWindow::on_pushButton_clicked()
 
     }else if(ui->pushButton_8->isChecked()){
 
-        prodadd = new prod_add;
-        prodadd->setWindowFlags(Qt::Tool);
-        connect(prodadd, SIGNAL(buttonclicked()), this, SLOT(RefreshTabl_prod()));
-        prodadd->show();
-        prodadd->activateWindow();
+        prod = new products;
+        prod->setWindowFlags(Qt::Tool);
+        connect(prod, SIGNAL(buttonclicked()), this, SLOT(RefreshTabl_prod()));
+        connect(this, SIGNAL(sendData(int, bool)), prod, SLOT(receiveData(int, bool)));
+        emit sendData(index_table, false);
+        prod->show();
+        prod->activateWindow();
 
     }else if(ui->pushButton_7->isChecked()){
-        cust_add = new custumers_add();
-        cust_add->setWindowFlags(Qt::Tool);
-        connect(cust_add, SIGNAL(buttonclicked()), this, SLOT(RefreshTabl_cust()));
-        cust_add->show();
-        cust_add->activateWindow();
+        cust = new custumers();
+        cust->setWindowFlags(Qt::Tool);
+        connect(cust, SIGNAL(buttonclicked()), this, SLOT(RefreshTabl_cust()));
+        connect(this, SIGNAL(sendData(int, bool)), cust, SLOT(receiveData(int, bool)));
+        emit sendData(index_table, false);
+        cust->show();
+        cust->activateWindow();
 
     }else if (ui->pushButton_6->isChecked()){
         prodcoming = new prod_coming;
@@ -89,27 +87,34 @@ void MainWindow::on_pushButton_5_clicked()
 {
     if(ui->pushButton_8->isChecked()){
 
-        prodedit = new prod_edit;
-        prodedit->setWindowFlags(Qt::Tool);
-        connect(prodedit, SIGNAL(buttonclicked()), this, SLOT(RefreshTabl_prod()));
-        connect(this, SIGNAL(sendData(int)), prodedit, SLOT(recieveData(int)));
-        emit sendData(index_table);
-        prodedit->show();
-        prodedit->activateWindow();
-
+        prod = new products;
+        prod->setWindowFlags(Qt::Tool);
+        connect(prod, SIGNAL(buttonclicked()), this, SLOT(RefreshTabl_prod()));
+        connect(this, SIGNAL(sendData(int, bool)), prod, SLOT(receiveData(int, bool)));
+        emit sendData(index_table, true);
+        prod->show();
+        prod->activateWindow();
     }else if(ui->pushButton_7->isChecked()){
-        cust_edit = new custumers_edit();
-        cust_edit->setWindowFlags(Qt::Tool);
-        connect(this, SIGNAL(sendData(int)), cust_edit, SLOT(reciveData(int)));
-        connect(cust_edit, SIGNAL(buttonclicked()), this, SLOT(RefreshTabl_cust()));
 
-        emit sendData(index_table);
-        cust_edit->show();
-        cust_edit->activateWindow();
+        cust = new custumers();
+        cust->setWindowFlags(Qt::Tool);
+        connect(cust, SIGNAL(buttonclicked()), this, SLOT(RefreshTabl_cust()));
+        connect(this, SIGNAL(sendData(int, bool)), cust, SLOT(receiveData(int, bool)));
+        emit sendData(index_table, true);
+        cust->show();
+        cust->activateWindow();
+    }else if (ui->pushButton_10->isChecked()){
+        editttn = new edit_ttn();
+        editttn->setWindowFlags(Qt::Dialog | Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowCloseButtonHint);
+        connect(this, SIGNAL(sendData(int)), editttn, SLOT(reciveData(int)));
+//        connect(cust_edit, SIGNAL(buttonclicked()), this, SLOT(RefreshTabl_cust()));
+        emit sendData(index_table, true);
+        editttn->show();
+        editttn->activateWindow();
     }
 }
 
-//Удалить запись накладной
+// Кнопка Удалить
 void MainWindow::on_pushButton_2_clicked()
 {
 
@@ -131,7 +136,14 @@ void MainWindow::on_pushButton_2_clicked()
             query->prepare("DELETE FROM ttn_items WHERE ttn_id = :ttn_id");
             query->bindValue(":ttn_id", index_table);
             query->exec();
+
+            if (ui->pushButton_6->isChecked()){
             RefreshTabl_coming();
+            }else{
+                RefreshTabl_ttn();
+            }
+
+
         }else {
             // do something else
         }
@@ -145,13 +157,13 @@ void MainWindow::on_pushButton_6_clicked()
 {
     ui->comboBox->setVisible(true);
     ui->spinBox->setVisible(true);
+    ui->label->setVisible(true);
+    ui->lineEdit->setVisible(true);
     ui->pushButton_8->setChecked(false);
     ui->pushButton_7->setChecked(false);
     ui->pushButton_10->setChecked(false);
     ui->pushButton_6->setChecked(true);
     RefreshTabl_coming();
-
-
 }
 
 // Кнопка продукты
@@ -159,6 +171,8 @@ void MainWindow::on_pushButton_8_clicked()
 {
     ui->comboBox->setVisible(false);
     ui->spinBox->setVisible(false);
+    ui->label->setVisible(false);
+    ui->lineEdit->setVisible(false);
     ui->pushButton_7->setChecked(false);
     ui->pushButton_6->setChecked(false);
     ui->pushButton_10->setChecked(false);
@@ -169,6 +183,8 @@ void MainWindow::on_pushButton_8_clicked()
 // Кнопка заказчики
 void MainWindow::on_pushButton_7_clicked()
 {
+    ui->label->setVisible(false);
+    ui->lineEdit->setVisible(false);
     ui->comboBox->setVisible(false);
     ui->spinBox->setVisible(false);
     ui->pushButton_8->setChecked(false);
@@ -181,6 +197,8 @@ void MainWindow::on_pushButton_7_clicked()
 // Кнопка Збут
 void MainWindow::on_pushButton_10_clicked()
 {
+    ui->label->setVisible(true);
+    ui->lineEdit->setVisible(true);
     ui->comboBox->setVisible(true);
     ui->spinBox->setVisible(true);
     ui->pushButton_8->setChecked(false);
@@ -237,7 +255,7 @@ void MainWindow::RefreshTabl_ttn()
      year=ui->spinBox->value();
 
      model = new QSqlQueryModel;
-     model->setQuery("select ttn_id, operation_name, cust_name, (SELECT sum(ttn_item_quantity*ttn_item_price)FROM ttn_items where ttn.ttn_id = ttn_items.ttn_id), ttn_date FROM ttn, operations, custumers where ttn.operation_id = operations.operation_id and ttn.cust_id = custumers.cust_id and NOT (ttn.operation_id = 1) and year(ttn_date) =" + QString::number(year) + " and month(ttn_date)=" +QString::number(month+1)+";");
+     model->setQuery("select ttn_id, operation_name, cust_name, sum, ttn_date FROM ttn, operations, custumers where ttn.operation_id = operations.operation_id and ttn.cust_id = custumers.cust_id and NOT (ttn.operation_id = 1) and year(ttn_date) =" + QString::number(year) + " and month(ttn_date)=" +QString::number(month+1)+";");
      proxyModel = new QSortFilterProxyModel(this);
      proxyModel->setSourceModel(model);
      proxyModel->sort(0, Qt::DescendingOrder);
@@ -264,7 +282,7 @@ void MainWindow::RefreshTabl_coming()
      year=ui->spinBox->value();
 
      model = new QSqlQueryModel;
-     model->setQuery("select ttn_id, operation_name, cust_name,(SELECT sum(ttn_item_quantity*ttn_item_price)FROM ttn_items where ttn.ttn_id = ttn_items.ttn_id), ttn_date FROM ttn, operations, custumers where ttn.operation_id = operations.operation_id and ttn.cust_id = custumers.cust_id and ttn.operation_id = 1 and year(ttn_date) =" + QString::number(year) + " and month(ttn_date)=" +QString::number(month+1)+";");
+     model->setQuery("select ttn_id, operation_name, cust_name, sum, ttn_date FROM ttn, operations, custumers where ttn.operation_id = operations.operation_id and ttn.cust_id = custumers.cust_id and ttn.operation_id = 1 and year(ttn_date) =" + QString::number(year) + " and month(ttn_date)=" +QString::number(month+1)+";");
      proxyModel = new QSortFilterProxyModel(this);
      proxyModel->setSourceModel(model);
      proxyModel->sort(0, Qt::DescendingOrder);

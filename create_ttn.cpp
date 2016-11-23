@@ -44,7 +44,7 @@ create_ttn::~create_ttn()
 {
    delete ui;
 }
-
+// добавить товары
 void create_ttn::on_pushButton_clicked()
 {
     goods = new choise_goods;
@@ -179,3 +179,8 @@ void create_ttn::on_comboBox_2_currentIndexChanged(int index)
     cust_id=index;
 }
 
+
+void create_ttn::on_comboBox_currentIndexChanged(int index)
+{
+    operation_id=index;
+}

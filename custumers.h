@@ -1,5 +1,5 @@
-#ifndef CUSTUMERS_ADD_H
-#define CUSTUMERS_ADD_H
+#ifndef CUSTUMERS_H
+#define CUSTUMERS_H
 
 #include <QWidget>
 #include <QSqlQuery>
@@ -9,16 +9,16 @@
 #include <QShortcut>
 
 namespace Ui {
-class custumers_add;
+class custumers;
 }
 
-class custumers_add : public QWidget
+class custumers : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit custumers_add(QWidget *parent = 0);
-    ~custumers_add();
+    explicit custumers(QWidget *parent = 0);
+    ~custumers();
 
 signals:
     void buttonclicked();
@@ -26,11 +26,15 @@ signals:
 private slots:
     void on_pushButton_clicked();
 
+    void receiveData(int i, bool e);
+
 private:
-    Ui::custumers_add *ui;
+    Ui::custumers *ui;
     QSqlQuery *query;
     QShortcut *keyCancel;
+    int index_table;
+    bool edit;
 
 };
 
-#endif // CUSTUMERS_ADD_H
+#endif // CUSTUMERS_H

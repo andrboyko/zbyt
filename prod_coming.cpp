@@ -87,7 +87,8 @@ void prod_coming::on_pushButton_4_clicked()
     query2 = new QSqlQuery();
     queryUpdate = new QSqlQuery;
 
-    query->prepare("INSERT INTO ttn(ttn_date, cust_id, operation_id)VALUES(:ttn_date, 0, 1);");
+    query->prepare("INSERT INTO ttn(ttn_date, cust_id, operation_id, sum)VALUES(:ttn_date, 0, 1, (SELECT sum(ttn_item_quantity*ttn_item_price) FROM zbyt.ttn_items WHERE ttn_id = :ttn_id));");
+    query->bindValue(":ttn_id", ui->lineEdit->text());
     query->bindValue(":ttn_date", ui->dateEdit->text());
     query->exec();
     PushB4();
@@ -113,5 +114,14 @@ void prod_coming::on_pushButton_4_clicked()
             queryUpdate->exec();
             //            qDebug() << "prod_quntity + ttn_item_quantity = " + QString::number(plus);
         }
+    close();
+}
+
+void prod_coming::on_pushButton_5_clicked()
+{
+    query = new QSqlQuery();
+    query->prepare("DELETE FROM ttn_items WHERE ttn_id = :ttn_id");
+    query->bindValue(":ttn_id", ui->lineEdit->text().toInt());
+    query->exec();
     close();
 }

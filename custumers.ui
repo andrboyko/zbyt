@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>custumers_edit</class>
- <widget class="QWidget" name="custumers_edit">
+ <class>custumers</class>
+ <widget class="QWidget" name="custumers">
   <property name="windowModality">
    <enum>Qt::ApplicationModal</enum>
   </property>
@@ -31,8 +31,11 @@
     <pointsize>12</pointsize>
    </font>
   </property>
+  <property name="focusPolicy">
+   <enum>Qt::NoFocus</enum>
+  </property>
   <property name="windowTitle">
-   <string>Редагування</string>
+   <string>Додати замовника</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
@@ -91,11 +94,11 @@
       </size>
      </property>
      <property name="text">
-      <string>Редагувати</string>
+      <string>Додати</string>
      </property>
      <property name="icon">
       <iconset resource="ico.qrc">
-       <normaloff>:/ico/edit.ico</normaloff>:/ico/edit.ico</iconset>
+       <normaloff>:/ico/Button Add.ico</normaloff>:/ico/Button Add.ico</iconset>
      </property>
     </widget>
    </item>

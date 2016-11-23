@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>prod_add</class>
- <widget class="QWidget" name="prod_add">
+ <class>products</class>
+ <widget class="QWidget" name="products">
   <property name="windowModality">
    <enum>Qt::ApplicationModal</enum>
   </property>
@@ -26,7 +26,7 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>Новий Виріб</string>
+   <string>Додати</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="4" column="1">

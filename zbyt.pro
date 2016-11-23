@@ -17,32 +17,29 @@ SOURCES += main.cpp\
     create_ttn.cpp \
     choise_goods.cpp \
     mainwindow.cpp \
-    prod_add.cpp \
-    custumers_add.cpp \
-    custumers_edit.cpp \
-    prod_edit.cpp \
-    prod_coming.cpp
+    prod_coming.cpp \
+    edit_ttn.cpp \
+    products.cpp \
+    custumers.cpp
 
 HEADERS  += \
     create_ttn.h \
     choise_goods.h \
     mainwindow.h \
-    prod_add.h \
-    custumers_add.h \
-    custumers_edit.h \
-    prod_edit.h \
     login.h \
-    prod_coming.h
+    prod_coming.h \
+    edit_ttn.h \
+    products.h \
+    custumers.h
 
 FORMS    += login.ui \
     create_ttn.ui \
     choise_goods.ui \
     mainwindow.ui \
-    prod_add.ui \
-    custumers_add.ui \
-    custumers_edit.ui \
-    prod_edit.ui \
-    prod_coming.ui
+    prod_coming.ui \
+    edit_ttn.ui \
+    products.ui \
+    custumers.ui
 
 RESOURCES += \
     ico.qrc
