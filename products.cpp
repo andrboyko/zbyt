@@ -16,7 +16,6 @@ products::products(QWidget *parent) :
     model->setQuery("select units_name, units_id FROM units;");
     ui->comboBox->setModel(model);
     ui->comboBox->setModelColumn(0);
-    ui->comboBox->setMaxVisibleItems(ui->comboBox->count());
 
     model = new QSqlQueryModel(this);
     model->setQuery("select type_name, prod_group_id FROM prod_group;");
@@ -94,19 +93,34 @@ void products::receiveData(int i, bool e)
     }
 
     if(edit==true){
-    query = new QSqlQuery();
-    query->exec("SELECT cipher, prod_name, prod_price_retail, prod_price_barter, prod_price_wholesale, prod_date FROM products WHERE prod_id  = '"+QString::number(index_table) +"';");
-    while (query->next())
-    {
-       ui->lineEdit->setText(query->value(0).toString());
-       ui->lineEdit_2->setText(query->value(1).toString());
-       ui->doubleSpinBox->setValue(query->value(2).toInt());
-       ui->doubleSpinBox_2->setValue(query->value(3).toDouble());
-       ui->doubleSpinBox_3->setValue(query->value(4).toDouble());
-       ui->dateEdit->setDate(query->value(5).toDate());
-    }
+        query = new QSqlQuery();
+        query->exec("SELECT cipher, prod_name, prod_price_retail, prod_price_barter, prod_price_wholesale, prod_date FROM products WHERE prod_id  = '"+QString::number(index_table) +"';");
+
+        while (query->next())
+        {
+            ui->lineEdit->setText(query->value(0).toString());
+            ui->lineEdit_2->setText(query->value(1).toString());
+            ui->doubleSpinBox->setValue(query->value(2).toInt());
+            ui->doubleSpinBox_2->setValue(query->value(3).toDouble());
+            ui->doubleSpinBox_3->setValue(query->value(4).toDouble());
+            ui->dateEdit->setDate(query->value(5).toDate());
+        }
+
+        query->exec("SELECT units.units_name FROM products, units WHERE products.prod_id ="+QString::number(index_table)+" and units.units_id = products.units_id;");
+        while (query->next())
+        {
+            ui->comboBox->setCurrentText(query->value(0).toString());
+        }
+
+        query->exec("SELECT prod_group.type_name FROM products, prod_group WHERE products.prod_id ="+QString::number(index_table)+" and prod_group.prod_group_id = products.prod_group_id;");
+        while (query->next())
+        {
+            ui->comboBox_2->setCurrentText(query->value(0).toString());
+        }
     }
 }
+
+
 
 void products::on_comboBox_currentIndexChanged(int index)
 {

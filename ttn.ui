@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>edit_ttn</class>
- <widget class="QWidget" name="edit_ttn">
+ <class>ttn</class>
+ <widget class="QWidget" name="ttn">
   <property name="windowModality">
    <enum>Qt::ApplicationModal</enum>
   </property>
@@ -22,7 +22,7 @@
   <property name="maximumSize">
    <size>
     <width>645</width>
-    <height>16777215</height>
+    <height>718</height>
    </size>
   </property>
   <property name="font">
@@ -32,13 +32,43 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Реєстрація Накладної</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="ico.qrc">
+    <normaloff>:/ico/arrowup.ico</normaloff>:/ico/arrowup.ico</iconset>
+  </property>
+  <widget class="Line" name="line">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>2</y>
+     <width>651</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="Line" name="line_2">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>32</y>
+     <width>651</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
   <widget class="QLabel" name="label_8">
    <property name="geometry">
     <rect>
      <x>190</x>
-     <y>8</y>
+     <y>10</y>
      <width>241</width>
      <height>31</height>
     </rect>
@@ -50,20 +80,7 @@
     </font>
    </property>
    <property name="text">
-    <string>Редагування</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label">
-   <property name="geometry">
-    <rect>
-     <x>6</x>
-     <y>88</y>
-     <width>83</width>
-     <height>19</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Накладна №</string>
+    <string>РЕЄСТРАЦІЯ НАКЛАДНОЇ</string>
    </property>
   </widget>
   <widget class="QPushButton" name="pushButton_4">
@@ -73,7 +90,7 @@
    <property name="geometry">
     <rect>
      <x>370</x>
-     <y>676</y>
+     <y>678</y>
      <width>125</width>
      <height>30</height>
     </rect>
@@ -82,24 +99,11 @@
     <string>ОК</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_3">
-   <property name="geometry">
-    <rect>
-     <x>6</x>
-     <y>48</y>
-     <width>118</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Вид переміщення</string>
-   </property>
-  </widget>
   <widget class="QPushButton" name="pushButton_5">
    <property name="geometry">
     <rect>
      <x>510</x>
-     <y>676</y>
+     <y>678</y>
      <width>125</width>
      <height>30</height>
     </rect>
@@ -108,11 +112,119 @@
     <string>Скасувати</string>
    </property>
   </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>290</x>
+     <y>90</y>
+     <width>32</width>
+     <height>19</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Дата</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="comboBox">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>50</y>
+     <width>311</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="currentIndex">
+    <number>-1</number>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>6</x>
+     <y>90</y>
+     <width>83</width>
+     <height>19</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Накладна №</string>
+   </property>
+  </widget>
+  <widget class="QDateEdit" name="dateEdit">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>340</x>
+     <y>90</y>
+     <width>101</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="wrapping">
+    <bool>false</bool>
+   </property>
+   <property name="buttonSymbols">
+    <enum>QAbstractSpinBox::UpDownArrows</enum>
+   </property>
+   <property name="specialValueText">
+    <string/>
+   </property>
+   <property name="displayFormat">
+    <string>yyyy.MM.dd</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEdit">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>90</y>
+     <width>111</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="inputMask">
+    <string/>
+   </property>
+   <property name="maxLength">
+    <number>32767</number>
+   </property>
+   <property name="cursorPosition">
+    <number>0</number>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
+   <property name="clearButtonEnabled">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>6</x>
+     <y>50</y>
+     <width>118</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Вид переміщення</string>
+   </property>
+  </widget>
   <widget class="QGroupBox" name="groupBox">
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>118</y>
+     <y>120</y>
      <width>644</width>
      <height>111</height>
     </rect>
@@ -199,24 +311,11 @@
     </property>
    </widget>
   </widget>
-  <widget class="Line" name="line_2">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>30</y>
-     <width>651</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="orientation">
-    <enum>Qt::Horizontal</enum>
-   </property>
-  </widget>
   <widget class="QGroupBox" name="groupBox_2">
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>228</y>
+     <y>230</y>
      <width>646</width>
      <height>441</height>
     </rect>
@@ -329,102 +428,20 @@
     </property>
    </widget>
   </widget>
-  <widget class="Line" name="line">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>651</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="orientation">
-    <enum>Qt::Horizontal</enum>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_2">
-   <property name="geometry">
-    <rect>
-     <x>290</x>
-     <y>88</y>
-     <width>32</width>
-     <height>19</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Дата</string>
-   </property>
-  </widget>
-  <widget class="QDateEdit" name="dateEdit">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
-   <property name="geometry">
-    <rect>
-     <x>340</x>
-     <y>88</y>
-     <width>101</width>
-     <height>25</height>
-    </rect>
-   </property>
-   <property name="wrapping">
-    <bool>false</bool>
-   </property>
-   <property name="buttonSymbols">
-    <enum>QAbstractSpinBox::UpDownArrows</enum>
-   </property>
-   <property name="specialValueText">
-    <string/>
-   </property>
-   <property name="displayFormat">
-    <string>yyyy.MM.dd</string>
-   </property>
-  </widget>
-  <widget class="QComboBox" name="comboBox">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
-   <property name="geometry">
-    <rect>
-     <x>130</x>
-     <y>48</y>
-     <width>311</width>
-     <height>26</height>
-    </rect>
-   </property>
-   <property name="currentIndex">
-    <number>-1</number>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="lineEdit">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
-   <property name="geometry">
-    <rect>
-     <x>130</x>
-     <y>88</y>
-     <width>111</width>
-     <height>25</height>
-    </rect>
-   </property>
-   <property name="inputMask">
-    <string/>
-   </property>
-   <property name="maxLength">
-    <number>32767</number>
-   </property>
-   <property name="cursorPosition">
-    <number>0</number>
-   </property>
-   <property name="readOnly">
-    <bool>true</bool>
-   </property>
-   <property name="clearButtonEnabled">
-    <bool>false</bool>
-   </property>
-  </widget>
  </widget>
+ <tabstops>
+  <tabstop>lineEdit</tabstop>
+  <tabstop>dateEdit</tabstop>
+  <tabstop>comboBox</tabstop>
+  <tabstop>comboBox_2</tabstop>
+  <tabstop>lineEdit_3</tabstop>
+  <tabstop>lineEdit_2</tabstop>
+  <tabstop>tableView</tabstop>
+  <tabstop>pushButton</tabstop>
+  <tabstop>pushButton_3</tabstop>
+  <tabstop>pushButton_4</tabstop>
+  <tabstop>pushButton_5</tabstop>
+ </tabstops>
  <resources>
   <include location="ico.qrc"/>
  </resources>

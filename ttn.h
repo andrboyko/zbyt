@@ -1,5 +1,5 @@
-#ifndef CREATE_TTN_H
-#define CREATE_TTN_H
+#ifndef TTN_H
+#define TTN_H
 
 #include <QWidget>
 #include <QSqlQueryModel>
@@ -8,16 +8,16 @@
 #include <QDesktopWidget>
 #include <QShortcut>
 namespace Ui {
-class create_ttn;
+class ttn;
 }
 
-class create_ttn : public QWidget
+class ttn : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit create_ttn(QWidget *parent = 0);
-    ~create_ttn();
+    explicit ttn(QWidget *parent = 0);
+    ~ttn();
 
 signals:
     void sendData(int r_ttn_id);
@@ -44,8 +44,10 @@ private slots:
 
     void on_comboBox_currentIndexChanged(int index);
 
+    void receiveData(int i, bool e);
+
 private:
-    Ui::create_ttn *ui;
+    Ui::ttn *ui;
     QSqlQueryModel *model;
     choise_goods *goods;
     QSqlQuery *query;
@@ -56,8 +58,10 @@ private:
     QShortcut *keyCancel;
     int operation_id;
     int cust_id;
+    int index_table;
+    bool edit;
 
 
 };
 
-#endif // CREATE_TTN_H
+#endif // TTN_H

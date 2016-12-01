@@ -14,32 +14,29 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         login.cpp \
-    create_ttn.cpp \
     choise_goods.cpp \
     mainwindow.cpp \
     prod_coming.cpp \
-    edit_ttn.cpp \
     products.cpp \
-    custumers.cpp
+    custumers.cpp \
+    ttn.cpp
 
 HEADERS  += \
-    create_ttn.h \
     choise_goods.h \
     mainwindow.h \
     login.h \
     prod_coming.h \
-    edit_ttn.h \
     products.h \
-    custumers.h
+    custumers.h \
+    ttn.h
 
 FORMS    += login.ui \
-    create_ttn.ui \
     choise_goods.ui \
     mainwindow.ui \
     prod_coming.ui \
-    edit_ttn.ui \
     products.ui \
-    custumers.ui
+    custumers.ui \
+    ttn.ui
 
 RESOURCES += \
     ico.qrc

@@ -6,14 +6,12 @@
 #include <QSqlQuery>
 #include <QDebug>
 #include <QDate>
-#include <create_ttn.h>
+#include <ttn.h>
 #include <custumers.h>
 #include <products.h>
 #include <QSortFilterProxyModel>
 #include <QMessageBox>
 #include <prod_coming.h>
-#include <edit_ttn.h>
-
 
 
 namespace Ui {
@@ -71,11 +69,10 @@ private slots:
 private:
     Ui::MainWindow *ui;
     QSqlQueryModel *model;
-    create_ttn *createttn;
+    ttn *t_t_n;
     prod_coming *prodcoming;
     QSqlQuery *query;
     products *prod;
-    edit_ttn *editttn;
     custumers *cust;
     int index_table;
     QSortFilterProxyModel * proxyModel;

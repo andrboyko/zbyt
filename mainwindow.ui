@@ -22,6 +22,12 @@
     <height>16777215</height>
    </size>
   </property>
+  <property name="font">
+   <font>
+    <family>Times New Roman</family>
+    <pointsize>12</pointsize>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>Збут</string>
   </property>
@@ -475,7 +481,7 @@
           <bool>false</bool>
          </property>
          <property name="text">
-          <string>Збут</string>
+          <string>Отгрузка</string>
          </property>
          <property name="icon">
           <iconset resource="ico.qrc">
@@ -650,7 +656,7 @@
      <x>0</x>
      <y>0</y>
      <width>950</width>
-     <height>21</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">
@@ -674,6 +680,7 @@
     <property name="title">
      <string>Отчеты</string>
     </property>
+    <addaction name="action_3"/>
    </widget>
    <widget class="QMenu" name="menu_6">
     <property name="title">
@@ -703,6 +710,11 @@
    </property>
    <property name="text">
     <string>Замовники</string>
+   </property>
+  </action>
+  <action name="action_3">
+   <property name="text">
+    <string>Звіти</string>
    </property>
   </action>
  </widget>

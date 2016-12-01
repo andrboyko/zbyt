@@ -16,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->spinBox->setValue(QDate::currentDate().year());
     RefreshTabl_ttn();
     ui->pushButton_10->setChecked(true);
+    index_table = 0;
 }
 
 MainWindow::~MainWindow()
@@ -48,13 +49,17 @@ void MainWindow::on_tableView_clicked(const QModelIndex &index)
 // Кнопка плюсик
 void MainWindow::on_pushButton_clicked()
 {
+    // если выбрано отгрузка
     if (ui->pushButton_10->isChecked()){
 
-            createttn = new create_ttn();
-            createttn->setWindowFlags(Qt::Dialog | Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowCloseButtonHint);
-            connect(createttn, SIGNAL(PushB4()), this, SLOT(RefreshTabl_ttn()));
-            createttn->show();
+            t_t_n = new ttn();
+            t_t_n->setWindowFlags(Qt::Dialog | Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowCloseButtonHint);
+            connect(t_t_n, SIGNAL(PushB4()), this, SLOT(RefreshTabl_ttn()));
+            connect(this, SIGNAL(sendData(int, bool)), t_t_n, SLOT(receiveData(int, bool)));
+            emit sendData(index_table, false);
+            t_t_n->show();
 
+    // если выбрано Продукция
     }else if(ui->pushButton_8->isChecked()){
 
         prod = new products;
@@ -65,6 +70,7 @@ void MainWindow::on_pushButton_clicked()
         prod->show();
         prod->activateWindow();
 
+    // если выбрано заказчики
     }else if(ui->pushButton_7->isChecked()){
         cust = new custumers();
         cust->setWindowFlags(Qt::Tool);
@@ -74,6 +80,7 @@ void MainWindow::on_pushButton_clicked()
         cust->show();
         cust->activateWindow();
 
+    // если выбрано приход
     }else if (ui->pushButton_6->isChecked()){
         prodcoming = new prod_coming;
         prodcoming->setWindowFlags(Qt::Dialog | Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowCloseButtonHint);
@@ -85,6 +92,8 @@ void MainWindow::on_pushButton_clicked()
 // Кнопка редактировать
 void MainWindow::on_pushButton_5_clicked()
 {
+if(index_table!=0){
+    // если выбрано Продукция
     if(ui->pushButton_8->isChecked()){
 
         prod = new products;
@@ -94,8 +103,9 @@ void MainWindow::on_pushButton_5_clicked()
         emit sendData(index_table, true);
         prod->show();
         prod->activateWindow();
-    }else if(ui->pushButton_7->isChecked()){
 
+    // если выбрано заказчики
+    }else if(ui->pushButton_7->isChecked()){
         cust = new custumers();
         cust->setWindowFlags(Qt::Tool);
         connect(cust, SIGNAL(buttonclicked()), this, SLOT(RefreshTabl_cust()));
@@ -103,21 +113,28 @@ void MainWindow::on_pushButton_5_clicked()
         emit sendData(index_table, true);
         cust->show();
         cust->activateWindow();
+
+    // если выбрано отгрузка
     }else if (ui->pushButton_10->isChecked()){
-        editttn = new edit_ttn();
-        editttn->setWindowFlags(Qt::Dialog | Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowCloseButtonHint);
-        connect(this, SIGNAL(sendData(int)), editttn, SLOT(reciveData(int)));
-//        connect(cust_edit, SIGNAL(buttonclicked()), this, SLOT(RefreshTabl_cust()));
+
+        t_t_n = new ttn();
+        t_t_n->setWindowFlags(Qt::Dialog | Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowCloseButtonHint);
+        connect(this, SIGNAL(sendData(int, bool)), t_t_n, SLOT(receiveData(int, bool)));
+        connect(t_t_n, SIGNAL(PushB4()), this, SLOT(RefreshTabl_ttn()));
         emit sendData(index_table, true);
-        editttn->show();
-        editttn->activateWindow();
+        t_t_n->show();
+        t_t_n->activateWindow();
     }
+}else{
+
+    QMessageBox::information(this, "Увага", "Виберіть запис для редагування");
+}
 }
 
 // Кнопка Удалить
 void MainWindow::on_pushButton_2_clicked()
 {
-
+if (index_table!=0){
     if (ui->pushButton_6->isChecked()|| ui->pushButton_10->isChecked()){
         QMessageBox msgBox;
         msgBox.setWindowTitle("Увага");
@@ -150,6 +167,9 @@ void MainWindow::on_pushButton_2_clicked()
    }else{
          QMessageBox::information(this, "Увага", "Ви не можете видалити цей запис ");
     }
+}else{
+         QMessageBox::information(this, "Увага", "Виберіть запис для видалення ");
+}
 }
 
 // Кнопка Приход
@@ -164,6 +184,8 @@ void MainWindow::on_pushButton_6_clicked()
     ui->pushButton_10->setChecked(false);
     ui->pushButton_6->setChecked(true);
     RefreshTabl_coming();
+    index_table = 0;
+
 }
 
 // Кнопка продукты
@@ -178,6 +200,8 @@ void MainWindow::on_pushButton_8_clicked()
     ui->pushButton_10->setChecked(false);
     ui->pushButton_8->setChecked(true);
     RefreshTabl_prod();
+    index_table = 0;
+
 }
 
 // Кнопка заказчики
@@ -192,6 +216,8 @@ void MainWindow::on_pushButton_7_clicked()
     ui->pushButton_10->setChecked(false);
     ui->pushButton_7->setChecked(true);
     RefreshTabl_cust();
+    index_table = 0;
+
 }
 
 // Кнопка Збут
@@ -206,6 +232,8 @@ void MainWindow::on_pushButton_10_clicked()
     ui->pushButton_7->setChecked(false);
     ui->pushButton_10->setChecked(true);
     RefreshTabl_ttn();
+    index_table = 0;
+
 }
 
 // Поиск по номеру

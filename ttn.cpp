@@ -1,10 +1,10 @@
-#include "create_ttn.h"
-#include "ui_create_ttn.h"
+#include "ttn.h"
+#include "ui_ttn.h"
 
 
-create_ttn::create_ttn(QWidget *parent) :
+ttn::ttn(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::create_ttn)
+    ui(new Ui::ttn)
 {
     ui->setupUi(this);
 
@@ -40,12 +40,12 @@ create_ttn::create_ttn(QWidget *parent) :
         }
 }
 
-create_ttn::~create_ttn()
+ttn::~ttn()
 {
    delete ui;
 }
 // добавить товары
-void create_ttn::on_pushButton_clicked()
+void ttn::on_pushButton_clicked()
 {
     goods = new choise_goods;
     goods->setWindowFlags(Qt::Tool);
@@ -58,7 +58,7 @@ void create_ttn::on_pushButton_clicked()
 
 
 // обновление таблицы товаров
-void create_ttn::refreshTable_goods()
+void ttn::refreshTable_goods()
 {
     model = new QSqlQueryModel;
     model->setQuery("SELECT products.prod_id, cipher, prod_name, ttn_item_quantity, ttn_item_price, ttn_item_quantity*ttn_item_price FROM products, ttn_items WHERE ttn_items.prod_id = products.prod_id AND ttn_id="+ui->lineEdit->text()+";");
@@ -89,7 +89,7 @@ void create_ttn::refreshTable_goods()
 
 
 //видалити товар
-void create_ttn::on_pushButton_3_clicked()
+void ttn::on_pushButton_3_clicked()
 {
     query = new QSqlQuery();
     query->prepare("DELETE FROM ttn_items WHERE ttn_id = :ttn_id AND prod_id = :prod_id;");
@@ -100,14 +100,14 @@ void create_ttn::on_pushButton_3_clicked()
 }
 
 
-void create_ttn::on_tableView_clicked(const QModelIndex &index)
+void ttn::on_tableView_clicked(const QModelIndex &index)
 {
     index_prod = ui->tableView->model()->data(ui->tableView->model()->index(index.row(),0)).toInt();
 }
 
 
 //Запись накладной
-void create_ttn::on_pushButton_4_clicked()
+void ttn::on_pushButton_4_clicked()
 {
     query = new QSqlQuery();
     query2 = new QSqlQuery();
@@ -151,7 +151,7 @@ void create_ttn::on_pushButton_4_clicked()
 }
 
 //кнопка отмена
-void create_ttn::on_pushButton_5_clicked()
+void ttn::on_pushButton_5_clicked()
 {
     query = new QSqlQuery();
     query->prepare("DELETE FROM ttn_items WHERE ttn_id = :ttn_id");
@@ -160,7 +160,7 @@ void create_ttn::on_pushButton_5_clicked()
     close();
 }
 
-void create_ttn::moveToCenter()
+void ttn::moveToCenter()
 {
         QDesktopWidget desktop;
         QRect rect = desktop.availableGeometry(desktop.primaryScreen()); // прямоугольник с размерами экрана
@@ -174,13 +174,44 @@ void create_ttn::moveToCenter()
 
 
 
-void create_ttn::on_comboBox_2_currentIndexChanged(int index)
+void ttn::on_comboBox_2_currentIndexChanged(int index)
 {
     cust_id=index;
 }
 
 
-void create_ttn::on_comboBox_currentIndexChanged(int index)
+void ttn::on_comboBox_currentIndexChanged(int index)
 {
     operation_id=index;
+}
+
+void ttn::receiveData(int i, bool e)
+{
+    index_table = i;
+    edit=e;
+
+    if(edit==true){
+        query = new QSqlQuery();
+        query->exec("SELECT ttn_date, cust_id, operation_id, by_whom, sum, umova  FROM ttn WHERE ttn_id="+QString::number(index_table)+";");
+        while (query->next())
+        {
+            ui->lineEdit->setText(QString::number(index_table));
+            ui->lineEdit_3->setText(query->value(5).toString());
+            ui->lineEdit_2->setText(query->value(3).toString());
+            ui->dateEdit->setDate(query->value(0).toDate());
+        }
+        query->exec("SELECT operations.operation_name FROM ttn, operations WHERE ttn.ttn_id="+QString::number(index_table)+" AND operations.operation_id = ttn.operation_id;");
+        while (query->next())
+        {
+            ui->comboBox->setCurrentText(query->value(0).toString());
+        }
+
+        query->exec("SELECT custumers.cust_name FROM ttn, custumers WHERE ttn.ttn_id="+QString::number(index_table)+" AND custumers.cust_id = ttn.cust_id;");
+        while (query->next())
+        {
+            ui->comboBox_2->setCurrentText(query->value(0).toString());
+        }
+
+     refreshTable_goods();
+   }
 }

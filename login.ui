@@ -25,6 +25,12 @@
     <height>120</height>
    </size>
   </property>
+  <property name="font">
+   <font>
+    <family>Times New Roman</family>
+    <pointsize>12</pointsize>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>Вход</string>
   </property>
@@ -100,7 +106,7 @@
    </property>
    <property name="font">
     <font>
-     <pointsize>10</pointsize>
+     <pointsize>12</pointsize>
     </font>
    </property>
    <property name="echoMode">
@@ -140,7 +146,7 @@
    </property>
    <property name="font">
     <font>
-     <pointsize>10</pointsize>
+     <pointsize>12</pointsize>
     </font>
    </property>
   </widget>

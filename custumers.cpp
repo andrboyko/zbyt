@@ -64,9 +64,11 @@ void custumers::receiveData(int i, bool e)
 
     if(edit==true){
         ui->pushButton->setText("Редагувати");
+        ui->lineEdit->setEnabled(false);
         setWindowTitle("Редагувати");
     }else{
         ui->pushButton->setText("Додати");
+        ui->lineEdit->setEnabled(true);
         setWindowTitle("Додати");
     }
 
