@@ -11,8 +11,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QRegExp exp("[0-9]{0,6}");
     ui->lineEdit->setValidator(new QRegExpValidator(exp, this));
 
-    // показать ТТН за текущий месяц
-    ui->comboBox->setCurrentIndex((QDate::currentDate().month())-1);
+    // показать ТТН за текущий год
     ui->spinBox->setValue(QDate::currentDate().year());
     RefreshTabl_ttn();
     ui->pushButton_10->setChecked(true);
@@ -51,17 +50,24 @@ void MainWindow::on_pushButton_clicked()
 {
     // если выбрано отгрузка
     if (ui->pushButton_10->isChecked()){
+        ui->comboBox->setCurrentIndex(0);
+        t_t_n = new ttn();
+        t_t_n->setWindowFlags(Qt::Dialog | Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowCloseButtonHint);
+        connect(t_t_n, SIGNAL(PushB4()), this, SLOT(RefreshTabl_ttn()));
+        connect(this, SIGNAL(sendData(int, bool)), t_t_n, SLOT(receiveData(int, bool)));
+        emit sendData(index_table, false);
+        t_t_n->show();
 
-            t_t_n = new ttn();
-            t_t_n->setWindowFlags(Qt::Dialog | Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowCloseButtonHint);
-            connect(t_t_n, SIGNAL(PushB4()), this, SLOT(RefreshTabl_ttn()));
-            connect(this, SIGNAL(sendData(int, bool)), t_t_n, SLOT(receiveData(int, bool)));
-            emit sendData(index_table, false);
-            t_t_n->show();
+        // если выбрано приход
+    }else if (ui->pushButton_6->isChecked()){
+        ui->comboBox->setCurrentIndex(0);
+        prodcoming = new prod_coming;
+        prodcoming->setWindowFlags(Qt::Dialog | Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowCloseButtonHint);
+        connect(prodcoming, SIGNAL(PushB4()), this, SLOT(RefreshTabl_coming()));
+        prodcoming->show();
 
-    // если выбрано Продукция
+        // если выбрано Продукция
     }else if(ui->pushButton_8->isChecked()){
-
         prod = new products;
         prod->setWindowFlags(Qt::Tool);
         connect(prod, SIGNAL(buttonclicked()), this, SLOT(RefreshTabl_prod()));
@@ -70,7 +76,7 @@ void MainWindow::on_pushButton_clicked()
         prod->show();
         prod->activateWindow();
 
-    // если выбрано заказчики
+        // если выбрано заказчики
     }else if(ui->pushButton_7->isChecked()){
         cust = new custumers();
         cust->setWindowFlags(Qt::Tool);
@@ -79,13 +85,6 @@ void MainWindow::on_pushButton_clicked()
         emit sendData(index_table, false);
         cust->show();
         cust->activateWindow();
-
-    // если выбрано приход
-    }else if (ui->pushButton_6->isChecked()){
-        prodcoming = new prod_coming;
-        prodcoming->setWindowFlags(Qt::Dialog | Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowCloseButtonHint);
-        connect(prodcoming, SIGNAL(PushB4()), this, SLOT(RefreshTabl_coming()));
-        prodcoming->show();
     }
 }
 
@@ -145,14 +144,11 @@ if (index_table!=0){
         msgBox.setDefaultButton(QMessageBox::No);
         msgBox.setButtonText(QMessageBox::Yes, "Так");
         msgBox.setButtonText(QMessageBox::No, "Ні");
-        if(msgBox.exec() == QMessageBox::Yes){
+        if(msgBox.exec() == QMessageBox::Yes)
+        {
             query = new QSqlQuery();
-            query->prepare("DELETE FROM ttn WHERE ttn_id = :ttn_id");
-            query->bindValue(":ttn_id", index_table);
-            query->exec();
-            query->prepare("DELETE FROM ttn_items WHERE ttn_id = :ttn_id");
-            query->bindValue(":ttn_id", index_table);
-            query->exec();
+            query->exec("DELETE FROM ttn_items WHERE ttn_id = " +QString::number(index_table)+ ";");
+            query->exec("DELETE FROM ttn WHERE ttn_id = " +QString::number(index_table)+ ";");
 
             if (ui->pushButton_6->isChecked()){
             RefreshTabl_coming();
@@ -185,6 +181,24 @@ void MainWindow::on_pushButton_6_clicked()
     ui->pushButton_6->setChecked(true);
     RefreshTabl_coming();
     index_table = 0;
+    ui->comboBox->setCurrentIndex(0);
+
+}
+
+// Кнопка Збут
+void MainWindow::on_pushButton_10_clicked()
+{
+    ui->label->setVisible(true);
+    ui->lineEdit->setVisible(true);
+    ui->comboBox->setVisible(true);
+    ui->spinBox->setVisible(true);
+    ui->pushButton_8->setChecked(false);
+    ui->pushButton_6->setChecked(false);
+    ui->pushButton_7->setChecked(false);
+    ui->pushButton_10->setChecked(true);
+    RefreshTabl_ttn();
+    index_table = 0;
+    ui->comboBox->setCurrentIndex(0);
 
 }
 
@@ -216,22 +230,6 @@ void MainWindow::on_pushButton_7_clicked()
     ui->pushButton_10->setChecked(false);
     ui->pushButton_7->setChecked(true);
     RefreshTabl_cust();
-    index_table = 0;
-
-}
-
-// Кнопка Збут
-void MainWindow::on_pushButton_10_clicked()
-{
-    ui->label->setVisible(true);
-    ui->lineEdit->setVisible(true);
-    ui->comboBox->setVisible(true);
-    ui->spinBox->setVisible(true);
-    ui->pushButton_8->setChecked(false);
-    ui->pushButton_6->setChecked(false);\
-    ui->pushButton_7->setChecked(false);
-    ui->pushButton_10->setChecked(true);
-    RefreshTabl_ttn();
     index_table = 0;
 
 }
@@ -277,74 +275,77 @@ void MainWindow::on_action_2_triggered()
 // обновить таблицу с накладными збут
 void MainWindow::RefreshTabl_ttn()
 {
-    int month;
-     int year;
-     month=ui->comboBox->currentIndex();
-     year=ui->spinBox->value();
+    model = new QSqlQueryModel;
+    proxyModel = new QSortFilterProxyModel(this);
 
-     model = new QSqlQueryModel;
-     model->setQuery("select ttn_id, operation_name, cust_name, sum, ttn_date FROM ttn, operations, custumers where ttn.operation_id = operations.operation_id and ttn.cust_id = custumers.cust_id and NOT (ttn.operation_id = 1) and year(ttn_date) =" + QString::number(year) + " and month(ttn_date)=" +QString::number(month+1)+";");
-     proxyModel = new QSortFilterProxyModel(this);
-     proxyModel->setSourceModel(model);
-     proxyModel->sort(0, Qt::DescendingOrder);
-     ui->tableView->setModel(proxyModel);
-     model->setHeaderData(0,Qt::Horizontal, "№ ТТН");
-     model->setHeaderData(1,Qt::Horizontal, "Вид");
-     model->setHeaderData(2,Qt::Horizontal, "Замовник");
-     model->setHeaderData(3,Qt::Horizontal, "Сума, грн.");
-     model->setHeaderData(4,Qt::Horizontal, "Дата");
-     ui->tableView->setColumnHidden(0,0);
-     ui->tableView->setColumnWidth(0,60);
-     ui->tableView->setColumnWidth(1,185);
-     ui->tableView->setColumnWidth(2,300);
-     ui->tableView->setColumnWidth(3,70);
-     ui->tableView->setColumnWidth(4,70);
+    if(ui->comboBox->currentIndex()!=0){
+        model->setQuery("select ttn_id, operation_name, cust_name, sum, ttn_date FROM ttn, operations, custumers where ttn.operation_id = operations.operation_id and ttn.cust_id = custumers.cust_id and NOT (ttn.operation_id = 1) and year(ttn_date) =" + QString::number(ui->spinBox->value()) + " and month(ttn_date)=" +QString::number(ui->comboBox->currentIndex())+";");
+    }else{
+        model->setQuery("select ttn_id, operation_name, cust_name, sum, ttn_date FROM ttn, operations, custumers where ttn.operation_id = operations.operation_id and ttn.cust_id = custumers.cust_id and NOT (ttn.operation_id = 1) and year(ttn_date) =" + QString::number(ui->spinBox->value()) + ";");
+    }
+    model->setHeaderData(0,Qt::Horizontal, "№ ТТН");
+    model->setHeaderData(1,Qt::Horizontal, "Вид");
+    model->setHeaderData(2,Qt::Horizontal, "Замовник");
+    model->setHeaderData(3,Qt::Horizontal, "Сума, грн.");
+    model->setHeaderData(4,Qt::Horizontal, "Дата");
+    proxyModel->setSourceModel(model);
+    proxyModel->sort(0, Qt::DescendingOrder);
+    ui->tableView->setModel(proxyModel);
+    ui->tableView->setColumnHidden(0,0);
+    ui->tableView->setColumnWidth(0,60);
+    ui->tableView->setColumnWidth(1,185);
+    ui->tableView->setColumnWidth(2,300);
+    ui->tableView->setColumnWidth(3,70);
+    ui->tableView->setColumnWidth(4,70);
 }
 
 // обновить таблицу с накладными приход
 void MainWindow::RefreshTabl_coming()
 {
-    int month;
-     int year;
-     month=ui->comboBox->currentIndex();
-     year=ui->spinBox->value();
+    model = new QSqlQueryModel;
+    proxyModel = new QSortFilterProxyModel(this);
 
-     model = new QSqlQueryModel;
-     model->setQuery("select ttn_id, operation_name, cust_name, sum, ttn_date FROM ttn, operations, custumers where ttn.operation_id = operations.operation_id and ttn.cust_id = custumers.cust_id and ttn.operation_id = 1 and year(ttn_date) =" + QString::number(year) + " and month(ttn_date)=" +QString::number(month+1)+";");
-     proxyModel = new QSortFilterProxyModel(this);
-     proxyModel->setSourceModel(model);
-     proxyModel->sort(0, Qt::DescendingOrder);
-     ui->tableView->setModel(proxyModel);
-     model->setHeaderData(0,Qt::Horizontal, "№ ТТН");
-     model->setHeaderData(1,Qt::Horizontal, "Вид");
-     model->setHeaderData(2,Qt::Horizontal, "Постачальник");
-     model->setHeaderData(3,Qt::Horizontal, "Сума, грн.");
-     model->setHeaderData(4,Qt::Horizontal, "Дата");
-     ui->tableView->setColumnHidden(0,0);
-     ui->tableView->setColumnWidth(0,60);
-     ui->tableView->setColumnWidth(1,185);
-     ui->tableView->setColumnWidth(2,300);
-     ui->tableView->setColumnWidth(3,70);
-     ui->tableView->setColumnWidth(4,70);
+
+    if(ui->comboBox->currentIndex()!=0){
+        model->setQuery("select ttn_id, operation_name, cust_name, sum, ttn_date FROM ttn, operations, custumers where ttn.operation_id = operations.operation_id and ttn.cust_id = custumers.cust_id and ttn.operation_id = 1 and year(ttn_date) =" + QString::number(ui->spinBox->value()) + " and month(ttn_date)=" +QString::number(ui->comboBox->currentIndex())+";");
+    }else{
+        model->setQuery("select ttn_id, operation_name, cust_name, sum, ttn_date FROM ttn, operations, custumers where ttn.operation_id = operations.operation_id and ttn.cust_id = custumers.cust_id and ttn.operation_id = 1  and year(ttn_date) =" + QString::number(ui->spinBox->value()) + ";");
+    }
+    model->setHeaderData(0,Qt::Horizontal, "№ ТТН");
+    model->setHeaderData(1,Qt::Horizontal, "Вид");
+    model->setHeaderData(2,Qt::Horizontal, "Постачальник");
+    model->setHeaderData(3,Qt::Horizontal, "Сума, грн.");
+    model->setHeaderData(4,Qt::Horizontal, "Дата");
+    proxyModel->setSourceModel(model);
+    proxyModel->sort(0, Qt::DescendingOrder);
+    ui->tableView->setModel(proxyModel);
+    ui->tableView->setColumnHidden(0,0);
+    ui->tableView->setColumnWidth(0,60);
+    ui->tableView->setColumnWidth(1,185);
+    ui->tableView->setColumnWidth(2,300);
+    ui->tableView->setColumnWidth(3,70);
+    ui->tableView->setColumnWidth(4,70);
 }
 
 // Обновить таблицу продуктов
 void MainWindow::RefreshTabl_prod()
 {
     model = new QSqlQueryModel;
-    model->setQuery("SELECT prod_id, cipher, prod_name, prod_price_retail, prod_price_barter, prod_price_wholesale FROM zbyt.products;");
+    model->setQuery("SELECT prod_id, cipher, prod_name, prod_quantity, prod_price_retail, prod_price_barter, prod_price_wholesale FROM zbyt.products;");
     ui->tableView->setModel(model);
     model->setHeaderData(1,Qt::Horizontal, "Шифр");
     model->setHeaderData(2,Qt::Horizontal, "Назва виробу");
-    model->setHeaderData(3,Qt::Horizontal, "Ціна,роздр., грн.");
-    model->setHeaderData(4,Qt::Horizontal, "Ціна,бартер");
-    model->setHeaderData(5,Qt::Horizontal, "Ціна,опт");
+    model->setHeaderData(3,Qt::Horizontal, "Кількість");
+    model->setHeaderData(4,Qt::Horizontal, "Ціна,роздр., грн.");
+    model->setHeaderData(5,Qt::Horizontal, "Ціна,бартер");
+    model->setHeaderData(6,Qt::Horizontal, "Ціна,опт");
     ui->tableView->setColumnHidden(0,1);
     ui->tableView->setColumnWidth(1,100);
     ui->tableView->setColumnWidth(2,470);
-    ui->tableView->setColumnWidth(3,110);
-    ui->tableView->setColumnWidth(4,80);
+    ui->tableView->setColumnWidth(3,80);
+    ui->tableView->setColumnWidth(4,110);
     ui->tableView->setColumnWidth(5,80);
+    ui->tableView->setColumnWidth(6,80);
 
 }
 

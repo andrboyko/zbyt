@@ -8,6 +8,8 @@ ttn::ttn(QWidget *parent) :
 {
     ui->setupUi(this);
 
+
+
     //Горячая клавиша Отмена=Esc
     keyCancel = new QShortcut(this);
     keyCancel->setKey(Qt::Key_Escape);
@@ -38,6 +40,7 @@ ttn::ttn(QWidget *parent) :
         }else{
         ui->lineEdit->setText(QString::number(query->value(0).toInt()+1));
         }
+        refreshTable_goods();
 }
 
 ttn::~ttn()
@@ -154,9 +157,8 @@ void ttn::on_pushButton_4_clicked()
 void ttn::on_pushButton_5_clicked()
 {
     query = new QSqlQuery();
-    query->prepare("DELETE FROM ttn_items WHERE ttn_id = :ttn_id");
-    query->bindValue(":ttn_id", ui->lineEdit->text().toInt());
-    query->exec();
+    query->exec("DELETE FROM ttn_items WHERE ttn_id = " +ui->lineEdit->text()+ ";");
+    query->exec("DELETE FROM ttn WHERE ttn_id = " +ui->lineEdit->text()+ ";");
     close();
 }
 
