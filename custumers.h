@@ -21,7 +21,7 @@ public:
     ~custumers();
 
 signals:
-    void buttonclicked();
+    void update_table();
 
 private slots:
     void on_pushButton_clicked();

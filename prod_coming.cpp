@@ -75,7 +75,7 @@ void prod_coming::on_pushButton_clicked()
         goods = new choise_goods;
         goods->setWindowFlags(Qt::Tool);
         connect(this, SIGNAL(sendData(int)), goods, SLOT(recieveData(int)));
-        connect(goods, SIGNAL(buttonclicked()), this, SLOT(refreshTable_goods()));
+        connect(goods, SIGNAL(update_table()), this, SLOT(refreshTable_goods()));
         goods->show();
         goods->activateWindow();
         emit sendData(ui->lineEdit->text().toInt());
@@ -91,7 +91,7 @@ void prod_coming::on_pushButton_4_clicked()
     query->bindValue(":ttn_id", ui->lineEdit->text());
     query->bindValue(":ttn_date", ui->dateEdit->text());
     query->exec();
-    PushB4();
+    emit update_table();
 
 
 

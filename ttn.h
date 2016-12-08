@@ -7,6 +7,7 @@
 #include <QSqlQuery>
 #include <QDesktopWidget>
 #include <QShortcut>
+#include <QMessageBox>
 namespace Ui {
 class ttn;
 }
@@ -20,8 +21,8 @@ public:
     ~ttn();
 
 signals:
-    void sendData(int r_ttn_id);
-    void PushB4();
+    void sendData(int i, bool e);
+    void update_table();
 
 
 

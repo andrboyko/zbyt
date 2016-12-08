@@ -72,6 +72,8 @@ private:
     ttn *t_t_n;
     prod_coming *prodcoming;
     QSqlQuery *query;
+    QSqlQuery *query2;
+    QSqlQuery *queryUpdate;
     products *prod;
     custumers *cust;
     int index_table;

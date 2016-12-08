@@ -28,19 +28,6 @@ ttn::ttn(QWidget *parent) :
         ui->comboBox_2->setModelColumn(0);
 
         ui->comboBox_2->setCurrentIndex(-1);
-
-        //ttn_id
-        query = new QSqlQuery();
-        query->exec("SELECT ttn_id From ttn;");
-        query->last();
-        if (query->value(0).toString()==NULL){
-            query2 = new QSqlQuery();
-            query2->exec("ALTER TABLE ttn AUTO_INCREMENT=100200");
-            ui->lineEdit->setText("100200");
-        }else{
-        ui->lineEdit->setText(QString::number(query->value(0).toInt()+1));
-        }
-        refreshTable_goods();
 }
 
 ttn::~ttn()
@@ -52,11 +39,15 @@ void ttn::on_pushButton_clicked()
 {
     goods = new choise_goods;
     goods->setWindowFlags(Qt::Tool);
-    connect(this, SIGNAL(sendData(int)), goods, SLOT(recieveData(int)));
-    connect(goods, SIGNAL(buttonclicked()), this, SLOT(refreshTable_goods()));
+    connect(this, SIGNAL(sendData(int, bool)), goods, SLOT(recieveData(int, bool)));
+    connect(goods, SIGNAL(update_table()), this, SLOT(refreshTable_goods()));
     goods->show();
     goods->activateWindow();
-    emit sendData(ui->lineEdit->text().toInt());
+    if (edit==true){
+    emit sendData(ui->lineEdit->text().toInt(), true);
+    }else {
+    emit sendData(ui->lineEdit->text().toInt(), false);
+    }
 }
 
 
@@ -94,10 +85,35 @@ void ttn::refreshTable_goods()
 //видалити товар
 void ttn::on_pushButton_3_clicked()
 {
+    if (edit==true){
+        query = new QSqlQuery();
+        query2 = new QSqlQuery();
+        queryUpdate = new QSqlQuery();
+        //подсчет количества продукции
+        query->prepare("SELECT ttn_item_quantity from ttn_items WHERE ttn_id=:ttn_id and prod_id =:prod_id");
+        query->bindValue(":ttn_id", ui->lineEdit->text());
+        query->bindValue(":prod_id", index_prod);
+        query->exec();
+
+        while (query->next())
+        {
+            query2->exec("SELECT prod_quantity FROM products WHERE prod_id=" +QString::number(index_prod)+ ";");
+            query2->next();
+
+            int plus;
+            plus=(query2->value(0).toInt())+(query->value(0).toInt());
+            queryUpdate->prepare("UPDATE products SET prod_quantity=:prod_quantity  WHERE prod_id = :prod_id;");
+            queryUpdate->bindValue(":prod_quantity", QString::number(plus) );
+            queryUpdate->bindValue(":prod_id", index_prod);
+            queryUpdate->exec();
+        }
+    }
+
+
     query = new QSqlQuery();
     query->prepare("DELETE FROM ttn_items WHERE ttn_id = :ttn_id AND prod_id = :prod_id;");
     query->bindValue(":ttn_id", ui->lineEdit->text());
-    query->bindValue(":prod_id", index_prod);
+    query->bindValue(":prod_id", QString::number(index_prod));
     query->exec();
     refreshTable_goods();
 }
@@ -112,45 +128,62 @@ void ttn::on_tableView_clicked(const QModelIndex &index)
 //Запись накладной
 void ttn::on_pushButton_4_clicked()
 {
-    query = new QSqlQuery();
-    query2 = new QSqlQuery();
-    queryUpdate = new QSqlQuery;
+    if(ui->comboBox_2->currentIndex()!=-1){
 
-    query->prepare("INSERT INTO ttn(ttn_date, cust_id, operation_id, by_whom, sum, umova)VALUES(:ttn_date, :cust_id, :operation_id, :by_whom, :sum, :umova);");
-    query->bindValue(":ttn_date", ui->dateEdit->text());
-    query->bindValue(":cust_id", ui->comboBox_2->model()->data(ui->comboBox_2->model()->index(cust_id,1)).toString());
-    query->bindValue(":operation_id", ui->comboBox->model()->data(ui->comboBox->model()->index(operation_id,0)).toString());
-    query->bindValue(":by_whom", ui->lineEdit_2->text());
-    query->bindValue(":sum", sum);
-    query->bindValue(":umova", ui->lineEdit_3->text());
-    query->exec();
-    PushB4();
+        query = new QSqlQuery();
+        query2 = new QSqlQuery();
+        queryUpdate = new QSqlQuery;
+
+        if(edit==false){
 
 
+            query->prepare("INSERT INTO ttn(ttn_date, cust_id, operation_id, by_whom, sum, umova)VALUES(:ttn_date, :cust_id, :operation_id, :by_whom, :sum, :umova);");
+            query->bindValue(":ttn_date", ui->dateEdit->text());
+            query->bindValue(":cust_id", ui->comboBox_2->model()->data(ui->comboBox_2->model()->index(cust_id,1)).toString());
+            query->bindValue(":operation_id", ui->comboBox->model()->data(ui->comboBox->model()->index(operation_id,0)).toString());
+            query->bindValue(":by_whom", ui->lineEdit_2->text());
+            query->bindValue(":sum", sum);
+            query->bindValue(":umova", ui->lineEdit_3->text());
+            query->exec();
+            emit update_table();
 
-    //количество продукции
-        query->prepare("SELECT ttn_item_quantity, prod_id from ttn_items WHERE ttn_id=:ttn_id");
-        query->bindValue(":ttn_id", ui->lineEdit->text().toInt());
-        query->exec();
-        while (query->next())
-        {
-            query2->exec("SELECT prod_quantity FROM products WHERE prod_id=" +query->value(1).toString()+ ";");
-            query2->next();
 
-            //        qDebug() << "prod_quantity = "+query2->value(0).toString();
-            //        qDebug() << "ttn_item_quantity = "+query->value(0).toString();
-            //        qDebug() << "prod_id = "+query->value(1).toString();
+            query->prepare("SELECT ttn_item_quantity, prod_id from ttn_items WHERE ttn_id=:ttn_id");
+            query->bindValue(":ttn_id", ui->lineEdit->text().toInt());
+            query->exec();
+            while (query->next())
+            {
+                query2->exec("SELECT prod_quantity FROM products WHERE prod_id=" +query->value(1).toString()+ ";");
+                query2->next();
 
-            int minus;
-            minus=(query2->value(0).toInt())-(query->value(0).toInt());
-            queryUpdate->prepare("UPDATE products SET prod_quantity=:prod_quantity  WHERE prod_id = :prod_id;");
-            queryUpdate->bindValue(":prod_quantity", QString::number(minus) );
-            queryUpdate->bindValue(":prod_id", query->value(1).toString() );
-            queryUpdate->exec();
-            //            qDebug() << "prod_quntity + ttn_item_quantity = " + QString::number(plus);
+                int minus;
+                minus=(query2->value(0).toInt())-(query->value(0).toInt());
+                queryUpdate->prepare("UPDATE products SET prod_quantity=:prod_quantity  WHERE prod_id = :prod_id;");
+                queryUpdate->bindValue(":prod_quantity", QString::number(minus) );
+                queryUpdate->bindValue(":prod_id", query->value(1).toString() );
+                queryUpdate->exec();
+            }
+        }else{
+
+            query->prepare("UPDATE ttn SET ttn_date = :ttn_date, cust_id = :cust_id, operation_id = :operation_id,"
+                           " by_whom = :by_whom, sum = :sum, umova = :umova;");
+            query->bindValue(":ttn_date", ui->dateEdit->text());
+            query->bindValue(":cust_id", ui->comboBox_2->model()->data(ui->comboBox_2->model()->index(cust_id,1)).toString());
+            query->bindValue(":operation_id", ui->comboBox->model()->data(ui->comboBox->model()->index(operation_id,0)).toString());
+            query->bindValue(":by_whom", ui->lineEdit_2->text());
+            query->bindValue(":sum", sum);
+            query->bindValue(":umova", ui->lineEdit_3->text());
+            query->exec();
+            emit update_table();
 
         }
-    close();
+
+        close();
+    }else{
+
+        QMessageBox::information(this, "Увага", "Відсутній замовник ");
+    }
+
 }
 
 //кнопка отмена
@@ -172,10 +205,6 @@ void ttn::moveToCenter()
         move(center);
 }
 
-
-
-
-
 void ttn::on_comboBox_2_currentIndexChanged(int index)
 {
     cust_id=index;
@@ -190,9 +219,31 @@ void ttn::on_comboBox_currentIndexChanged(int index)
 void ttn::receiveData(int i, bool e)
 {
     index_table = i;
-    edit=e;
+    edit = e;
 
     if(edit==true){
+        ui->pushButton_5->hide();
+        ui->pushButton_4->setFixedSize(260, 30);
+        ui->pushButton_4->setText("Зберегти");
+    }else{
+        ui->pushButton_5->show();
+        ui->pushButton_4->setFixedSize(125, 30);
+        ui->pushButton_4->setText("ОК");
+    }
+
+    if(edit==false){
+        query = new QSqlQuery();
+        query->exec("SELECT ttn_id From ttn;");
+        query->last();
+        if (query->value(0).toString()==NULL){
+            query2 = new QSqlQuery();
+            query2->exec("ALTER TABLE ttn AUTO_INCREMENT=100200");
+            ui->lineEdit->setText("100200");
+        }else{
+            ui->lineEdit->setText(QString::number(query->value(0).toInt()+1));
+        }
+    }else{
+        ui->lineEdit->setText(QString::number(index_table));
         query = new QSqlQuery();
         query->exec("SELECT ttn_date, cust_id, operation_id, by_whom, sum, umova  FROM ttn WHERE ttn_id="+QString::number(index_table)+";");
         while (query->next())
@@ -213,7 +264,10 @@ void ttn::receiveData(int i, bool e)
         {
             ui->comboBox_2->setCurrentText(query->value(0).toString());
         }
+        refreshTable_goods();
+    }
 
-     refreshTable_goods();
-   }
+
+
+
 }

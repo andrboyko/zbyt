@@ -23,7 +23,7 @@ public:
 
 signals:
     void sendData(int i);
-    void PushB4();
+    void update_table();
 
 private slots:
     void refreshTable_goods();

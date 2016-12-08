@@ -30,7 +30,7 @@ void custumers::on_pushButton_clicked()
             query->bindValue(":kod_pp", ui->lineEdit_4->text());
             query->bindValue(":n_reg_svid", ui->lineEdit_5->text());
             query->exec();
-            emit buttonclicked();
+            emit update_table();
             close();
         }else{
             QMessageBox::information(this, "Увага", "Відсутнє імя замовника");
@@ -46,7 +46,7 @@ void custumers::on_pushButton_clicked()
             query->bindValue(":n_reg_svid", ui->lineEdit_5->text());
             query->bindValue(":cust_id", index_table);
             query->exec();
-            emit buttonclicked();
+            emit update_table();
             close();
         }else{
 

@@ -92,17 +92,55 @@ void choise_goods::on_doubleSpinBox_valueChanged(double arg1)
 void choise_goods::on_pushButton_clicked()
 {
     query = new QSqlQuery();
-    query->prepare("INSERT INTO ttn_items(ttn_id, prod_id, ttn_item_quantity, ttn_item_price)VALUES(:ttn_id, :prod_id, :ttn_item_quantity, :ttn_item_price);");
-    query->bindValue(":ttn_id", ttn_id);
-    query->bindValue(":prod_id", prod_id);
-    query->bindValue(":ttn_item_quantity", ui->spinBox->value());
-    query->bindValue(":ttn_item_price", ui->doubleSpinBox->value());
-    query->exec();
-    emit buttonclicked();
-    close();
+    query2 = new QSqlQuery();
+    queryUpdate = new QSqlQuery();
+
+    query->exec("SELECT * FROM ttn_items WHERE ttn_id = "+QString::number(ttn_id)+" and prod_id = "+QString::number(prod_id)+";");
+    query->next();
+
+    if(!query->isValid()){
+        query->prepare("INSERT INTO ttn_items(ttn_id, prod_id, ttn_item_quantity, ttn_item_price)VALUES(:ttn_id, :prod_id, :ttn_item_quantity, :ttn_item_price);");
+        query->bindValue(":ttn_id", ttn_id);
+        query->bindValue(":prod_id", prod_id);
+        query->bindValue(":ttn_item_quantity", ui->spinBox->value());
+        query->bindValue(":ttn_item_price", ui->doubleSpinBox->value());
+        query->exec();
+        emit update_table();
+
+        if (edit==true){
+            //подсчет количества продукции
+            query->prepare("SELECT ttn_item_quantity from ttn_items WHERE ttn_id=:ttn_id and prod_id =:prod_id");
+            query->bindValue(":ttn_id", ttn_id);
+            query->bindValue(":prod_id", prod_id);
+            query->exec();
+
+            while (query->next())
+            {
+                query2->exec("SELECT prod_quantity FROM products WHERE prod_id=" +QString::number(prod_id)+ ";");
+                query2->next();
+
+                int minus;
+                minus=(query2->value(0).toInt())-(query->value(0).toInt());
+                queryUpdate->prepare("UPDATE products SET prod_quantity=:prod_quantity  WHERE prod_id = :prod_id;");
+                queryUpdate->bindValue(":prod_quantity", QString::number(minus) );
+                queryUpdate->bindValue(":prod_id", prod_id);
+                queryUpdate->exec();
+            }
+        }
+        close();
+    }else{
+
+        //если prod_id уже есть
+
+    }
+
+
+
+
 }
 
-void choise_goods::recieveData(int r_ttn_id)
+void choise_goods::recieveData(int i, bool e)
 {
-    ttn_id=r_ttn_id;
+    ttn_id=i;
+    edit = e;
 }

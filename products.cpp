@@ -47,7 +47,7 @@ void products::on_pushButton_clicked()
         query->bindValue(":prod_date", ui->dateEdit->text());
         query->bindValue(":prod_group_id", ui->comboBox_2->model()->data(ui->comboBox_2->model()->index(prod_group_id, 1)).toString());
         query->exec();
-        emit buttonclicked();
+        emit update_table();
         close();
 
     }else
@@ -69,7 +69,7 @@ void products::on_pushButton_clicked()
         query->bindValue(":prod_group_id", ui->comboBox_2->model()->data(ui->comboBox_2->model()->index(prod_group_id, 1)).toString());
         query->bindValue(":prod_id", index_table);
         query->exec();
-        emit buttonclicked();
+        emit update_table();
         close();
 
     }else

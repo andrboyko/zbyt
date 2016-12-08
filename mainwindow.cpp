@@ -53,24 +53,25 @@ void MainWindow::on_pushButton_clicked()
         ui->comboBox->setCurrentIndex(0);
         t_t_n = new ttn();
         t_t_n->setWindowFlags(Qt::Dialog | Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowCloseButtonHint);
-        connect(t_t_n, SIGNAL(PushB4()), this, SLOT(RefreshTabl_ttn()));
+        connect(t_t_n, SIGNAL(update_table()), this, SLOT(RefreshTabl_ttn()));
         connect(this, SIGNAL(sendData(int, bool)), t_t_n, SLOT(receiveData(int, bool)));
         emit sendData(index_table, false);
         t_t_n->show();
+        t_t_n->activateWindow();
 
         // если выбрано приход
     }else if (ui->pushButton_6->isChecked()){
         ui->comboBox->setCurrentIndex(0);
         prodcoming = new prod_coming;
         prodcoming->setWindowFlags(Qt::Dialog | Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowCloseButtonHint);
-        connect(prodcoming, SIGNAL(PushB4()), this, SLOT(RefreshTabl_coming()));
+        connect(prodcoming, SIGNAL(update_table()), this, SLOT(RefreshTabl_coming()));
         prodcoming->show();
 
         // если выбрано Продукция
     }else if(ui->pushButton_8->isChecked()){
         prod = new products;
         prod->setWindowFlags(Qt::Tool);
-        connect(prod, SIGNAL(buttonclicked()), this, SLOT(RefreshTabl_prod()));
+        connect(prod, SIGNAL(update_table()), this, SLOT(RefreshTabl_prod()));
         connect(this, SIGNAL(sendData(int, bool)), prod, SLOT(receiveData(int, bool)));
         emit sendData(index_table, false);
         prod->show();
@@ -80,7 +81,7 @@ void MainWindow::on_pushButton_clicked()
     }else if(ui->pushButton_7->isChecked()){
         cust = new custumers();
         cust->setWindowFlags(Qt::Tool);
-        connect(cust, SIGNAL(buttonclicked()), this, SLOT(RefreshTabl_cust()));
+        connect(cust, SIGNAL(update_table()), this, SLOT(RefreshTabl_cust()));
         connect(this, SIGNAL(sendData(int, bool)), cust, SLOT(receiveData(int, bool)));
         emit sendData(index_table, false);
         cust->show();
@@ -97,7 +98,7 @@ if(index_table!=0){
 
         prod = new products;
         prod->setWindowFlags(Qt::Tool);
-        connect(prod, SIGNAL(buttonclicked()), this, SLOT(RefreshTabl_prod()));
+        connect(prod, SIGNAL(update_table()), this, SLOT(RefreshTabl_prod()));
         connect(this, SIGNAL(sendData(int, bool)), prod, SLOT(receiveData(int, bool)));
         emit sendData(index_table, true);
         prod->show();
@@ -107,7 +108,7 @@ if(index_table!=0){
     }else if(ui->pushButton_7->isChecked()){
         cust = new custumers();
         cust->setWindowFlags(Qt::Tool);
-        connect(cust, SIGNAL(buttonclicked()), this, SLOT(RefreshTabl_cust()));
+        connect(cust, SIGNAL(update_table()), this, SLOT(RefreshTabl_cust()));
         connect(this, SIGNAL(sendData(int, bool)), cust, SLOT(receiveData(int, bool)));
         emit sendData(index_table, true);
         cust->show();
@@ -117,9 +118,9 @@ if(index_table!=0){
     }else if (ui->pushButton_10->isChecked()){
 
         t_t_n = new ttn();
-        t_t_n->setWindowFlags(Qt::Dialog | Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowCloseButtonHint);
+        t_t_n->setWindowFlags(Qt::Dialog | Qt::CustomizeWindowHint | Qt::WindowTitleHint);
         connect(this, SIGNAL(sendData(int, bool)), t_t_n, SLOT(receiveData(int, bool)));
-        connect(t_t_n, SIGNAL(PushB4()), this, SLOT(RefreshTabl_ttn()));
+        connect(t_t_n, SIGNAL(update_table()), this, SLOT(RefreshTabl_ttn()));
         emit sendData(index_table, true);
         t_t_n->show();
         t_t_n->activateWindow();
@@ -133,12 +134,11 @@ if(index_table!=0){
 // Кнопка Удалить
 void MainWindow::on_pushButton_2_clicked()
 {
-if (index_table!=0){
-    if (ui->pushButton_6->isChecked()|| ui->pushButton_10->isChecked()){
+    if (index_table!=0){
+
         QMessageBox msgBox;
         msgBox.setWindowTitle("Увага");
         msgBox.setText("Видалити запис");
-
         msgBox.setStandardButtons(QMessageBox::Yes);
         msgBox.addButton(QMessageBox::No);
         msgBox.setDefaultButton(QMessageBox::No);
@@ -147,26 +147,58 @@ if (index_table!=0){
         if(msgBox.exec() == QMessageBox::Yes)
         {
             query = new QSqlQuery();
-            query->exec("DELETE FROM ttn_items WHERE ttn_id = " +QString::number(index_table)+ ";");
-            query->exec("DELETE FROM ttn WHERE ttn_id = " +QString::number(index_table)+ ";");
+            query2 = new QSqlQuery();
+            queryUpdate = new QSqlQuery();
 
-            if (ui->pushButton_6->isChecked()){
-            RefreshTabl_coming();
-            }else{
+            if (ui->pushButton_10->isChecked()){
+                query->prepare("SELECT ttn_item_quantity, prod_id from ttn_items WHERE ttn_id=:ttn_id");
+                query->bindValue(":ttn_id", index_table);
+                query->exec();
+                while (query->next())
+                {
+                    query2->exec("SELECT prod_quantity FROM products WHERE prod_id=" +query->value(1).toString()+ ";");
+                    query2->next();
+                    int plus;
+                    plus=(query2->value(0).toInt())+(query->value(0).toInt());
+                    queryUpdate->prepare("UPDATE products SET prod_quantity=:prod_quantity  WHERE prod_id = :prod_id;");
+                    queryUpdate->bindValue(":prod_quantity", QString::number(plus) );
+                    queryUpdate->bindValue(":prod_id", query->value(1).toString() );
+                    queryUpdate->exec();
+                }
+
+                query->exec("DELETE FROM ttn_items WHERE ttn_id = " +QString::number(index_table)+ ";");
+                query->exec("DELETE FROM ttn WHERE ttn_id = " +QString::number(index_table)+ ";");
                 RefreshTabl_ttn();
+
+            }else if(ui->pushButton_6->isChecked()){
+                //подсчет количества продукции
+                query->prepare("SELECT ttn_item_quantity, prod_id from ttn_items WHERE ttn_id=:ttn_id");
+                query->bindValue(":ttn_id", index_table);
+                query->exec();
+                while (query->next())
+                {
+                    query2->exec("SELECT prod_quantity FROM products WHERE prod_id=" +query->value(1).toString()+ ";");
+                    query2->next();
+                    int minus;
+                    minus=(query2->value(0).toInt())-(query->value(0).toInt());
+                    queryUpdate->prepare("UPDATE products SET prod_quantity=:prod_quantity  WHERE prod_id = :prod_id;");
+                    queryUpdate->bindValue(":prod_quantity", QString::number(minus) );
+                    queryUpdate->bindValue(":prod_id", query->value(1).toString() );
+                    queryUpdate->exec();
+                }
+                query->exec("DELETE FROM ttn_items WHERE ttn_id = " +QString::number(index_table)+ ";");
+                query->exec("DELETE FROM ttn WHERE ttn_id = " +QString::number(index_table)+ ";");
+                RefreshTabl_coming();
+            }else{
+                QMessageBox::information(this, "Увага", "Ви не можете видалити цей запис ");
             }
-
-
-        }else {
+        }else{
             // do something else
         }
-   }else{
-         QMessageBox::information(this, "Увага", "Ви не можете видалити цей запис ");
+        }else{
+            QMessageBox::information(this, "Увага", "Виберіть запис для видалення ");
+        }
     }
-}else{
-         QMessageBox::information(this, "Увага", "Виберіть запис для видалення ");
-}
-}
 
 // Кнопка Приход
 void MainWindow::on_pushButton_6_clicked()

@@ -22,7 +22,7 @@ public:
 
 
 signals:
-    void buttonclicked();
+    void update_table();
 
 private slots:
     void on_listView_clicked(const QModelIndex &index);
@@ -38,16 +38,19 @@ private slots:
     void on_pushButton_clicked();
 
 public slots:
-    void recieveData(int r_ttn_id);
+    void recieveData(int i, bool e);
 
 private:
     Ui::choise_goods *ui;
     QSqlQueryModel *model;
     QSqlQuery *query;
+    QSqlQuery *query2;
+    QSqlQuery *queryUpdate;
     int ttn_id;
     int temp_nomlVc;
     int prod_id;
     QShortcut *keyCancel;
+    bool edit;
 };
 
 #endif // CHOISE_GOODS_H
