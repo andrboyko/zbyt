@@ -158,10 +158,10 @@ void MainWindow::on_pushButton_2_clicked()
                 {
                     query2->exec("SELECT prod_quantity FROM products WHERE prod_id=" +query->value(1).toString()+ ";");
                     query2->next();
-                    int plus;
-                    plus=(query2->value(0).toInt())+(query->value(0).toInt());
+                    int x;
+                    x=(query2->value(0).toInt())+(query->value(0).toInt());
                     queryUpdate->prepare("UPDATE products SET prod_quantity=:prod_quantity  WHERE prod_id = :prod_id;");
-                    queryUpdate->bindValue(":prod_quantity", QString::number(plus) );
+                    queryUpdate->bindValue(":prod_quantity", QString::number(x) );
                     queryUpdate->bindValue(":prod_id", query->value(1).toString() );
                     queryUpdate->exec();
                 }
@@ -179,10 +179,10 @@ void MainWindow::on_pushButton_2_clicked()
                 {
                     query2->exec("SELECT prod_quantity FROM products WHERE prod_id=" +query->value(1).toString()+ ";");
                     query2->next();
-                    int minus;
-                    minus=(query2->value(0).toInt())-(query->value(0).toInt());
+                    int x;
+                    x=(query2->value(0).toInt())-(query->value(0).toInt());
                     queryUpdate->prepare("UPDATE products SET prod_quantity=:prod_quantity  WHERE prod_id = :prod_id;");
-                    queryUpdate->bindValue(":prod_quantity", QString::number(minus) );
+                    queryUpdate->bindValue(":prod_quantity", QString::number(x) );
                     queryUpdate->bindValue(":prod_id", query->value(1).toString() );
                     queryUpdate->exec();
                 }

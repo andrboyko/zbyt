@@ -8,6 +8,10 @@
 #include <QDesktopWidget>
 #include <QShortcut>
 #include <QMessageBox>
+#include <QVBoxLayout>
+#include <QPushButton>
+#include <QSpinBox>
+
 namespace Ui {
 class ttn;
 }
@@ -39,13 +43,15 @@ private slots:
 
     void on_pushButton_5_clicked();
 
-    void moveToCenter();
-
     void on_comboBox_2_currentIndexChanged(int index);
 
     void on_comboBox_currentIndexChanged(int index);
 
     void receiveData(int i, bool e);
+
+    void on_pushButton_6_clicked();
+
+    void updateprice();
 
 private:
     Ui::ttn *ui;
@@ -60,7 +66,15 @@ private:
     int operation_id;
     int cust_id;
     int index_table;
+    int prod_quantity;
+    int ttn_item_quantity;
     bool edit;
+
+    QWidget *editprice;
+    QVBoxLayout *verticalLayout;
+    QPushButton *pushButton;
+    QSpinBox *spinBox;
+
 
 
 };

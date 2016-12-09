@@ -368,8 +368,8 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>174</x>
-      <y>338</y>
+      <x>108</x>
+      <y>339</y>
       <width>125</width>
       <height>30</height>
      </rect>
@@ -394,8 +394,8 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>314</x>
-      <y>338</y>
+      <x>250</x>
+      <y>339</y>
       <width>125</width>
       <height>30</height>
      </rect>
@@ -425,6 +425,32 @@
     </property>
     <property name="text">
      <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_6">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>392</x>
+      <y>339</y>
+      <width>125</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Кількість</string>
+    </property>
+    <property name="icon">
+     <iconset resource="ico.qrc">
+      <normaloff>:/ico/edit.ico</normaloff>:/ico/edit.ico</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>22</width>
+      <height>22</height>
+     </size>
     </property>
    </widget>
   </widget>

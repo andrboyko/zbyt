@@ -57,6 +57,7 @@ void ttn::refreshTable_goods()
     model = new QSqlQueryModel;
     model->setQuery("SELECT products.prod_id, cipher, prod_name, ttn_item_quantity, ttn_item_price, ttn_item_quantity*ttn_item_price FROM products, ttn_items WHERE ttn_items.prod_id = products.prod_id AND ttn_id="+ui->lineEdit->text()+";");
     ui->tableView->setModel(model);
+
     model->setHeaderData(1,Qt::Horizontal, "Шифр");
     model->setHeaderData(2,Qt::Horizontal, "Найменування");
     model->setHeaderData(3,Qt::Horizontal, "Кількість");
@@ -100,10 +101,10 @@ void ttn::on_pushButton_3_clicked()
             query2->exec("SELECT prod_quantity FROM products WHERE prod_id=" +QString::number(index_prod)+ ";");
             query2->next();
 
-            int plus;
-            plus=(query2->value(0).toInt())+(query->value(0).toInt());
+            int x;
+            x=(query2->value(0).toInt())+(query->value(0).toInt());
             queryUpdate->prepare("UPDATE products SET prod_quantity=:prod_quantity  WHERE prod_id = :prod_id;");
-            queryUpdate->bindValue(":prod_quantity", QString::number(plus) );
+            queryUpdate->bindValue(":prod_quantity", QString::number(x) );
             queryUpdate->bindValue(":prod_id", index_prod);
             queryUpdate->exec();
         }
@@ -156,17 +157,18 @@ void ttn::on_pushButton_4_clicked()
                 query2->exec("SELECT prod_quantity FROM products WHERE prod_id=" +query->value(1).toString()+ ";");
                 query2->next();
 
-                int minus;
-                minus=(query2->value(0).toInt())-(query->value(0).toInt());
+                int x;
+                x=(query2->value(0).toInt())-(query->value(0).toInt());
                 queryUpdate->prepare("UPDATE products SET prod_quantity=:prod_quantity  WHERE prod_id = :prod_id;");
-                queryUpdate->bindValue(":prod_quantity", QString::number(minus) );
+                queryUpdate->bindValue(":prod_quantity", QString::number(x) );
                 queryUpdate->bindValue(":prod_id", query->value(1).toString() );
                 queryUpdate->exec();
             }
         }else{
 
             query->prepare("UPDATE ttn SET ttn_date = :ttn_date, cust_id = :cust_id, operation_id = :operation_id,"
-                           " by_whom = :by_whom, sum = :sum, umova = :umova;");
+                           " by_whom = :by_whom, sum = :sum, umova = :umova WHERE ttn_id=:ttn_id;");
+            query->bindValue(":ttn_id", ui->lineEdit->text());
             query->bindValue(":ttn_date", ui->dateEdit->text());
             query->bindValue(":cust_id", ui->comboBox_2->model()->data(ui->comboBox_2->model()->index(cust_id,1)).toString());
             query->bindValue(":operation_id", ui->comboBox->model()->data(ui->comboBox->model()->index(operation_id,0)).toString());
@@ -193,16 +195,6 @@ void ttn::on_pushButton_5_clicked()
     query->exec("DELETE FROM ttn_items WHERE ttn_id = " +ui->lineEdit->text()+ ";");
     query->exec("DELETE FROM ttn WHERE ttn_id = " +ui->lineEdit->text()+ ";");
     close();
-}
-
-void ttn::moveToCenter()
-{
-        QDesktopWidget desktop;
-        QRect rect = desktop.availableGeometry(desktop.primaryScreen()); // прямоугольник с размерами экрана
-        QPoint center = rect.center(); //координаты центра экрана
-        center.setX(center.x() - (this->width()/2));  // учитываем половину ширины окна
-        center.setY(center.y() - (this->height()/2));  // .. половину высоты
-        move(center);
 }
 
 void ttn::on_comboBox_2_currentIndexChanged(int index)
@@ -270,4 +262,84 @@ void ttn::receiveData(int i, bool e)
 
 
 
+}
+
+void ttn::on_pushButton_6_clicked()
+{
+    editprice = new QWidget;
+    editprice->setWindowFlags(Qt::Tool);
+    verticalLayout = new QVBoxLayout;
+    pushButton = new QPushButton;
+    spinBox = new QSpinBox;
+    query = new QSqlQuery;
+    spinBox->setMinimum(1);
+
+
+    query->exec("SELECT prod_quantity FROM products WHERE prod_id = "+QString::number(index_prod)+";");
+    query->next();
+    prod_quantity=query->value(0).toInt();
+
+    query->exec("SELECT ttn_item_quantity FROM ttn_items WHERE ttn_id= " +ui->lineEdit->text()+ " AND prod_id= " +QString::number(index_prod)+ ";");
+    while (query->next()){
+        ttn_item_quantity=query->value(0).toInt();
+    }
+    spinBox->setValue(ttn_item_quantity);
+    spinBox->setMaximum(ttn_item_quantity+prod_quantity);
+    QFont timesFont("Times New Roman", 12);
+    editprice->setFont(timesFont);
+    editprice->setWindowTitle("Кількість");
+    editprice->setWindowModality(Qt::ApplicationModal);
+
+    pushButton->setText("Зберегти");
+
+    connect(pushButton, SIGNAL (clicked()), this, SLOT (updateprice()));
+
+
+    verticalLayout->addWidget(spinBox);
+    verticalLayout->addWidget(pushButton);
+    editprice->setLayout(verticalLayout);
+    editprice->show();
+    editprice->activateWindow();
+
+    QDesktopWidget desktop;
+    QRect rect = desktop.availableGeometry(desktop.primaryScreen()); // прямоугольник с размерами экрана
+    QPoint center = rect.center(); //координаты центра экрана
+    center.setX(center.x() - (editprice->width()/2));  // учитываем половину ширины окна
+    center.setY(center.y() - (editprice->height()/2));  // .. половину высоты
+    editprice->move(center);
+}
+
+void ttn::updateprice()
+{
+    query = new QSqlQuery;
+    query2 = new QSqlQuery;
+    queryUpdate = new QSqlQuery;
+
+    query->exec("UPDATE ttn_items SET ttn_item_quantity ="+QString::number(spinBox->value())+" WHERE ttn_id= " +ui->lineEdit->text()+ " AND prod_id ="+QString::number(index_prod)+";");
+    editprice->close();
+
+    if(edit==true){
+        if(spinBox->value()>ttn_item_quantity){
+            int x;
+                x=(prod_quantity)-(spinBox->value()-ttn_item_quantity);
+                queryUpdate->prepare("UPDATE products SET prod_quantity=:prod_quantity  WHERE prod_id = :prod_id;");
+                queryUpdate->bindValue(":prod_quantity", QString::number(x) );
+                queryUpdate->bindValue(":prod_id", index_prod);
+                queryUpdate->exec();
+
+
+        }else if(spinBox->value()<ttn_item_quantity){
+            int x;
+            x=(prod_quantity)+(ttn_item_quantity-(spinBox->value()));
+            queryUpdate->prepare("UPDATE products SET prod_quantity=:prod_quantity  WHERE prod_id = :prod_id;");
+            queryUpdate->bindValue(":prod_quantity", QString::number(x) );
+            queryUpdate->bindValue(":prod_id", index_prod);
+            queryUpdate->exec();
+        }else{
+
+        }
+
+
+    }
+    refreshTable_goods();
 }

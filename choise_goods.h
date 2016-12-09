@@ -7,7 +7,6 @@
 #include <QDebug>
 #include <QSqlError>
 #include <QShortcut>
-
 namespace Ui {
 class choise_goods;
 }
@@ -42,6 +41,7 @@ public slots:
 
 private:
     Ui::choise_goods *ui;
+
     QSqlQueryModel *model;
     QSqlQuery *query;
     QSqlQuery *query2;
