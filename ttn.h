@@ -27,6 +27,7 @@ public:
 signals:
     void sendData(int i, bool e);
     void update_table();
+    void sendComingOperation(bool o);
 
 
 
@@ -52,6 +53,8 @@ private slots:
     void on_pushButton_6_clicked();
 
     void updateprice();
+
+    void on_tableView_doubleClicked();
 
 private:
     Ui::ttn *ui;

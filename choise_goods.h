@@ -7,6 +7,7 @@
 #include <QDebug>
 #include <QSqlError>
 #include <QShortcut>
+#include <QMessageBox>
 namespace Ui {
 class choise_goods;
 }
@@ -36,8 +37,9 @@ private slots:
 
     void on_pushButton_clicked();
 
-public slots:
     void recieveData(int i, bool e);
+
+    void recieveComingOperation(bool o);
 
 private:
     Ui::choise_goods *ui;
@@ -49,8 +51,10 @@ private:
     int ttn_id;
     int temp_nomlVc;
     int prod_id;
+    int ttn_item_quantity;
     QShortcut *keyCancel;
     bool edit;
+    bool comingBool;
 };
 
 #endif // CHOISE_GOODS_H

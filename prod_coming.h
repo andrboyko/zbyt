@@ -22,8 +22,9 @@ public:
     ~prod_coming();
 
 signals:
-    void sendData(int i);
+    void sendData(int i, bool e);
     void update_table();
+    void sendComingOperation(bool o);
 
 private slots:
     void refreshTable_goods();
@@ -38,6 +39,10 @@ private slots:
 
     void on_pushButton_5_clicked();
 
+    void receiveData(int i, bool e);
+
+    void on_pushButton_6_clicked();
+
 private:
     Ui::prod_coming *ui;
     QShortcut *keyCancel;
@@ -48,6 +53,11 @@ private:
     choise_goods *goods;
     int index_prod;
     int operation_id;
+    bool edit;
+    double sum;
+    int index_table;
+
+
 };
 
 #endif // PROD_COMING_H

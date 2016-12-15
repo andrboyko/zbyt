@@ -26,8 +26,8 @@ ttn::ttn(QWidget *parent) :
         model->setQuery("select cust_name, cust_id from custumers WHERE NOT(cust_id=0);");
         ui->comboBox_2->setModel(model);
         ui->comboBox_2->setModelColumn(0);
-
         ui->comboBox_2->setCurrentIndex(-1);
+
 }
 
 ttn::~ttn()
@@ -41,8 +41,11 @@ void ttn::on_pushButton_clicked()
     goods->setWindowFlags(Qt::Tool);
     connect(this, SIGNAL(sendData(int, bool)), goods, SLOT(recieveData(int, bool)));
     connect(goods, SIGNAL(update_table()), this, SLOT(refreshTable_goods()));
+    connect(this, SIGNAL(sendComingOperation(bool)), goods, SLOT(recieveComingOperation(bool)));
     goods->show();
     goods->activateWindow();
+
+    emit sendComingOperation(false);
     if (edit==true){
     emit sendData(ui->lineEdit->text().toInt(), true);
     }else {
@@ -182,7 +185,6 @@ void ttn::on_pushButton_4_clicked()
 
         close();
     }else{
-
         QMessageBox::information(this, "Увага", "Відсутній замовник ");
     }
 
@@ -256,14 +258,11 @@ void ttn::receiveData(int i, bool e)
         {
             ui->comboBox_2->setCurrentText(query->value(0).toString());
         }
-        refreshTable_goods();
     }
-
-
-
-
+    refreshTable_goods();
 }
 
+// кнопка количество
 void ttn::on_pushButton_6_clicked()
 {
     editprice = new QWidget;
@@ -308,7 +307,7 @@ void ttn::on_pushButton_6_clicked()
     center.setY(center.y() - (editprice->height()/2));  // .. половину высоты
     editprice->move(center);
 }
-
+//функция измимения количества
 void ttn::updateprice()
 {
     query = new QSqlQuery;
@@ -326,8 +325,6 @@ void ttn::updateprice()
                 queryUpdate->bindValue(":prod_quantity", QString::number(x) );
                 queryUpdate->bindValue(":prod_id", index_prod);
                 queryUpdate->exec();
-
-
         }else if(spinBox->value()<ttn_item_quantity){
             int x;
             x=(prod_quantity)+(ttn_item_quantity-(spinBox->value()));
@@ -338,8 +335,11 @@ void ttn::updateprice()
         }else{
 
         }
-
-
     }
     refreshTable_goods();
+}
+
+void ttn::on_tableView_doubleClicked()
+{
+    ui->pushButton_6->clicked();
 }

@@ -54,7 +54,6 @@ void choise_goods::on_listView_2_clicked(const QModelIndex &index)
     while (query->next())
     {
         ui->label_5->setText(query->value(0).toString());
-
     }
 
     // Вивід в поле залишок
@@ -99,6 +98,7 @@ void choise_goods::on_pushButton_clicked()
     query->next();
 
     if(!query->isValid()){
+
         query->prepare("INSERT INTO ttn_items(ttn_id, prod_id, ttn_item_quantity, ttn_item_price)VALUES(:ttn_id, :prod_id, :ttn_item_quantity, :ttn_item_price);");
         query->bindValue(":ttn_id", ttn_id);
         query->bindValue(":prod_id", prod_id);
@@ -120,7 +120,11 @@ void choise_goods::on_pushButton_clicked()
                 query2->next();
 
                 int x;
+                if(comingBool==false){
                 x=(query2->value(0).toInt())-(query->value(0).toInt());
+                }else{
+                x=(query2->value(0).toInt())+(query->value(0).toInt());
+                }
                 queryUpdate->prepare("UPDATE products SET prod_quantity=:prod_quantity  WHERE prod_id = :prod_id;");
                 queryUpdate->bindValue(":prod_quantity", QString::number(x) );
                 queryUpdate->bindValue(":prod_id", prod_id);
@@ -130,17 +134,54 @@ void choise_goods::on_pushButton_clicked()
         close();
     }else{
 
-        //если prod_id уже есть
+        QMessageBox msgBox;
+        msgBox.setWindowTitle("Увага");
+        msgBox.setText("Цей товар уже є у списку, сумувати кількість");
+        msgBox.setStandardButtons(QMessageBox::Yes);
+        msgBox.addButton(QMessageBox::No);
+        msgBox.setDefaultButton(QMessageBox::No);
+        msgBox.setButtonText(QMessageBox::Yes, "Так");
+        msgBox.setButtonText(QMessageBox::No, "Ні");
+        if(msgBox.exec() == QMessageBox::Yes)
+        {
+            query->exec("SELECT ttn_item_quantity FROM ttn_items WHERE ttn_id="+QString::number(ttn_id)+" AND prod_id = "+QString::number(prod_id)+";");
+            query->next();
+            ttn_item_quantity=query->value(0).toInt();
 
+            query->prepare("UPDATE ttn_items SET ttn_item_quantity =:ttn_item_quantity WHERE ttn_id=:ttn_id AND prod_id=:prod_id ");
+            query->bindValue(":ttn_id", ttn_id);
+            query->bindValue(":prod_id", prod_id);
+            query->bindValue(":ttn_item_quantity", ui->spinBox->value()+ttn_item_quantity);
+            query->exec();
+
+            if(edit==true){
+                int x;
+                if(comingBool==false){
+                x=(ui->lineEdit->text().toInt())-(ui->spinBox->value());
+                }else{
+                x=(ui->lineEdit->text().toInt())+(ui->spinBox->value());
+                }
+                queryUpdate->prepare("UPDATE products SET prod_quantity=:prod_quantity  WHERE prod_id = :prod_id;");
+                queryUpdate->bindValue(":prod_quantity", QString::number(x) );
+                queryUpdate->bindValue(":prod_id", prod_id);
+                queryUpdate->exec();
+            }
+
+            emit update_table();
+
+            close();
+        }
     }
-
-
-
-
 }
+
 
 void choise_goods::recieveData(int i, bool e)
 {
     ttn_id=i;
     edit = e;
+}
+
+void choise_goods::recieveComingOperation(bool o)
+{
+    comingBool=o;
 }

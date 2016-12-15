@@ -65,7 +65,10 @@ void MainWindow::on_pushButton_clicked()
         prodcoming = new prod_coming;
         prodcoming->setWindowFlags(Qt::Dialog | Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowCloseButtonHint);
         connect(prodcoming, SIGNAL(update_table()), this, SLOT(RefreshTabl_coming()));
+        connect(this, SIGNAL(sendData(int, bool)), prodcoming, SLOT(receiveData(int, bool)));
+        emit sendData(index_table, false);
         prodcoming->show();
+        prodcoming->activateWindow();
 
         // если выбрано Продукция
     }else if(ui->pushButton_8->isChecked()){
@@ -92,43 +95,49 @@ void MainWindow::on_pushButton_clicked()
 // Кнопка редактировать
 void MainWindow::on_pushButton_5_clicked()
 {
-if(index_table!=0){
-    // если выбрано Продукция
-    if(ui->pushButton_8->isChecked()){
+    if(index_table!=0){
+        // если выбрано отгрузка
+        if (ui->pushButton_10->isChecked()){
+            t_t_n = new ttn();
+            t_t_n->setWindowFlags(Qt::Dialog | Qt::CustomizeWindowHint | Qt::WindowTitleHint);
+            connect(this, SIGNAL(sendData(int, bool)), t_t_n, SLOT(receiveData(int, bool)));
+            connect(t_t_n, SIGNAL(update_table()), this, SLOT(RefreshTabl_ttn()));
+            emit sendData(index_table, true);
+            t_t_n->show();
+            t_t_n->activateWindow();
 
-        prod = new products;
-        prod->setWindowFlags(Qt::Tool);
-        connect(prod, SIGNAL(update_table()), this, SLOT(RefreshTabl_prod()));
-        connect(this, SIGNAL(sendData(int, bool)), prod, SLOT(receiveData(int, bool)));
-        emit sendData(index_table, true);
-        prod->show();
-        prod->activateWindow();
+            // если выбрано приход
+        }else if (ui->pushButton_6->isChecked()){
+            prodcoming = new prod_coming();
+            prodcoming->setWindowFlags(Qt::Dialog | Qt::CustomizeWindowHint | Qt::WindowTitleHint);
+            connect(this, SIGNAL(sendData(int, bool)),prodcoming, SLOT(receiveData(int, bool)));
+            connect(prodcoming, SIGNAL(update_table()), this, SLOT(RefreshTabl_coming()));
+            emit sendData(index_table, true);
+            prodcoming->show();
+            prodcoming->activateWindow();
 
-    // если выбрано заказчики
-    }else if(ui->pushButton_7->isChecked()){
-        cust = new custumers();
-        cust->setWindowFlags(Qt::Tool);
-        connect(cust, SIGNAL(update_table()), this, SLOT(RefreshTabl_cust()));
-        connect(this, SIGNAL(sendData(int, bool)), cust, SLOT(receiveData(int, bool)));
-        emit sendData(index_table, true);
-        cust->show();
-        cust->activateWindow();
+            // если выбрано Продукция
+        }else if(ui->pushButton_8->isChecked()){
 
-    // если выбрано отгрузка
-    }else if (ui->pushButton_10->isChecked()){
+            prod = new products;
+            prod->setWindowFlags(Qt::Tool);
+            connect(prod, SIGNAL(update_table()), this, SLOT(RefreshTabl_prod()));
+            connect(this, SIGNAL(sendData(int, bool)), prod, SLOT(receiveData(int, bool)));
+            emit sendData(index_table, true);
+            prod->show();
+            prod->activateWindow();
 
-        t_t_n = new ttn();
-        t_t_n->setWindowFlags(Qt::Dialog | Qt::CustomizeWindowHint | Qt::WindowTitleHint);
-        connect(this, SIGNAL(sendData(int, bool)), t_t_n, SLOT(receiveData(int, bool)));
-        connect(t_t_n, SIGNAL(update_table()), this, SLOT(RefreshTabl_ttn()));
-        emit sendData(index_table, true);
-        t_t_n->show();
-        t_t_n->activateWindow();
+            // если выбрано заказчики
+        }else if(ui->pushButton_7->isChecked()){
+            cust = new custumers();
+            cust->setWindowFlags(Qt::Tool);
+            connect(cust, SIGNAL(update_table()), this, SLOT(RefreshTabl_cust()));
+            connect(this, SIGNAL(sendData(int, bool)), cust, SLOT(receiveData(int, bool)));
+            emit sendData(index_table, true);
+            cust->show();
+            cust->activateWindow();
+        }
     }
-}else{
-
-    QMessageBox::information(this, "Увага", "Виберіть запис для редагування");
-}
 }
 
 // Кнопка Удалить
@@ -195,10 +204,8 @@ void MainWindow::on_pushButton_2_clicked()
         }else{
             // do something else
         }
-        }else{
-            QMessageBox::information(this, "Увага", "Виберіть запис для видалення ");
-        }
     }
+}
 
 // Кнопка Приход
 void MainWindow::on_pushButton_6_clicked()
@@ -400,3 +407,21 @@ void MainWindow::RefreshTabl_cust()
     ui->tableView->setColumnWidth(5,100);
 }
 
+
+void MainWindow::on_tableView_doubleClicked()
+{
+    // если выбрано отгрузка
+    if (ui->pushButton_10->isChecked()){
+
+        // если выбрано приход
+    }else if (ui->pushButton_6->isChecked()){
+
+        // если выбрано Продукция
+    }else if(ui->pushButton_8->isChecked()){
+        ui->pushButton_5->clicked();
+
+        // если выбрано заказчики
+    }else if(ui->pushButton_7->isChecked()){
+        ui->pushButton_5->clicked();
+    }
+}

@@ -34,8 +34,6 @@ public slots:
 signals:
     void sendData(int i, bool e);
 
-
-
 private slots:
 
     void on_pushButton_clicked();
@@ -65,6 +63,10 @@ private slots:
     void RefreshTabl_coming();
 
     void on_pushButton_10_clicked();
+
+    void on_tableView_doubleClicked();
+
+
 
 private:
     Ui::MainWindow *ui;
