@@ -20,6 +20,7 @@ ttn::ttn(QWidget *parent) :
         model->setQuery("select operation_id, operation_name from operations WHERE NOT(operation_id=1);");
         ui->comboBox->setModel(model);
         ui->comboBox->setModelColumn(1);
+        ui->comboBox->setCurrentIndex(-1);
         ui->comboBox->setMaxVisibleItems(ui->comboBox->maxCount());
 
         model = new QSqlQueryModel(this);
@@ -132,7 +133,7 @@ void ttn::on_tableView_clicked(const QModelIndex &index)
 //Запись накладной
 void ttn::on_pushButton_4_clicked()
 {
-    if(ui->comboBox_2->currentIndex()!=-1){
+    if((ui->comboBox_2->currentIndex()!=-1)&&(ui->comboBox->currentIndex()!=-1)) {
 
         query = new QSqlQuery();
         query2 = new QSqlQuery();
@@ -185,7 +186,7 @@ void ttn::on_pushButton_4_clicked()
 
         close();
     }else{
-        QMessageBox::information(this, "Увага", "Відсутній замовник ");
+        QMessageBox::information(this, "Увага", "Не заповнені всі поля ");
     }
 
 }
@@ -265,8 +266,8 @@ void ttn::receiveData(int i, bool e)
 // кнопка количество
 void ttn::on_pushButton_6_clicked()
 {
-    editprice = new QWidget;
-    editprice->setWindowFlags(Qt::Tool);
+    editQuantity = new QWidget;
+    editQuantity->setWindowFlags(Qt::Tool);
     verticalLayout = new QVBoxLayout;
     pushButton = new QPushButton;
     spinBox = new QSpinBox;
@@ -285,9 +286,9 @@ void ttn::on_pushButton_6_clicked()
     spinBox->setValue(ttn_item_quantity);
     spinBox->setMaximum(ttn_item_quantity+prod_quantity);
     QFont timesFont("Times New Roman", 12);
-    editprice->setFont(timesFont);
-    editprice->setWindowTitle("Кількість");
-    editprice->setWindowModality(Qt::ApplicationModal);
+    editQuantity->setFont(timesFont);
+    editQuantity->setWindowTitle("Кількість");
+    editQuantity->setWindowModality(Qt::ApplicationModal);
 
     pushButton->setText("Зберегти");
 
@@ -296,16 +297,16 @@ void ttn::on_pushButton_6_clicked()
 
     verticalLayout->addWidget(spinBox);
     verticalLayout->addWidget(pushButton);
-    editprice->setLayout(verticalLayout);
-    editprice->show();
-    editprice->activateWindow();
+    editQuantity->setLayout(verticalLayout);
+    editQuantity->show();
+    editQuantity->activateWindow();
 
     QDesktopWidget desktop;
     QRect rect = desktop.availableGeometry(desktop.primaryScreen()); // прямоугольник с размерами экрана
     QPoint center = rect.center(); //координаты центра экрана
-    center.setX(center.x() - (editprice->width()/2));  // учитываем половину ширины окна
-    center.setY(center.y() - (editprice->height()/2));  // .. половину высоты
-    editprice->move(center);
+    center.setX(center.x() - (editQuantity->width()/2));  // учитываем половину ширины окна
+    center.setY(center.y() - (editQuantity->height()/2));  // .. половину высоты
+    editQuantity->move(center);
 }
 //функция измимения количества
 void ttn::updateprice()
@@ -315,7 +316,7 @@ void ttn::updateprice()
     queryUpdate = new QSqlQuery;
 
     query->exec("UPDATE ttn_items SET ttn_item_quantity ="+QString::number(spinBox->value())+" WHERE ttn_id= " +ui->lineEdit->text()+ " AND prod_id ="+QString::number(index_prod)+";");
-    editprice->close();
+    editQuantity->close();
 
     if(edit==true){
         if(spinBox->value()>ttn_item_quantity){

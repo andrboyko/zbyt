@@ -12,6 +12,9 @@
 #include <QSortFilterProxyModel>
 #include <QMessageBox>
 #include <prod_coming.h>
+#include <QProcess>
+#include <QTextStream>
+#include <QFile>
 
 
 namespace Ui {
@@ -68,6 +71,10 @@ private slots:
 
 
 
+    void on_pushButton_3_clicked();
+
+    void on_pushButton_4_clicked();
+
 private:
     Ui::MainWindow *ui;
     QSqlQueryModel *model;
@@ -80,6 +87,9 @@ private:
     custumers *cust;
     int index_table;
     QSortFilterProxyModel * proxyModel;
+    QFile *file;
+    QString str;
+
 };
 
 #endif // MAINWINDOW_H

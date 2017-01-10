@@ -174,7 +174,6 @@ void choise_goods::on_pushButton_clicked()
     }
 }
 
-
 void choise_goods::recieveData(int i, bool e)
 {
     ttn_id=i;

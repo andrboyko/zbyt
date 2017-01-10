@@ -73,7 +73,7 @@ private:
     int ttn_item_quantity;
     bool edit;
 
-    QWidget *editprice;
+    QWidget *editQuantity;
     QVBoxLayout *verticalLayout;
     QPushButton *pushButton;
     QSpinBox *spinBox;

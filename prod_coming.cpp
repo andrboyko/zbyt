@@ -211,5 +211,78 @@ void prod_coming::receiveData(int i, bool e)
 
 void prod_coming::on_pushButton_6_clicked()
 {
+    editQuantity = new QWidget;
+    editQuantity->setWindowFlags(Qt::Tool);
+    verticalLayout = new QVBoxLayout;
+    pushButton = new QPushButton;
+    spinBox = new QSpinBox;
+    query = new QSqlQuery;
+    spinBox->setMinimum(1);
 
+
+    query->exec("SELECT prod_quantity FROM products WHERE prod_id = "+QString::number(index_prod)+";");
+    query->next();
+    prod_quantity=query->value(0).toInt();
+
+    query->exec("SELECT ttn_item_quantity FROM ttn_items WHERE ttn_id= " +ui->lineEdit->text()+ " AND prod_id= " +QString::number(index_prod)+ ";");
+    while (query->next()){
+        ttn_item_quantity=query->value(0).toInt();
+    }
+    spinBox->setValue(ttn_item_quantity);
+    spinBox->setMaximum(ttn_item_quantity+prod_quantity);
+    QFont timesFont("Times New Roman", 12);
+    editQuantity->setFont(timesFont);
+    editQuantity->setWindowTitle("Кількість");
+    editQuantity->setWindowModality(Qt::ApplicationModal);
+
+    pushButton->setText("Зберегти");
+
+    connect(pushButton, SIGNAL (clicked()), this, SLOT (updateprice()));
+
+
+    verticalLayout->addWidget(spinBox);
+    verticalLayout->addWidget(pushButton);
+    editQuantity->setLayout(verticalLayout);
+    editQuantity->show();
+    editQuantity->activateWindow();
+
+    QDesktopWidget desktop;
+    QRect rect = desktop.availableGeometry(desktop.primaryScreen()); // прямоугольник с размерами экрана
+    QPoint center = rect.center(); //координаты центра экрана
+    center.setX(center.x() - (editQuantity->width()/2));  // учитываем половину ширины окна
+    center.setY(center.y() - (editQuantity->height()/2));  // .. половину высоты
+    editQuantity->move(center);
 }
+
+void prod_coming::updateprice()
+{
+    query = new QSqlQuery;
+    query2 = new QSqlQuery;
+    queryUpdate = new QSqlQuery;
+
+    query->exec("UPDATE ttn_items SET ttn_item_quantity ="+QString::number(spinBox->value())+" WHERE ttn_id= " +ui->lineEdit->text()+ " AND prod_id ="+QString::number(index_prod)+";");
+    editQuantity->close();
+
+    if(edit==true){
+        if(spinBox->value()>ttn_item_quantity){
+            int x;
+            x=(prod_quantity)+(spinBox->value()-ttn_item_quantity);
+            queryUpdate->prepare("UPDATE products SET prod_quantity=:prod_quantity  WHERE prod_id = :prod_id;");
+            queryUpdate->bindValue(":prod_quantity", QString::number(x) );
+            queryUpdate->bindValue(":prod_id", index_prod);
+            queryUpdate->exec();
+        }else if(spinBox->value()<ttn_item_quantity){
+            int x;
+            x=(prod_quantity)-(ttn_item_quantity-(spinBox->value()));
+            queryUpdate->prepare("UPDATE products SET prod_quantity=:prod_quantity  WHERE prod_id = :prod_id;");
+            queryUpdate->bindValue(":prod_quantity", QString::number(x) );
+            queryUpdate->bindValue(":prod_id", index_prod);
+            queryUpdate->exec();
+        }else{
+
+        }
+    }
+    refreshTable_goods();
+}
+
+

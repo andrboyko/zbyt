@@ -26,6 +26,8 @@
    <font>
     <family>Times New Roman</family>
     <pointsize>12</pointsize>
+    <weight>50</weight>
+    <bold>false</bold>
    </font>
   </property>
   <property name="windowTitle">
@@ -179,7 +181,7 @@
       <item>
        <widget class="QPushButton" name="pushButton_3">
         <property name="enabled">
-         <bool>false</bool>
+         <bool>true</bool>
         </property>
         <property name="maximumSize">
          <size>
@@ -618,6 +620,19 @@
           <bool>false</bool>
          </property>
         </widget>
+        <widget class="QPushButton" name="pushButton_4">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>200</y>
+           <width>131</width>
+           <height>51</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Кнопка тест</string>
+         </property>
+        </widget>
        </widget>
       </item>
      </layout>
@@ -646,7 +661,7 @@
        <bool>true</bool>
       </property>
       <attribute name="horizontalHeaderVisible">
-       <bool>true</bool>
+       <bool>false</bool>
       </attribute>
       <attribute name="verticalHeaderVisible">
        <bool>false</bool>

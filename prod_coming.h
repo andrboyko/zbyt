@@ -8,6 +8,9 @@
 #include <QDesktopWidget>
 #include <QShortcut>
 #include <choise_goods.h>
+#include <QVBoxLayout>
+#include <QPushButton>
+#include <QSpinBox>
 
 namespace Ui {
 class prod_coming;
@@ -43,6 +46,8 @@ private slots:
 
     void on_pushButton_6_clicked();
 
+    void updateprice();
+
 private:
     Ui::prod_coming *ui;
     QShortcut *keyCancel;
@@ -56,6 +61,14 @@ private:
     bool edit;
     double sum;
     int index_table;
+    int prod_quantity;
+    int ttn_item_quantity;
+
+
+    QWidget *editQuantity;
+    QVBoxLayout *verticalLayout;
+    QPushButton *pushButton;
+    QSpinBox *spinBox;
 
 
 };
