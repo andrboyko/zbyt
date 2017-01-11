@@ -310,6 +310,35 @@ void MainWindow::on_action_2_triggered()
 {
     ui->pushButton_7->clicked();
 }
+// Нашие Реквизиты
+void MainWindow::on_action_4_triggered()
+{
+widget_our_requisites = new QWidget;
+verticalLayout = new QVBoxLayout;
+our_requisites = new QTableView;
+tableModel = new QSqlTableModel;
+
+tableModel->setTable("our_requisites");
+tableModel->select();
+tableModel->setEditStrategy(QSqlTableModel::OnFieldChange);
+tableModel->setHeaderData(0,Qt::Horizontal, "id");
+tableModel->setHeaderData(1,Qt::Horizontal, "Імя");
+tableModel->setHeaderData(2,Qt::Horizontal, "Адрес");
+tableModel->setHeaderData(3,Qt::Horizontal, "Телефон");
+tableModel->setHeaderData(4,Qt::Horizontal, "Індивідуальний под. номер");
+tableModel->setHeaderData(5,Qt::Horizontal, "Номер свідоцтва");
+our_requisites->setModel(tableModel);
+our_requisites->setColumnHidden(0,1);
+our_requisites->resizeColumnsToContents();
+verticalLayout->addWidget(our_requisites);
+widget_our_requisites->setWindowFlags(Qt::Tool);
+widget_our_requisites->setWindowTitle("Наші реквізити");
+widget_our_requisites->setWindowModality(Qt::ApplicationModal);
+widget_our_requisites->setFixedSize(800,100);
+widget_our_requisites->setLayout(verticalLayout);
+widget_our_requisites->show();
+widget_our_requisites->activateWindow();
+}
 
 // обновить таблицу с накладными збут
 void MainWindow::RefreshTabl_ttn()
@@ -492,10 +521,9 @@ void MainWindow::on_pushButton_3_clicked()
 
         query->exec("SELECT DATE_FORMAT((SELECT ttn_date FROM zbyt.ttn WHERE ttn_id="+QString::number(index_table)+") , '%m%d%Y');");
         query->next();
-        str=(query->value(0).toString());
-        foreach(QChar c, str){
-            in <<QString("                            <td>" + QString(c) + "</td>");
 
+        foreach(QChar c, query->value(0).toString()){
+            in <<QString("                            <td>" + QString(c) + "</td>");
         }
         in <<QString("                        </tr>");
         in <<QString("                    </table>");
@@ -544,7 +572,7 @@ void MainWindow::on_pushButton_3_clicked()
         in <<QString("                <div id=\"seller_right\">");
         in <<QString("                    <p>");
         in <<QString("                        <p id=\"text_border\">ВМЗ ПАТ \"Мотор Січ\"</p>");
-        in <<QString("                        <p>");
+        in <<QString("                        <p><p><p>");
         in <<QString("                            <table id=\"table_property\" border=\"1\">");
         in <<QString("                                <tr>");
         in <<QString("                                    <td>1</td>");
@@ -849,3 +877,5 @@ void MainWindow::on_pushButton_4_clicked()
 {
 
 }
+
+

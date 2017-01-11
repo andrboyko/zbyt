@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QSqlQueryModel>
+#include <QSqlTableModel>
 #include <QSqlQuery>
 #include <QDebug>
 #include <QDate>
@@ -15,6 +16,9 @@
 #include <QProcess>
 #include <QTextStream>
 #include <QFile>
+#include <QTableView>
+#include <QVBoxLayout>
+#include <QWidget>
 
 
 namespace Ui {
@@ -69,15 +73,16 @@ private slots:
 
     void on_tableView_doubleClicked();
 
-
-
     void on_pushButton_3_clicked();
 
     void on_pushButton_4_clicked();
 
+    void on_action_4_triggered();
+
 private:
     Ui::MainWindow *ui;
     QSqlQueryModel *model;
+    QSqlTableModel *tableModel;
     ttn *t_t_n;
     prod_coming *prodcoming;
     QSqlQuery *query;
@@ -88,7 +93,9 @@ private:
     int index_table;
     QSortFilterProxyModel * proxyModel;
     QFile *file;
-    QString str;
+    QTableView *our_requisites;
+    QVBoxLayout *verticalLayout;
+    QWidget *widget_our_requisites;
 
 };
 

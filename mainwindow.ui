@@ -488,7 +488,7 @@
           <bool>false</bool>
          </property>
          <property name="text">
-          <string>Отгрузка</string>
+          <string>Продаж</string>
          </property>
          <property name="icon">
           <iconset resource="ico.qrc">
@@ -595,7 +595,7 @@
           <bool>false</bool>
          </property>
          <property name="text">
-          <string>Вироби</string>
+          <string>Продукція</string>
          </property>
          <property name="icon">
           <iconset resource="ico.qrc">
@@ -690,6 +690,7 @@
     </property>
     <addaction name="action"/>
     <addaction name="action_2"/>
+    <addaction name="action_4"/>
    </widget>
    <widget class="QMenu" name="menu_4">
     <property name="title">
@@ -735,6 +736,15 @@
   <action name="action_3">
    <property name="text">
     <string>Звіти</string>
+   </property>
+  </action>
+  <action name="action_4">
+   <property name="icon">
+    <iconset resource="ico.qrc">
+     <normaloff>:/ico/motor.gif</normaloff>:/ico/motor.gif</iconset>
+   </property>
+   <property name="text">
+    <string>Наші реквізити</string>
    </property>
   </action>
  </widget>
