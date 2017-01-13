@@ -256,7 +256,7 @@ void print_ttn::on_pushButton_clicked()
     i=0;
     query->exec("SELECT prod_name, units_name, ttn_item_quantity, ttn_item_price  FROM products, ttn_items, units WHERE products.prod_id=ttn_items.prod_id AND units.units_id=products.units_id AND ttn_id="+QString::number(index_table) +";");
     while (query->next()) {
-         if (i>1){
+         if (i>0){
              in <<QString("<tr>");
          }
          in <<QString("                            <td>"+query->value(0).toString()+"</td>");
@@ -264,6 +264,7 @@ void print_ttn::on_pushButton_clicked()
          in <<QString("                            <td>"+query->value(2).toString()+"</td>");
          in <<QString("                            <td>"+query->value(3).toString()+"</td>");
          in <<QString("                            <td>"+QString::number(query->value(2).toDouble()*query->value(3).toDouble())+"</td>");
+         in <<QString("                            <td></td>");
          in <<QString("                            <td></td>");
          in <<QString("                            <td></td>");
          in <<QString("                            <td></td>");
