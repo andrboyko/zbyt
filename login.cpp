@@ -43,7 +43,7 @@ void login::on_buttonBox_rejected()
 void login::on_buttonBox_accepted()
 {
     db = QSqlDatabase::addDatabase("QMYSQL");
-    db.setHostName("10.10.10.10");
+    db.setHostName("46.200.74.194");
     db.setDatabaseName("zbyt");
 
     db.setUserName(ui->lineEdit_2->text());
