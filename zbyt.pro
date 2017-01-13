@@ -19,7 +19,8 @@ SOURCES += main.cpp\
     prod_coming.cpp \
     products.cpp \
     custumers.cpp \
-    ttn.cpp
+    ttn.cpp \
+    print_ttn.cpp
 
 HEADERS  += \
     choise_goods.h \
@@ -28,7 +29,8 @@ HEADERS  += \
     prod_coming.h \
     products.h \
     custumers.h \
-    ttn.h
+    ttn.h \
+    print_ttn.h
 
 FORMS    += login.ui \
     choise_goods.ui \
@@ -36,7 +38,8 @@ FORMS    += login.ui \
     prod_coming.ui \
     products.ui \
     custumers.ui \
-    ttn.ui
+    ttn.ui \
+    print_ttn.ui
 
 RESOURCES += \
     ico.qrc

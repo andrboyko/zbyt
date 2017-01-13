@@ -297,7 +297,6 @@ void MainWindow::on_lineEdit_textChanged(const QString &arg1)
         ui->tableView->setColumnWidth(2,70);
         ui->tableView->setColumnWidth(3,300);
         ui->tableView->setColumnWidth(4,70);
-
     }
 }
 
@@ -313,31 +312,31 @@ void MainWindow::on_action_2_triggered()
 // Нашие Реквизиты
 void MainWindow::on_action_4_triggered()
 {
-widget_our_requisites = new QWidget;
-verticalLayout = new QVBoxLayout;
-our_requisites = new QTableView;
-tableModel = new QSqlTableModel;
+    widget = new QWidget;
+    verticalLayout = new QVBoxLayout;
+    our_requisites = new QTableView;
+    tableModel = new QSqlTableModel;
 
-tableModel->setTable("our_requisites");
-tableModel->select();
-tableModel->setEditStrategy(QSqlTableModel::OnFieldChange);
-tableModel->setHeaderData(0,Qt::Horizontal, "id");
-tableModel->setHeaderData(1,Qt::Horizontal, "Імя");
-tableModel->setHeaderData(2,Qt::Horizontal, "Адрес");
-tableModel->setHeaderData(3,Qt::Horizontal, "Телефон");
-tableModel->setHeaderData(4,Qt::Horizontal, "Індивідуальний под. номер");
-tableModel->setHeaderData(5,Qt::Horizontal, "Номер свідоцтва");
-our_requisites->setModel(tableModel);
-our_requisites->setColumnHidden(0,1);
-our_requisites->resizeColumnsToContents();
-verticalLayout->addWidget(our_requisites);
-widget_our_requisites->setWindowFlags(Qt::Tool);
-widget_our_requisites->setWindowTitle("Наші реквізити");
-widget_our_requisites->setWindowModality(Qt::ApplicationModal);
-widget_our_requisites->setFixedSize(800,100);
-widget_our_requisites->setLayout(verticalLayout);
-widget_our_requisites->show();
-widget_our_requisites->activateWindow();
+    tableModel->setTable("our_requisites");
+    tableModel->select();
+    tableModel->setEditStrategy(QSqlTableModel::OnFieldChange);
+    tableModel->setHeaderData(0,Qt::Horizontal, "id");
+    tableModel->setHeaderData(1,Qt::Horizontal, "Імя");
+    tableModel->setHeaderData(2,Qt::Horizontal, "Адрес");
+    tableModel->setHeaderData(3,Qt::Horizontal, "Телефон");
+    tableModel->setHeaderData(4,Qt::Horizontal, "Індивідуальний под. номер");
+    tableModel->setHeaderData(5,Qt::Horizontal, "Номер свідоцтва");
+    our_requisites->setModel(tableModel);
+    our_requisites->setColumnHidden(0,1);
+    our_requisites->resizeColumnsToContents();
+    verticalLayout->addWidget(our_requisites);
+    widget->setWindowFlags(Qt::Tool);
+    widget->setWindowTitle("Наші реквізити");
+    widget->setWindowModality(Qt::ApplicationModal);
+    widget->setFixedSize(800,100);
+    widget->setLayout(verticalLayout);
+    widget->show();
+    widget->activateWindow();
 }
 
 // обновить таблицу с накладными збут
@@ -372,7 +371,6 @@ void MainWindow::RefreshTabl_coming()
 {
     model = new QSqlQueryModel;
     proxyModel = new QSortFilterProxyModel(this);
-
 
     if(ui->comboBox->currentIndex()!=0){
         model->setQuery("select ttn_id, operation_name, cust_name, sum, ttn_date FROM ttn, operations, custumers where ttn.operation_id = operations.operation_id and ttn.cust_id = custumers.cust_id and ttn.operation_id = 1 and year(ttn_date) =" + QString::number(ui->spinBox->value()) + " and month(ttn_date)=" +QString::number(ui->comboBox->currentIndex())+";");
@@ -457,414 +455,19 @@ void MainWindow::on_tableView_doubleClicked()
 
 void MainWindow::on_pushButton_3_clicked()
 {
-
-    query = new QSqlQuery();
-
-    if (ui->pushButton_10->isChecked()){
-        file=new QFile;
-        file->setFileName("C:/Temp/test.html");
-        file->open(QIODevice::WriteOnly);
-
-
-
-        QTextStream in(file);
-        in.setCodec("UTF-8");
-        in <<QString("<!DOCTYPE HTML>");
-        in <<QString("<HTML>");
-        in <<QString("<HEAD>");
-        in <<QString("    <TITLE>Податкова накладна</TITLE>");
-        in <<QString("    <meta charset='UTF-8'>");
-        in <<QString("    <link href=\"css\\podatkova.css\" rel=\"stylesheet\" type=\"text/css\"> </HEAD>");
-
-        in <<QString("<BODY>");
-        in <<QString("    <div id=\"page_align\">");
-        in <<QString("        <div id=\"header\">");
-        in <<QString("            <div id=\"header_right\">");
-        in <<QString("                <p> ЗАТВЕРДЖЕНО");
-        in <<QString("                    <p>Наказ Державної податкової");
-        in <<QString("                        <p>адміністрації України");
-        in <<QString("                            <p>21.12.2010 №969 </div>");
-        in <<QString("            <div id=\"header_left\">");
-        in <<QString("                <table style=\" border-collapse: collapse;   text-align: center; height:120px; width:225px;\" border=1px;>");
-        in <<QString("                    <tr>");
-        in <<QString("                        <td rowspan=\"4\">Оригінал</td>");
-        in <<QString("                        <td>Видається покупцю</td>");
-        in <<QString("                        <td colspan=\"2\" ; width=\"26px\"></td>");
-        in <<QString("                    </tr>");
-        in <<QString("                    <tr>");
-        in <<QString("                        <td>Включено до ЕРПН</td>");
-        in <<QString("                        <td colspan=\"2\" ; width=\"26px\"></td>");
-        in <<QString("                    </tr>");
-        in <<QString("                    <tr>");
-        in <<QString("                        <td rowspan=\"2\">Залишається у продавця");
-        in <<QString("                            <p>(тип причини)</td>");
-        in <<QString("                        <td colspan=\"2\" ; width=\"26px\"></td>");
-        in <<QString("                    </tr>");
-        in <<QString("                    <tr>");
-        in <<QString("                        <td></td>");
-        in <<QString("                        <td></td>");
-        in <<QString("                    </tr>");
-        in <<QString("                    <tr>");
-        in <<QString("                        <td colspan=\"2\">Копія (залишається у продавця)</td>");
-        in <<QString("                        <td colspan=\"2\" ; width=\"26px\"></td>");
-        in <<QString("                    </tr>");
-        in <<QString("                </table>");
-        in <<QString("                <p>(Потрібне виділити 'X') </div>");
-        in <<QString("        </div>");
-        in <<QString("        <h2 align=center>Податкова накладна</h2>");
-        in <<QString("        <div id=\"date_nomer\">");
-        in <<QString("            <div id=\"date\">");
-        in <<QString("                <div id=\"left\"> Дата виписки податкової накладної</div>");
-        in <<QString("                <div id=\"right\">");
-        in <<QString("                    <table id=\"table_property\" border=\"1\">");
-        in <<QString("                        <tr>");
-
-        query->exec("SELECT DATE_FORMAT((SELECT ttn_date FROM zbyt.ttn WHERE ttn_id="+QString::number(index_table)+") , '%m%d%Y');");
-        query->next();
-
-        foreach(QChar c, query->value(0).toString()){
-            in <<QString("                            <td>" + QString(c) + "</td>");
+    if(index_table!=0){
+        if (ui->pushButton_10->isChecked()){
+            printttn = new print_ttn;
+            connect(this, SIGNAL(sendData(int, bool)), printttn , SLOT(receiveData(int, bool)));
+            emit sendData(index_table, false);
+            printttn->setWindowTitle("Друк");
+            printttn->setWindowFlags(Qt::Tool);
+            printttn->show();
+            printttn->activateWindow();
+        }else if(ui->pushButton_6->isChecked()){
+        }else{
+            QMessageBox::information(this, "Увага", "");
         }
-        in <<QString("                        </tr>");
-        in <<QString("                    </table>");
-        in <<QString("                </div>");
-        in <<QString("            </div>");
-        in <<QString("            <div id=\"nomer\">");
-        in <<QString("                <div id=\"left\"> Порядковий номер</div>");
-        in <<QString("                <div id=\"right\">");
-        in <<QString("                    <div id=\"nomer_left\">");
-        in <<QString("                        <table id=\"table_property\" border=\"1\">");
-        in <<QString("                            <tr>");
-        in <<QString("                                <td>&nbsp&nbsp</td>");
-        in <<QString("                                <td>&nbsp&nbsp</td>");
-        in <<QString("                                <td>&nbsp&nbsp</td>");
-        in <<QString("                                <td>&nbsp&nbsp</td>");
-        in <<QString("                                <td>&nbsp&nbsp</td>");
-        in <<QString("                                <td>&nbsp&nbsp</td>");
-        in <<QString("                                <td>&nbsp&nbsp</td>");
-        in <<QString("                        </table>");
-        in <<QString("                    </div> <span style=\"font-size:16px\">\\</span>");
-        in <<QString("                    <div id=\"nomer_right\">");
-        in <<QString("                        <table border=\"1\" width=\"60px\" height=\"20px\" style=\"border-collapse: collapse; text-align: center;\">");
-        in <<QString("                            <tr>");
-        in <<QString("                                <td>1</td>");
-        in <<QString("                                <td>&nbsp&nbsp</td>");
-        in <<QString("                                <td>&nbsp&nbsp</td>");
-        in <<QString("                        </table>");
-        in <<QString("                    </div>");
-        in <<QString("                </div>");
-        in <<QString("            </div>");
-        in <<QString("        </div>");
-        in <<QString("        <div id=\"property\">");
-        in <<QString("            <div id=\"property_saller\">");
-        in <<QString("                <p align=center><i>ПРОДАВЕЦЬ</i></p>");
-        in <<QString("                <div id=\"seller_left\">");
-        in <<QString("                    <p>");
-        in <<QString("                        <p>Особа (платник податку)-продавець</p>");
-        in <<QString("                        <p>Індивідуальний податковий номер</p>");
-        in <<QString("                        <p>");
-        in <<QString("                            <p>Місцезнаходження (податкова адреса) продавця</p>");
-        in <<QString("                            <p>");
-        in <<QString("                                <p>Номер телефону</p>");
-        in <<QString("                                <p>");
-        in <<QString("                                    <p>Номер свідоцтва про реєстрацію платника податку на додану вартість (продавця) </p>");
-        in <<QString("                </div>");
-        in <<QString("                <div id=\"seller_right\">");
-        in <<QString("                    <p>");
-        in <<QString("                        <p id=\"text_border\">ВМЗ ПАТ \"Мотор Січ\"</p>");
-        in <<QString("                        <p><p><p>");
-        in <<QString("                            <table id=\"table_property\" border=\"1\">");
-        in <<QString("                                <tr>");
-        in <<QString("                                    <td>1</td>");
-        in <<QString("                                    <td>4</td>");
-        in <<QString("                                    <td>3</td>");
-        in <<QString("                                    <td>0</td>");
-        in <<QString("                                    <td>7</td>");
-        in <<QString("                                    <td>7</td>");
-        in <<QString("                                    <td>9</td>");
-        in <<QString("                                    <td>0</td>");
-        in <<QString("                                    <td>8</td>");
-        in <<QString("                                    <td>2</td>");
-        in <<QString("                                    <td>4</td>");
-        in <<QString("                                    <td>6</td>");
-        in <<QString("                                </tr>");
-        in <<QString("                            </table>");
-        in <<QString("                            <p id=\"text_border\">пр.Моторобудівників 15 м.Запоріжжя 69068</p>");
-        in <<QString("                            <p><p><p>");
-        in <<QString("                                <table id=\"table_property\" border=\"1\">");
-        in <<QString("                                    <tr>");
-        in <<QString("                                        <td>0</td>");
-        in <<QString("                                        <td>3</td>");
-        in <<QString("                                        <td>8</td>");
-        in <<QString("                                        <td>4</td>");
-        in <<QString("                                        <td>5</td>");
-        in <<QString("                                        <td>3</td>");
-        in <<QString("                                        <td>6</td>");
-        in <<QString("                                        <td>5</td>");
-        in <<QString("                                        <td>8</td>");
-        in <<QString("                                        <td>9</td>");
-        in <<QString("                                    </tr>");
-        in <<QString("                                </table>");
-        in <<QString("                                <p>");
-        in <<QString("                                    <p>");
-        in <<QString("                                        <table id=\"table_property\" border=\"1\">");
-        in <<QString("                                            <tr>");
-        in <<QString("                                                <td>&nbsp&nbsp</td>");
-        in <<QString("                                                <td>1</td>");
-        in <<QString("                                                <td>0</td>");
-        in <<QString("                                                <td>0</td>");
-        in <<QString("                                                <td>2</td>");
-        in <<QString("                                                <td>2</td>");
-        in <<QString("                                                <td>5</td>");
-        in <<QString("                                                <td>4</td>");
-        in <<QString("                                                <td>2</td>");
-        in <<QString("                                                <td>0</td>");
-        in <<QString("                                            </tr>");
-        in <<QString("                                        </table>");
-        in <<QString("                </div>");
-        in <<QString("            </div>");
-        in <<QString("            <div id=\"property_custumers\">");
-        in <<QString("                <p align=center><i>ПОКУПЕЦЬ</i></p>");
-        in <<QString("                <div id=\"seller_left\">");
-        in <<QString("                    <p><p>");
-        in <<QString("                        <p>Особа (платник податку)-покупець</p>");
-        in <<QString("                        <p>Індивідуальний податковий номер</p>");
-        in <<QString("                        <p>");
-        in <<QString("                            <p>");
-        in <<QString("                                <p>Місцезнаходження (податкова адреса) покупця</p>");
-        in <<QString("                                <p>");
-        in <<QString("                                    <p>");
-        in <<QString("                                        <p>Номер телефону</p>");
-        in <<QString("                                        <p>Номер свідоцтва про реєстрацію платника податку на додану вартість (покупця) </p>");
-        in <<QString("                </div>");
-        in <<QString("                <div id=\"seller_right\">");
-        in <<QString("                    <p id=\"text_border\">Відгрузка за готівку зі складу збут </p>");
-        in <<QString("                    <p>");
-        in <<QString("                        <table id=\"table_property\" border=\"1\">");
-        in <<QString("                            <tr>");
-        in <<QString("                                <td>1</td>");
-        in <<QString("                                <td>4</td>");
-        in <<QString("                                <td>3</td>");
-        in <<QString("                                <td>0</td>");
-        in <<QString("                                <td>7</td>");
-        in <<QString("                                <td>7</td>");
-        in <<QString("                                <td>9</td>");
-        in <<QString("                                <td>0</td>");
-        in <<QString("                                <td>8</td>");
-        in <<QString("                                <td>2</td>");
-        in <<QString("                                <td>4</td>");
-        in <<QString("                                <td>6</td>");
-        in <<QString("                            </tr>");
-        in <<QString("                        </table>");
-        in <<QString("                        <p id=\"text_border\">пр.Моторобудівників 15 м.Запоріжжя 69068</p>");
-        in <<QString("                        <p>");
-        in <<QString("                            <p>");
-        in <<QString("                                <p><p>");
-        in <<QString("                                    <table id=\"table_property\" border=\"1\">");
-        in <<QString("                                        <tr>");
-        in <<QString("                                            <td>0</td>");
-        in <<QString("                                            <td>3</td>");
-        in <<QString("                                            <td>8</td>");
-        in <<QString("                                            <td>4</td>");
-        in <<QString("                                            <td>5</td>");
-        in <<QString("                                            <td>3</td>");
-        in <<QString("                                            <td>6</td>");
-        in <<QString("                                            <td>5</td>");
-        in <<QString("                                            <td>8</td>");
-        in <<QString("                                            <td>9</td>");
-        in <<QString("                                        </tr>");
-        in <<QString("                                    </table>");
-        in <<QString("                                    <p>");
-        in <<QString("                                        <p>");
-        in <<QString("                                            <table id=\"table_property\" border=\"1\">");
-        in <<QString("                                                <tr>");
-        in <<QString("                                                    <td>&nbsp&nbsp</td>");
-        in <<QString("                                                    <td>1</td>");
-        in <<QString("                                                    <td>0</td>");
-        in <<QString("                                                    <td>0</td>");
-        in <<QString("                                                    <td>2</td>");
-        in <<QString("                                                    <td>2</td>");
-        in <<QString("                                                    <td>5</td>");
-        in <<QString("                                                    <td>4</td>");
-        in <<QString("                                                    <td>2</td>");
-        in <<QString("                                                    <td>0</td>");
-        in <<QString("                                                </tr>");
-        in <<QString("                                            </table>");
-        in <<QString("                </div>");
-        in <<QString("            </div>");
-        in <<QString("        </div>");
-        in <<QString("        <div id=\"dogovir\">");
-        in <<QString("            <div id=\"dogovir_left\">Вид цивільного проавового договору&nbsp&nbsp <span id=\"text_border10\">11111111</span>&nbsp&nbsp&nbsp&nbsp від </div>");
-        in <<QString("            <div id=\"dogovir_right\">");
-        in <<QString("                <div id=\"dogovir_right_left\">");
-        in <<QString("                    <table border=\"1\" id=\"table_property\">");
-        in <<QString("                        <tr>");
-        in <<QString("                            <td>0</td>");
-        in <<QString("                            <td>4</td>");
-        in <<QString("                            <td>0</td>");
-        in <<QString("                            <td>1</td>");
-        in <<QString("                            <td>2</td>");
-        in <<QString("                            <td>0</td>");
-        in <<QString("                            <td>1</td>");
-        in <<QString("                            <td>1</td>");
-        in <<QString("                        </tr>");
-        in <<QString("                    </table>");
-        in <<QString("                </div> <span style=\"font-size:14px\">№</span>");
-        in <<QString("                <div id=\"dogovir_right_right\">");
-        in <<QString("                    <table border=\"1\" id=\"table_property\">");
-        in <<QString("                        <tr>");
-        in <<QString("                            <td>&nbsp&nbsp</td>");
-        in <<QString("                            <td>&nbsp&nbsp</td>");
-        in <<QString("                            <td>&nbsp&nbsp</td>");
-        in <<QString("                            <td>&nbsp&nbsp</td>");
-        in <<QString("                            <td>&nbsp&nbsp</td>");
-        in <<QString("                            <td>&nbsp&nbsp</td>");
-        in <<QString("                            <td>&nbsp&nbsp</td>");
-        in <<QString("                    </table>");
-        in <<QString("                </div>");
-        in <<QString("            </div>");
-        in <<QString("        </div>");
-        in <<QString("        <p> Форма проведених розрахунків <span id=\"text_border10\">Готівковий розрахунок</span>");
-        in <<QString("            <p>");
-        in <<QString("                <div id=\"table\">");
-        in <<QString("                    <table style=\"font-size:12px; border-collapse:collapse; text-align:center;\" ; border=1px;>");
-        in <<QString("                        <tr>");
-        in <<QString("                            <td rowspan=\"2\">Розділ</td>");
-        in <<QString("                            <td rowspan=\"2\" width=\"20\">Дата відвантаження виконання, постачання</td>");
-        in <<QString("                            <td rowspan=\"2\">Номенклатура постачання товарів/послуг продавця</td>");
-        in <<QString("                            <td rowspan=\"2\">Одиниця виміру товару</td>");
-        in <<QString("                            <td rowspan=\"2\">Кількість</td>");
-        in <<QString("                            <td rowspan=\"2\" width=\"1\">Ціна постачання одиниці товару/послуги без урахування ПДВ</td>");
-        in <<QString("                            <td colspan=\"4\">Обсяги постачання(база оподаткування) без урахування ПДВ що підлягають оподаткуванню за ставками</td>");
-        in <<QString("                            <td rowspan=\"2\">Загальна сума коштів що підлягають оплаті</td>");
-        in <<QString("                        </tr>");
-        in <<QString("                        <tr>");
-        in <<QString("                            <td>20%</td>");
-        in <<QString("                            <td>0% (постач. на митній території України)</td>");
-        in <<QString("                            <td>0% (експорт)</td>");
-        in <<QString("                            <td>Звільнення від ПДВ **</td>");
-        in <<QString("                        </tr>");
-        in <<QString("                        <tr>");
-        in <<QString("                            <td>1</td>");
-        in <<QString("                            <td>2</td>");
-        in <<QString("                            <td>3</td>");
-        in <<QString("                            <td>4</td>");
-        in <<QString("                            <td>5</td>");
-        in <<QString("                            <td>6</td>");
-        in <<QString("                            <td>7</td>");
-        in <<QString("                            <td>8</td>");
-        in <<QString("                            <td>9</td>");
-        in <<QString("                            <td>10</td>");
-        in <<QString("                            <td>11</td>");
-        in <<QString("                        </tr>");
-        in <<QString("                        <tr>");
-        in <<QString("                            <td rowspan=\"3\">I</td>");
-        in <<QString("                            <td rowspan=\"3\">01.01.11</td>");
-        in <<QString("                            <td>Плуг к Мотоблоку ПН-1</td>");
-        in <<QString("                            <td>штук</td>");
-        in <<QString("                            <td>1.00</td>");
-        in <<QString("                            <td>634.00</td>");
-        in <<QString("                            <td>634.00</td>");
-        in <<QString("                            <td></td>");
-        in <<QString("                            <td></td>");
-        in <<QString("                            <td></td>");
-        in <<QString("                            <td></td>");
-        in <<QString("                        </tr>");
-        in <<QString("                        <tr>");
-        in <<QString("                            <td>Мотоблок Мотор Січ 4.05</td>");
-        in <<QString("                            <td>штук</td>");
-        in <<QString("                            <td>1.00</td>");
-        in <<QString("                            <td>9350.00</td>");
-        in <<QString("                            <td>9350.00</td>");
-        in <<QString("                            <td></td>");
-        in <<QString("                            <td></td>");
-        in <<QString("                            <td></td>");
-        in <<QString("                            <td></td>");
-        in <<QString("                        </tr>");
-        in <<QString("                        <tr>");
-        in <<QString("                            <td> Механізм поворотний до Мотоблока Мотор Січ 4.05</td>");
-        in <<QString("                            <td>штук</td>");
-        in <<QString("                            <td>1.00</td>");
-        in <<QString("                            <td>418.00</td>");
-        in <<QString("                            <td>418.00</td>");
-        in <<QString("                            <td></td>");
-        in <<QString("                            <td></td>");
-        in <<QString("                            <td></td>");
-        in <<QString("                            <td></td>");
-        in <<QString("                        </tr>");
-        in <<QString("                        <tr>");
-        in <<QString("                            <tr>");
-        in <<QString("                                <td></td>");
-        in <<QString("                                <td colspan=\"2\">Усього по розділу I</td>");
-        in <<QString("                                <td>X</td>");
-        in <<QString("                                <td>X</td>");
-        in <<QString("                                <td>X</td>");
-        in <<QString("                                <td>10402.17</td>");
-        in <<QString("                                <td></td>");
-        in <<QString("                                <td></td>");
-        in <<QString("                                <td></td>");
-        in <<QString("                                <td>10402.17</td>");
-        in <<QString("                            </tr>");
-        in <<QString("                            <tr>");
-        in <<QString("                                <td>II</td>");
-        in <<QString("                                <td colspan=\"2\">Зворотня (заставна) тара</td>");
-        in <<QString("                                <td>X</td>");
-        in <<QString("                                <td>X</td>");
-        in <<QString("                                <td>X</td>");
-        in <<QString("                                <td>X</td>");
-        in <<QString("                                <td>X</td>");
-        in <<QString("                                <td>X</td>");
-        in <<QString("                                <td>X</td>");
-        in <<QString("                                <td></td>");
-        in <<QString("                            </tr>");
-        in <<QString("                            <tr>");
-        in <<QString("                                <td>III</td>");
-        in <<QString("                                <td colspan=\"2\">Податок на додану вартість</td>");
-        in <<QString("                                <td>X</td>");
-        in <<QString("                                <td>X</td>");
-        in <<QString("                                <td>X</td>");
-        in <<QString("                                <td>2080.43</td>");
-        in <<QString("                                <td></td>");
-        in <<QString("                                <td></td>");
-        in <<QString("                                <td></td>");
-        in <<QString("                                <td>2080.43</td>");
-        in <<QString("                            </tr>");
-        in <<QString("                            <tr>");
-        in <<QString("                                <td>IV</td>");
-        in <<QString("                                <td colspan=\"2\">Загальна сума з ПДВ</td>");
-        in <<QString("                                <td>X</td>");
-        in <<QString("                                <td>X</td>");
-        in <<QString("                                <td>X</td>");
-        in <<QString("                                <td>12482.60</td>");
-        in <<QString("                                <td>X</td>");
-        in <<QString("                                <td></td>");
-        in <<QString("                                <td></td>");
-        in <<QString("                                <td>12482.60</td>");
-        in <<QString("                            </tr>");
-        in <<QString("                    </table>");
-        in <<QString("                </div>");
-        in <<QString("                <p>Суми ПДВ нараховані(сплачені у звязку з постачанням товарів/послуг), зазначених у цій накладній, визначені правильно, відповідають сумі податкових зобовя`заннь продавця і включені до реєстру виданих та отриманих податкових накладних</p>");
-        in <<QString("                <p>");
-        in <<QString("                    <div id=\"podpis\">");
-        in <<QString("                        <div id=\"podpis_left\" align=right><b>М.П</b></div>");
-        in <<QString("                        <div id=\"podpis_right\"><span id=\"text_border\">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspА.М.Пастир</span></div>");
-        in <<QString("                    </div> (*)Дата оплати ставиться у разі попередньої оплати постачання, на яку виписується податкова накладна, для операцій з постачання товарів/послуг відповідно до пункту 187.10 статті 187 розділу V Податкового кодексу України. </p>");
-        in <<QString("                <p> (**)_____________________________________________________________________________________________________________________________________________</p>");
-        in <<QString("                <p>(відповідні пункти (підпункти), статті, підрозділи, розділи Податкового кодексу України, якими передбачено звільнення від оподаткування)</p>");
-        in <<QString("    </div>");
-        in <<QString("</BODY>");
-        in <<QString("</HTML>");
-
-        QProcess::execute("cmd /c start firefox.exe \"file:///C:/Temp/test.html\"");
-
-
-
-
-    }else if(ui->pushButton_6->isChecked()){
-
-
-    }else{
-        QMessageBox::information(this, "Увага", "");
     }
 }
 

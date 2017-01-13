@@ -10,12 +10,10 @@
 #include <ttn.h>
 #include <custumers.h>
 #include <products.h>
+#include <print_ttn.h>
 #include <QSortFilterProxyModel>
 #include <QMessageBox>
 #include <prod_coming.h>
-#include <QProcess>
-#include <QTextStream>
-#include <QFile>
 #include <QTableView>
 #include <QVBoxLayout>
 #include <QWidget>
@@ -32,11 +30,6 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-public slots:
-    void on_tableView_clicked(const QModelIndex &index);
-    void on_comboBox_currentIndexChanged(int index);
-    void on_spinBox_valueChanged(int arg1);
-
 
 signals:
     void sendData(int i, bool e);
@@ -79,12 +72,21 @@ private slots:
 
     void on_action_4_triggered();
 
+    void on_tableView_clicked(const QModelIndex &index);
+
+    void on_comboBox_currentIndexChanged(int index);
+
+    void on_spinBox_valueChanged(int arg1);
+
+
+
 private:
     Ui::MainWindow *ui;
     QSqlQueryModel *model;
     QSqlTableModel *tableModel;
     ttn *t_t_n;
     prod_coming *prodcoming;
+    print_ttn *printttn;
     QSqlQuery *query;
     QSqlQuery *query2;
     QSqlQuery *queryUpdate;
@@ -92,10 +94,10 @@ private:
     custumers *cust;
     int index_table;
     QSortFilterProxyModel * proxyModel;
-    QFile *file;
+
     QTableView *our_requisites;
     QVBoxLayout *verticalLayout;
-    QWidget *widget_our_requisites;
+    QWidget *widget;
 
 };
 

@@ -694,18 +694,17 @@
    </widget>
    <widget class="QMenu" name="menu_4">
     <property name="title">
-     <string>Сервис</string>
+     <string>Сервіс</string>
     </property>
    </widget>
    <widget class="QMenu" name="menu_5">
     <property name="title">
-     <string>Отчеты</string>
+     <string>Відомості</string>
     </property>
-    <addaction name="action_3"/>
    </widget>
    <widget class="QMenu" name="menu_6">
     <property name="title">
-     <string>Справка</string>
+     <string>Довідка</string>
     </property>
    </widget>
    <addaction name="menu"/>
@@ -731,11 +730,6 @@
    </property>
    <property name="text">
     <string>Замовники</string>
-   </property>
-  </action>
-  <action name="action_3">
-   <property name="text">
-    <string>Звіти</string>
    </property>
   </action>
   <action name="action_4">
