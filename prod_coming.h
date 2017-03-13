@@ -1,16 +1,25 @@
 #ifndef PROD_COMING_H
 #define PROD_COMING_H
 
+/*Локальные, пользовательские классы*/
+#include "choise_goods.h"
+
+/*Стандартные классы Qt*/
 #include <QWidget>
-#include <QSqlQueryModel>
-#include <choise_goods.h>
-#include <QSqlQuery>
-#include <QDesktopWidget>
+
+#include <QDebug>
+#include <QMessageBox>
 #include <QShortcut>
-#include <choise_goods.h>
+#include <QFile>
+#include <QDateTime>
+
+#include <QDesktopWidget>
 #include <QVBoxLayout>
 #include <QPushButton>
 #include <QSpinBox>
+
+#include <QSqlQueryModel>
+#include <QSqlQuery>
 
 namespace Ui {
 class prod_coming;
@@ -63,6 +72,8 @@ private:
     int index_table;
     int prod_quantity;
     int ttn_item_quantity;
+    QFile *logFile;
+    QTextStream log;
 
 
     QWidget *editQuantity;

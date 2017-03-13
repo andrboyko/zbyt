@@ -1,15 +1,23 @@
 #ifndef LOGIN_H
 #define LOGIN_H
 
+/*Локальные, пользовательские классы*/
+#include "mainwindow.h"
+
+/*Стандартные классы Qt*/
 #include <QWidget>
-#include <QSqlDatabase>
 #include <QDebug>
-#include <QSqlError>
-#include <QSqlRecord>
 #include <QMessageBox>
-#include <QSettings>
 #include <QShortcut>
-#include <mainwindow.h>
+#include <QFile>
+#include <QDateTime>
+
+#include <QSettings>
+
+#include <QSqlDatabase>
+#include <QSqlError>
+#include <QSqlQuery>
+#include <QTextStream>
 
 namespace Ui {
 class login;
@@ -43,6 +51,11 @@ private:
     QSettings *settings;
     QShortcut *keyCancel;
     MainWindow *mainwindow;
+    QSqlQuery *query;
+    QFile *logFile;
+    QTextStream log;
+
+
 
     };
 

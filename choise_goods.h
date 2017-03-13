@@ -1,13 +1,16 @@
 #ifndef CHOISE_GOODS_H
 #define CHOISE_GOODS_H
 
+/*Стандартные классы Qt*/
 #include <QWidget>
+#include <QDebug>
+#include <QMessageBox>
+#include <QShortcut>
+
 #include <QSqlQueryModel>
 #include <QSqlQuery>
-#include <QDebug>
 #include <QSqlError>
-#include <QShortcut>
-#include <QMessageBox>
+
 namespace Ui {
 class choise_goods;
 }

@@ -7,7 +7,11 @@ ttn::ttn(QWidget *parent) :
     ui(new Ui::ttn)
 {
     ui->setupUi(this);
-
+    logFile = new QFile;
+    logFile->setFileName("./log.txt");
+    logFile->open(QIODevice::WriteOnly | QIODevice::Append);
+    log.setCodec("UTF-8");
+    log.setDevice(logFile);
 
 
     //Горячая клавиша Отмена=Esc
@@ -141,8 +145,8 @@ void ttn::on_pushButton_4_clicked()
 
         if(edit==false){
 
-
-            query->prepare("INSERT INTO ttn(ttn_date, cust_id, operation_id, by_whom, sum, umova)VALUES(:ttn_date, :cust_id, :operation_id, :by_whom, :sum, :umova);");
+            query->prepare("INSERT INTO ttn(ttn_id, ttn_date, cust_id, operation_id, by_whom, sum, umova)VALUES(:ttn_id, :ttn_date, :cust_id, :operation_id, :by_whom, :sum, :umova);");
+            query->bindValue(":ttn_id", ui->lineEdit->text().toInt());
             query->bindValue(":ttn_date", ui->dateEdit->text());
             query->bindValue(":cust_id", ui->comboBox_2->model()->data(ui->comboBox_2->model()->index(cust_id,1)).toString());
             query->bindValue(":operation_id", ui->comboBox->model()->data(ui->comboBox->model()->index(operation_id,0)).toString());
@@ -150,6 +154,8 @@ void ttn::on_pushButton_4_clicked()
             query->bindValue(":sum", sum);
             query->bindValue(":umova", ui->lineEdit_3->text());
             query->exec();
+
+
             emit update_table();
 
 
@@ -168,6 +174,7 @@ void ttn::on_pushButton_4_clicked()
                 queryUpdate->bindValue(":prod_id", query->value(1).toString() );
                 queryUpdate->exec();
             }
+            log << QDateTime::currentDateTime().toString("dd/mm/yy hh:mm:ss  ")<< QString("INSERT INTO ttn  ") <<QString::number(ui->lineEdit->text().toInt())<<endl;
         }else{
 
             query->prepare("UPDATE ttn SET ttn_date = :ttn_date, cust_id = :cust_id, operation_id = :operation_id,"
@@ -181,6 +188,7 @@ void ttn::on_pushButton_4_clicked()
             query->bindValue(":umova", ui->lineEdit_3->text());
             query->exec();
             emit update_table();
+            log << QDateTime::currentDateTime().toString("dd/mm/yy hh:mm:ss  ")<< QString("UPDATE ttn SET ") <<QString::number(ui->lineEdit->text().toInt())<<endl;
 
         }
 
@@ -197,6 +205,7 @@ void ttn::on_pushButton_5_clicked()
     query = new QSqlQuery();
     query->exec("DELETE FROM ttn_items WHERE ttn_id = " +ui->lineEdit->text()+ ";");
     query->exec("DELETE FROM ttn WHERE ttn_id = " +ui->lineEdit->text()+ ";");
+
     close();
 }
 
@@ -337,6 +346,7 @@ void ttn::updateprice()
 
         }
     }
+    log << QDateTime::currentDateTime().toString("dd/mm/yy hh:mm:ss  ")<< QString("UPDATE ttn_items WHERE ttn_id=  ") <<QString::number(ui->lineEdit->text().toInt())<<endl;
     refreshTable_goods();
 }
 

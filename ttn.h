@@ -1,16 +1,25 @@
 #ifndef TTN_H
 #define TTN_H
 
+/*Локальные, пользовательские классы*/
+#include "choise_goods.h"
+
+/*Стандартные классы Qt*/
 #include <QWidget>
-#include <QSqlQueryModel>
-#include <choise_goods.h>
-#include <QSqlQuery>
-#include <QDesktopWidget>
-#include <QShortcut>
+#include <QDebug>
 #include <QMessageBox>
+#include <QShortcut>
+#include <QFile>
+#include <QDateTime>
+
+
+#include <QDesktopWidget>
 #include <QVBoxLayout>
 #include <QPushButton>
 #include <QSpinBox>
+
+#include <QSqlQueryModel>
+#include <QSqlQuery>
 
 namespace Ui {
 class ttn;
@@ -72,11 +81,14 @@ private:
     int prod_quantity;
     int ttn_item_quantity;
     bool edit;
+    QFile *logFile;
+    QTextStream log;
 
     QWidget *editQuantity;
     QVBoxLayout *verticalLayout;
     QPushButton *pushButton;
     QSpinBox *spinBox;
+
 
 
 

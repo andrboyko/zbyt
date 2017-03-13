@@ -1,13 +1,16 @@
 #ifndef PRODUCTS_H
 #define PRODUCTS_H
 
+/*Стандартные классы Qt*/
 #include <QWidget>
-#include <QSqlQuery>
-#include <QSqlQueryModel>
-#include <QSqlError>
 #include <QDebug>
 #include <QMessageBox>
 #include <QShortcut>
+
+#include <QSqlQuery>
+#include <QSqlQueryModel>
+#include <QSqlError>
+
 namespace Ui {
 class products;
 }

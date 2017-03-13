@@ -8,7 +8,6 @@ choise_goods::choise_goods(QWidget *parent) :
 {
 
      ui->setupUi(this);
-
      //Горячая клавиша Отмена=Esc
 
      keyCancel = new QShortcut(this);

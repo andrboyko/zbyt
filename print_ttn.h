@@ -1,11 +1,15 @@
 #ifndef PRINT_TTN_H
 #define PRINT_TTN_H
 
+/*Стандартные классы Qt*/
 #include <QWidget>
 #include <QDebug>
+#include <QMessageBox>
+
 #include <QProcess>
 #include <QTextStream>
 #include <QFile>
+
 #include <QSqlQuery>
 
 namespace Ui {

@@ -59,6 +59,9 @@
      <height>22</height>
     </rect>
    </property>
+   <property name="suffix">
+    <string> шт.</string>
+   </property>
    <property name="maximum">
     <number>9999999</number>
    </property>
@@ -74,6 +77,9 @@
      <width>111</width>
      <height>22</height>
     </rect>
+   </property>
+   <property name="suffix">
+    <string> грн.</string>
    </property>
    <property name="maximum">
     <double>999999.989999999990687</double>

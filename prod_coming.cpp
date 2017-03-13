@@ -6,6 +6,11 @@ prod_coming::prod_coming(QWidget *parent) :
     ui(new Ui::prod_coming)
 {
     ui->setupUi(this);
+    logFile = new QFile;
+    logFile->setFileName("./log.txt");
+    logFile->open(QIODevice::WriteOnly | QIODevice::Append);
+    log.setCodec("UTF-8");
+    log.setDevice(logFile);
 
     //Горячая клавиша Отмена=Esc
     keyCancel = new QShortcut(this);
@@ -100,6 +105,7 @@ void prod_coming::on_pushButton_3_clicked()
     query->bindValue(":prod_id", index_prod);
     query->exec();
     refreshTable_goods();
+    log << QDateTime::currentDateTime().toString("dd/mm/yy hh:mm:ss  ")<< QString("DELETE FROM ttn_items WHERE ttn_id =  ") <<QString::number(ui->lineEdit->text().toInt())<<endl;
 }
 
 void prod_coming::on_tableView_clicked(const QModelIndex &index)
@@ -131,6 +137,7 @@ void prod_coming::on_pushButton_4_clicked()
     query->bindValue(":ttn_id", ui->lineEdit->text());
     query->bindValue(":ttn_date", ui->dateEdit->text());
     query->exec();
+    log << QDateTime::currentDateTime().toString("dd/mm/yy hh:mm:ss  ")<< QString("INSERT INTO ttn  ") <<QString::number(ui->lineEdit->text().toInt())<<endl;
     emit update_table();
 
     //количество продукции
@@ -159,6 +166,7 @@ void prod_coming::on_pushButton_4_clicked()
         emit update_table();
     }
     close();
+     log << QDateTime::currentDateTime().toString("dd/mm/yy hh:mm:ss  ")<< QString("UPDATE ttn SET  ") <<QString::number(ui->lineEdit->text().toInt())<<endl;
 }
 
 void prod_coming::on_pushButton_5_clicked()
@@ -282,6 +290,7 @@ void prod_coming::updateprice()
 
         }
     }
+    log << QDateTime::currentDateTime().toString("dd/mm/yy hh:mm:ss  ")<< QString("UPDATE ttn_items SET ttn_item_quantity WHERE ttn_id= ") <<QString::number(ui->lineEdit->text().toInt())<<endl;
     refreshTable_goods();
 }
 

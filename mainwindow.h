@@ -1,23 +1,31 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+/*Локальные, пользовательские классы*/
+#include "custumers.h"
+#include "ttn.h"
+#include "products.h"
+#include "print_ttn.h"
+#include "prod_coming.h"
+
+/*Стандартные классы Qt*/
 #include <QMainWindow>
+#include <QDebug>
+#include <QMessageBox>
+#include <QTextCodec>
+#include <QWidget>
+#include <QTableView>
+#include <QVBoxLayout>
+
+#include <QFile>
+#include <QDateTime>
+
+#include <QDate>
+#include <QSortFilterProxyModel>
+
 #include <QSqlQueryModel>
 #include <QSqlTableModel>
 #include <QSqlQuery>
-#include <QDebug>
-#include <QDate>
-#include <ttn.h>
-#include <custumers.h>
-#include <products.h>
-#include <print_ttn.h>
-#include <QSortFilterProxyModel>
-#include <QMessageBox>
-#include <prod_coming.h>
-#include <QTableView>
-#include <QVBoxLayout>
-#include <QWidget>
-
 
 namespace Ui {
 class MainWindow;
@@ -92,12 +100,13 @@ private:
     QSqlQuery *queryUpdate;
     products *prod;
     custumers *cust;
-    int index_table;
+    int index_table=0;
     QSortFilterProxyModel * proxyModel;
-
     QTableView *our_requisites;
     QVBoxLayout *verticalLayout;
     QWidget *widget;
+    QFile *logFile;
+    QTextStream log;
 
 };
 

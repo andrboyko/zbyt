@@ -1,12 +1,14 @@
 #ifndef CUSTUMERS_H
 #define CUSTUMERS_H
 
+/*Стандартные классы Qt*/
 #include <QWidget>
-#include <QSqlQuery>
 #include <QDebug>
-#include <QSqlError>
 #include <QMessageBox>
 #include <QShortcut>
+
+#include <QSqlQuery>
+#include <QSqlError>
 
 namespace Ui {
 class custumers;

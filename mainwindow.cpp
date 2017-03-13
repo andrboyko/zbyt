@@ -7,6 +7,12 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    logFile = new QFile;
+    logFile->setFileName("./log.txt");
+    logFile->open(QIODevice::WriteOnly | QIODevice::Append);
+    log.setCodec("UTF-8");
+    log.setDevice(logFile);
+
     //регулярное выражение для LineEdit поиска по номеру накладной
     QRegExp exp("[0-9]{0,6}");
     ui->lineEdit->setValidator(new QRegExpValidator(exp, this));
@@ -15,7 +21,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->spinBox->setValue(QDate::currentDate().year());
     RefreshTabl_ttn();
     ui->pushButton_10->setChecked(true);
-    index_table = 0;
 }
 
 MainWindow::~MainWindow()
@@ -177,6 +182,7 @@ void MainWindow::on_pushButton_2_clicked()
 
                 query->exec("DELETE FROM ttn_items WHERE ttn_id = " +QString::number(index_table)+ ";");
                 query->exec("DELETE FROM ttn WHERE ttn_id = " +QString::number(index_table)+ ";");
+                log << QDateTime::currentDateTime().toString("dd/mm/yy hh:mm:ss  ")<< QString("DELETE FROM ttn WHERE ttn_id = ") <<QString::number(index_table)<<endl;
                 RefreshTabl_ttn();
 
             }else if(ui->pushButton_6->isChecked()){
@@ -197,10 +203,13 @@ void MainWindow::on_pushButton_2_clicked()
                 }
                 query->exec("DELETE FROM ttn_items WHERE ttn_id = " +QString::number(index_table)+ ";");
                 query->exec("DELETE FROM ttn WHERE ttn_id = " +QString::number(index_table)+ ";");
+                log << QDateTime::currentDateTime().toString("dd/mm/yy hh:mm:ss  ")<< QString("DELETE FROM ttn WHERE ttn_id = ") <<QString::number(index_table)<<endl;
                 RefreshTabl_coming();
             }else{
                 QMessageBox::information(this, "Увага", "Ви не можете видалити цей запис ");
             }
+
+
         }else{
             // do something else
         }
